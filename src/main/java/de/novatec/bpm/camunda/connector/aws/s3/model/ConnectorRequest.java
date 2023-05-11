@@ -34,7 +34,7 @@ public class ConnectorRequest {
 
   @Override
   public String toString() {
-    return "AwsS3Request{" +
+    return "ConnectorRequest{" +
             "authentication=" + authentication +
             ", requestDetails=" + requestDetails +
             '}';

@@ -3,7 +3,7 @@
 Camunda Outbound Connector to interact with the content of an S3 bucket
 
 ## AWS Setup
-- S3 bucket (non-public)
+- S3 bucket (non-public) with server-side encryption and versioning enabled
 - IAM User with putObject and deleteObject rights to the bucket
 - Access key and Secret key for the IAM user
 

@@ -12,7 +12,6 @@ public class RequestDetails {
   @NotEmpty
   private String region;
   private OperationType operationType;
-  private boolean encryption;
 
   private String contentType;
 
@@ -64,4 +63,15 @@ public class RequestDetails {
     this.operationType = operationType;
   }
 
+  @Override
+  public String toString() {
+    return "RequestDetails{" +
+            "bucketName='" + bucketName + '\'' +
+            ", objectKey='" + objectKey + '\'' +
+            ", content=[REDACTED]" +
+            ", region='" + region + '\'' +
+            ", operationType=" + operationType +
+            ", contentType='" + contentType + '\'' +
+            '}';
+  }
 }

@@ -39,4 +39,13 @@ public class ConnectorResponse {
   public void setVersion(String version) {
     this.version = version;
   }
+
+  @Override
+  public String toString() {
+    return "ConnectorResponse{" +
+            "encryptionStatus='" + encryptionStatus + '\'' +
+            ", md5='" + md5 + '\'' +
+            ", version='" + version + '\'' +
+            '}';
+  }
 }
