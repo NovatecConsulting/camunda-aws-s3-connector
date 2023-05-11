@@ -1,0 +1,205 @@
+{
+  "$schema": "https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json",
+  "name": "AWS S3 Connector",
+  "id": "6f60159e-f5f5-49d0-805b-9320aab39ee5",
+  "description": "Run operations on an s3 bucket",
+  "version": 1,
+  "icon": {
+    "contents": "data:image/svg+xml;base64,PHN2ZyBoZWlnaHQ9IjI1MDAiIHdpZHRoPSIyNTAwIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA4MCA4MCI+PGxpbmVhckdyYWRpZW50IGlkPSJhIiB4MT0iMCUiIHkxPSIxMDAlIiB5Mj0iMCUiPjxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iIzFiNjYwZiIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzZjYWUzZSIvPjwvbGluZWFyR3JhZGllbnQ+PGcgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIj48cGF0aCBkPSJNMCAwaDgwdjgwSDB6IiBmaWxsPSJ1cmwoI2EpIi8+PHBhdGggZD0iTTYwLjgzNiA0Mi44OTNsLjM4NC0yLjcwNGMzLjU0IDIuMTIgMy41ODcgMi45OTcgMy41ODYgMy4wMi0uMDA2LjAwNi0uNjEuNTEtMy45Ny0uMzE2em0tMS45NDMtLjU0QzUyLjc3MyA0MC41IDQ0LjI1IDM2LjU5IDQwLjggMzQuOTZjMC0uMDE0LjAwNC0uMDI3LjAwNC0uMDQxYTIuNDA2IDIuNDA2IDAgMCAwLTIuNDA0LTIuNDAzYy0xLjMyNCAwLTIuNDAyIDEuMDc4LTIuNDAyIDIuNDAzczEuMDc4IDIuNDAzIDIuNDAyIDIuNDAzYy41ODIgMCAxLjExLS4yMTcgMS41MjctLjU2MiA0LjA1OCAxLjkyIDEyLjUxNSA1Ljc3NCAxOC42OCA3LjU5NEw1Ni4xNyA2MS41NmEuOTU1Ljk1NSAwIDAgMC0uMDEuMTRjMCAxLjUxNi02LjcwNyA0LjI5OS0xNy42NjYgNC4yOTktMTEuMDc1IDAtMTcuODUzLTIuNzgzLTE3Ljg1My00LjI5OCAwLS4wNDYtLjAwMy0uMDkxLS4wMS0uMTM2bC01LjA5My0zNy4yMDdjNC40MDkgMy4wMzUgMTMuODkyIDQuNjQgMjIuOTYyIDQuNjQgOS4wNTYgMCAxOC41MjMtMS42IDIyLjk0LTQuNjI1ek0xNSAyMC40NzhDMTUuMDcyIDE5LjE2MiAyMi42MzQgMTQgMzguNSAxNGMxNS44NjQgMCAyMy40MjcgNS4xNiAyMy41IDYuNDc4di40NDlDNjEuMTMgMjMuODc3IDUxLjMzIDI3IDM4LjUgMjdjLTEyLjg1MiAwLTIyLjY1Ny0zLjEzMi0yMy41LTYuMDg3em00OSAuMDIyYzAtMy40NjUtOS45MzQtOC41LTI1LjUtOC41UzEzIDE3LjAzNSAxMyAyMC41bC4wOTQuNzU0IDUuNTQ4IDQwLjUyNEMxOC43NzUgNjYuMzEgMzAuODYgNjggMzguNDk0IDY4YzkuNDcyIDAgMTkuNTM1LTIuMTc4IDE5LjY2NS02LjIybDIuMzk2LTE2Ljg5NmMxLjMzMy4zMTkgMi40My40ODIgMy4zMS40ODIgMS4xODQgMCAxLjk4NC0uMjkgMi40NjktLjg2N2ExLjk1IDEuOTUgMCAwIDAgLjQzNi0xLjY2Yy0uMjYtMS4zODMtMS45MDItMi44NzUtNS4yNDgtNC43ODRsMi4zNzYtMTYuNzYyeiIgZmlsbD0iI2ZmZiIvPjwvZz48L3N2Zz4K"
+  },
+  "category": {
+    "id": "connectors",
+    "name": "Connectors"
+  },
+  "appliesTo": [
+    "bpmn:Task"
+  ],
+  "elementType": {
+    "value": "bpmn:ServiceTask"
+  },
+  "groups": [
+    {
+      "id": "authentication",
+      "label": "Authentication"
+    },
+    {
+      "id": "operation",
+      "label": "Select Operation"
+    },
+    {
+      "id": "operationDetails",
+      "label": "Operation Details"
+    },
+    {
+      "id": "output",
+      "label": "Output Mapping"
+    },
+    {
+      "id": "errors",
+      "label": "Error Handling"
+    }
+  ],
+  "properties": [
+    {
+      "type": "Hidden",
+      "value": "de.novatec.bpm:aws-s3:1",
+      "binding": {
+        "type": "zeebe:taskDefinition:type"
+      }
+    },
+    {
+      "label": "Access Key",
+      "description": "Provide an access key of a user with permissions to access the specified AWS S3 bucket",
+      "group": "authentication",
+      "type": "String",
+      "binding": {
+        "type": "zeebe:input",
+        "name": "authentication.accessKey"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "label": "Secret Key",
+      "description": "Provide a secret key of a user with permissions to access the specified AWS S3 bucket",
+      "group": "authentication",
+      "type": "String",
+      "binding": {
+        "type": "zeebe:input",
+        "name": "authentication.secretKey"
+      },
+      "constraints": {
+        "notEmpty": true
+      }
+    },
+    {
+      "id": "operationType",
+      "group": "operation",
+      "type": "Dropdown",
+      "value": "upload",
+      "choices": [
+        {
+          "name": "Upload file",
+          "value": "upload"
+        },
+        {
+          "name": "Delete file",
+          "value": "delete"
+        }
+      ],
+      "binding": {
+        "type": "zeebe:input",
+        "name": "requestDetails.operationType",
+        "key": "requestDetails.operationType"
+      }
+    },
+    {
+      "label": "AWS Region",
+      "description": "Specify an AWS region",
+      "group": "operationDetails",
+      "type": "String",
+      "feel": "optional",
+      "binding": {
+        "type": "zeebe:input",
+        "name": "requestDetails.region"
+      },
+      "constraints": {
+        "notEmpty": true,
+        "maxLength": 255
+      }
+    },
+    {
+      "label": "Bucket name",
+      "description": "Enter the name of your s3 bucket",
+      "group": "operationDetails",
+      "type": "String",
+      "feel": "optional",
+      "binding": {
+        "type": "zeebe:input",
+        "name": "requestDetails.bucketName"
+      },
+      "constraints": {
+        "notEmpty": true,
+        "maxLength": 255
+      }
+    },
+    {
+      "label": "Object key",
+      "description": "Provide a key for your upload, relative from the bucket (e.g. my/files/message.xml)",
+      "group": "operationDetails",
+      "type": "String",
+      "feel": "optional",
+      "binding": {
+        "type": "zeebe:input",
+        "name": "requestDetails.objectKey"
+      },
+      "constraints": {
+        "notEmpty": true,
+        "maxLength": 255
+      }
+    },
+    {
+      "label": "Content",
+      "description": "Provide a base64 encoded string",
+      "group": "operationDetails",
+      "type": "Text",
+      "feel": "optional",
+      "binding": {
+        "type": "zeebe:input",
+        "name": "requestDetails.content"
+      },
+      "condition": {
+        "property": "operationType",
+        "equals": "upload"
+      }
+    },
+    {
+      "label": "Content Type",
+      "description": "Provide a content type (e.g. application/xml)",
+      "group": "operationDetails",
+      "type": "String",
+      "feel": "optional",
+      "binding": {
+        "type": "zeebe:input",
+        "name": "requestDetails.contentType"
+      },
+      "condition": {
+        "property": "operationType",
+        "equals": "upload"
+      }
+    },
+    {
+      "label": "Result Variable",
+      "description": "Name of variable to store the response in",
+      "group": "output",
+      "type": "String",
+      "binding": {
+        "type": "zeebe:taskHeader",
+        "key": "resultVariable"
+      }
+    },
+    {
+      "label": "Result Expression",
+      "description": "Expression to map the response into process variables",
+      "group": "output",
+      "type": "Text",
+      "feel": "required",
+      "binding": {
+        "type": "zeebe:taskHeader",
+        "key": "resultExpression"
+      }
+    },
+    {
+      "label": "Error Expression",
+      "description": "Expression to handle errors. Details in the <a href=\"https://docs.camunda.io/docs/components/connectors/use-connectors/\" target=\"_blank\">documentation</a>.",
+      "group": "errors",
+      "type": "Text",
+      "feel": "required",
+      "binding": {
+        "type": "zeebe:taskHeader",
+        "key": "errorExpression"
+      }
+    }
+  ]
+}
