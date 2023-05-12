@@ -1,6 +1,18 @@
 # AWS S3 Connector
-
 Camunda Outbound Connector to interact with the content of an S3 bucket
+
+## Configuration
+
+|name         |description                                   |example                    |
+|-------------|----------------------------------------------|---------------------------|
+|accessKey    |the AWS access key for the authorized user    |<nice try>                 |
+|secretKey    |the AWS secret key for the authorized user    |<nice try>                 |
+|region       |the AWS region of your S3 bucket              |eu-central-1               |
+|bucketName   |the name of the S3 bucket                     |camunda-s3-connector-bucket|
+|objectKey    |path + file name in the s3 bucket             |invoice/my-invoice.pdf     |
+|operationType|upload or delete                              |                           |
+|content      |base64 encoded string representing the content|bm92YXRlYw==               |
+|contentType  |the content type of the content               |application/pdf            |
 
 ## AWS Setup
 - S3 bucket (non-public) with server-side encryption and versioning enabled
@@ -25,13 +37,6 @@ Camunda Outbound Connector to interact with the content of an S3 bucket
     ]
 }
 ```
-
-
-## Operations
-- put a file into S3
-  - identified by `bucketName/objectKey`
-- delete a file from S3
-  - identified by `bucketName/objectKey`
 
 ## Example process
 ![process.png](assets/process.png)
