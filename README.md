@@ -1,19 +1,26 @@
 # AWS S3 Connector
 Camunda Outbound Connector to interact with the content of an S3 bucket
 
-## Configuration
+## Connector configuration
 
-|name         |description                                   |example                    |
-|-------------|----------------------------------------------|---------------------------|
-|accessKey    |the AWS access key for the authorized user    |<nice try>                 |
-|secretKey    |the AWS secret key for the authorized user    |<nice try>                 |
-|region       |the AWS region of your S3 bucket              |eu-central-1               |
-|bucketName   |the name of the S3 bucket                     |camunda-s3-connector-bucket|
-|objectKey    |path + file name in the s3 bucket             |invoice/my-invoice.pdf     |
-|operationType|upload or delete                              |                           |
-|content      |base64 encoded string representing the content|bm92YXRlYw==               |
-|contentType  |the content type of the content               |application/pdf            |
+|name         |description                                                      |example                    |
+|-------------|-----------------------------------------------------------------|---------------------------|
+|accessKey    |the AWS access key for the authorized user                       |`secrets.AWS_ACCESS_KEY`   |
+|secretKey    |the AWS secret key for the authorized user                       |`secrets.AWS_SECRET_KEY`   |
+|region       |the AWS region of your S3 bucket                                 |eu-central-1               |
+|bucketName   |the name of the S3 bucket                                        |camunda-s3-connector-bucket|
+|objectKey    |path + file name in the s3 bucket                                |invoice/my-invoice.pdf     |
+|operationType|upload or delete                                                 |                           |
+|content      |base64 encoded string or feel expression representing the content|`=pdfContent`              |
+|contentType  |the content type of the content                                  |application/pdf            |
 
+NOTE: please do not put secrets directly into your configuration. Please use the [secret provider mechanism](https://docs.camunda.io/docs/components/connectors/use-connectors/#using-secrets) provided by camunda 8
+
+## How to generate content?
+The upload is done by converting the content from base64 string to a byte array input stream. You can e.g. use a `JobWorker` to generate a pdf and
+convert the content to a base64 encoded string and save it to a process variable `pdfContent`. Now you can reference it with a FEEL expression in the `content` 
+configuration of the connector.
+    
 ## AWS Setup
 - S3 bucket (non-public) with server-side encryption and versioning enabled
 - IAM User with putObject and deleteObject rights to the bucket
