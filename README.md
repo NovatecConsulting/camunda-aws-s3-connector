@@ -18,7 +18,10 @@ Camunda Outbound Connector to interact with the content of an S3 bucket
 |contentType  |the content type of the content                                  |`=fileContentType`         |
 
 NOTE: please do not put secrets directly into your configuration. Please use the [secret provider mechanism](https://docs.camunda.io/docs/components/connectors/use-connectors/#using-secrets) provided by camunda 8
-    
+
+#### How it looks in the modeller
+<img src="assets/connector-config-example.png" alt="how it looks like in the modeller" width="400" />
+
 ### AWS Resources
 - S3 bucket (non-public) with server-side encryption and versioning enabled
 - IAM User with putObject and deleteObject rights to the bucket
