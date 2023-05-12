@@ -9,10 +9,10 @@ Camunda Outbound Connector to interact with the content of an S3 bucket
 |secretKey    |the AWS secret key for the authorized user                       |`secrets.AWS_SECRET_KEY`   |
 |region       |the AWS region of your S3 bucket                                 |eu-central-1               |
 |bucketName   |the name of the S3 bucket                                        |camunda-s3-connector-bucket|
-|objectKey    |path + file name in the s3 bucket                                |invoice/my-invoice.pdf     |
+|objectKey    |path + file name in the s3 bucket                                |`="invoice/"+fileName`     |
 |operationType|upload or delete                                                 |                           |
-|content      |base64 encoded string or feel expression representing the content|`=pdfContent`              |
-|contentType  |the content type of the content                                  |application/pdf            |
+|content      |base64 encoded string or feel expression representing the content|`=fileContent`             |
+|contentType  |the content type of the content                                  |`=fileContentType`         |
 
 NOTE: please do not put secrets directly into your configuration. Please use the [secret provider mechanism](https://docs.camunda.io/docs/components/connectors/use-connectors/#using-secrets) provided by camunda 8
 
