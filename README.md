@@ -67,5 +67,7 @@ variableHandler.setVariable("fileContentType", "application/pdf")
 variableHandler.setVariable("fileName", "invoice.pdf")
 ```
 
+**Attention: Since the file content is a process variable its size is currently limited to approx. 4MB**
+
 ## Example process
 ![process.png](assets/process.png)
