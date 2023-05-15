@@ -8,7 +8,7 @@ public class RequestDetails {
   private String bucketName;
   @NotEmpty
   private String objectKey;
-  private String content;
+  private String filePath;
   @NotEmpty
   private String region;
   private OperationType operationType;
@@ -31,12 +31,12 @@ public class RequestDetails {
     this.objectKey = objectKey;
   }
 
-  public String getContent() {
-    return content;
+  public String getFilePath() {
+    return filePath;
   }
 
-  public void setContent(String content) {
-    this.content = content;
+  public void setFilePath(String filePath) {
+    this.filePath = filePath;
   }
 
   public String getContentType() {
@@ -68,7 +68,7 @@ public class RequestDetails {
     return "RequestDetails{" +
             "bucketName='" + bucketName + '\'' +
             ", objectKey='" + objectKey + '\'' +
-            ", content=[REDACTED]" +
+            ", filePath='" + filePath + '\'' +
             ", region='" + region + '\'' +
             ", operationType=" + operationType +
             ", contentType='" + contentType + '\'' +

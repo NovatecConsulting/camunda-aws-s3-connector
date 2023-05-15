@@ -9,6 +9,8 @@ import de.novatec.bpm.camunda.connector.aws.s3.model.ConnectorResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
+
 @OutboundConnector(
         name = "AWSS3",
         inputVariables = {"authentication", "requestDetails"},
@@ -21,7 +23,7 @@ public class S3ConnectorFunction implements OutboundConnectorFunction {
     }
 
     @Override
-    public Object execute(OutboundConnectorContext context) {
+    public Object execute(OutboundConnectorContext context) throws IOException {
         var request = context.getVariablesAsType(ConnectorRequest.class);
         logger.info("Executing connector with request {}", request);
         context.validate(request);
@@ -29,7 +31,7 @@ public class S3ConnectorFunction implements OutboundConnectorFunction {
         return execute(request);
     }
 
-    private ConnectorResponse execute(ConnectorRequest request) {
+    private ConnectorResponse execute(ConnectorRequest request) throws IOException {
         S3Service service = new S3Service(request.getAuthentication(), request.getRequestDetails().getRegion());
         return switch (request.getRequestDetails().getOperationType()) {
             case delete -> service.deleteObject(request.getRequestDetails());

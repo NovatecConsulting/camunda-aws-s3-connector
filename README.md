@@ -6,16 +6,16 @@ Camunda Outbound Connector to interact with the content of an S3 bucket
 
 ### Connector configuration
 
-|name         |description                                                      |example                    |
-|-------------|-----------------------------------------------------------------|---------------------------|
-|accessKey    |the AWS access key for the authorized user                       |`secrets.AWS_ACCESS_KEY`   |
-|secretKey    |the AWS secret key for the authorized user                       |`secrets.AWS_SECRET_KEY`   |
-|region       |the AWS region of your S3 bucket                                 |eu-central-1               |
-|bucketName   |the name of the S3 bucket                                        |camunda-s3-connector-bucket|
-|objectKey    |path + file name in the s3 bucket                                |`="invoice/"+fileName`     |
-|operationType|upload or delete                                                 |                           |
-|content      |base64 encoded string or feel expression representing the content|`=fileContent`             |
-|contentType  |the content type of the content                                  |`=fileContentType`         |
+| name          | description                                | example                     |
+|---------------|--------------------------------------------|-----------------------------|
+| accessKey     | the AWS access key for the authorized user | `secrets.AWS_ACCESS_KEY`    |
+| secretKey     | the AWS secret key for the authorized user | `secrets.AWS_SECRET_KEY`    |
+| region        | the AWS region of your S3 bucket           | eu-central-1                |
+| bucketName    | the name of the S3 bucket                  | camunda-s3-connector-bucket |
+| objectKey     | path + file name in the s3 bucket          | `="invoice/"+fileName`      |
+| operationType | upload or delete                           |                             |
+| filePath      | absolute path to the file to upload        | `=filePath`                 |
+| contentType   | the content type of the content            | `=contentType`              |
 
 NOTE: please do not put secrets directly into your configuration. Please use the [secret provider mechanism](https://docs.camunda.io/docs/components/connectors/use-connectors/#using-secrets) provided by camunda 8
 
@@ -49,25 +49,20 @@ NOTE: please do not put secrets directly into your configuration. Please use the
 ## Runtime
 
 ### How to generate content?
-The upload is done by converting the content from base64 string to a byte array input stream. You can e.g. use a `JobWorker` to generate a pdf and
-convert the content to a base64 encoded string and save it to a process variable `pdfContent`. Now you can reference it with a FEEL expression in the `content` 
-configuration of the connector.
+The upload is done by resolving a local path to a `File`. Since a process variable is currently limited in size to approx. 
+2-4MB (there are some Zeebe chaos engineering tests) the file content should stay in the connector runtime. You can e.g. 
+use a `JobWorker` to generate a file and store it in a `/tmp` folder. You can then get the path and set it into a `filePath` 
+variable, which you then can reference with a FEEL expression in the `file path` configuration of the connector:
 
 ```java
-// read pdf as bytes
-byte[] invoiceBytes = Files.readAllBytes(Paths.get("tmp/invoice.pdf)); 
-
-// encode in base64
-byte[] encoded = java.util.Base64.getEncoder().encode(invoiceBytes);
-String base64String = new String(encoded);
+// generate file
+File file = pdfService.generate(orderData);
 
 // set as variables to be picked up by connector
-variableHandler.setVariable("fileContent", base64String)
-variableHandler.setVariable("fileContentType", "application/pdf")
-variableHandler.setVariable("fileName", "invoice.pdf")
+variableHandler.setVariable("fileName", String.format("invoice-%s.pdf", orderData.getInvoiceId));
+variableHandler.setVariable("filePath", file.getAbsolutePath());
+variableHandler.setVariable("contentType", "application/pdf");
 ```
-
-**Attention: Since the file content is a process variable its size is currently limited to approx. 4MB**
 
 ## Example process
 ![process.png](assets/process.png)

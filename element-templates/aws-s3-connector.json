@@ -140,14 +140,14 @@
       }
     },
     {
-      "label": "Content",
-      "description": "Provide a base64 encoded string",
+      "label": "File Path",
+      "description": "Provide an absolute path to the file to upload",
       "group": "operationDetails",
       "type": "Text",
       "feel": "optional",
       "binding": {
         "type": "zeebe:input",
-        "name": "requestDetails.content"
+        "name": "requestDetails.filePath"
       },
       "condition": {
         "property": "operationType",

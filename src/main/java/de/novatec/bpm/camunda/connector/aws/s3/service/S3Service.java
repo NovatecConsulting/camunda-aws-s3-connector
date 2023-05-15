@@ -10,14 +10,17 @@ import com.amazonaws.services.s3.model.PutObjectResult;
 import de.novatec.bpm.camunda.connector.aws.s3.model.AuthenticationRequestData;
 import de.novatec.bpm.camunda.connector.aws.s3.model.ConnectorResponse;
 import de.novatec.bpm.camunda.connector.aws.s3.model.RequestDetails;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.io.ByteArrayInputStream;
-import java.util.Base64;
+import java.io.*;
 import java.util.Objects;
 
 public class S3Service {
 
+    private static final Logger logger = LoggerFactory.getLogger(S3Service.class);
     private final AmazonS3 s3Client;
+
 
     public S3Service(AuthenticationRequestData authentication, String region) {
         s3Client = getClient(authentication, region);
@@ -39,21 +42,26 @@ public class S3Service {
         return new ConnectorResponse();
     }
 
-    public ConnectorResponse putObject(RequestDetails details) {
-        String content = Objects.requireNonNull(details.getContent(), "Content variable is required for operation PUT");
-        byte[] objectBytes = Base64.getDecoder().decode(content.getBytes());
-        ObjectMetadata objectMetadata = new ObjectMetadata();
-        objectMetadata.setContentLength(objectBytes.length);
-        objectMetadata.setContentType(Objects.requireNonNull(details.getContentType(), "Content type variable is required for operation PUT"));
-        objectMetadata.setSSEAlgorithm(ObjectMetadata.AES_256_SERVER_SIDE_ENCRYPTION);
-        PutObjectRequest putRequest = new PutObjectRequest(
-                details.getBucketName(),
-                details.getObjectKey(),
-                new ByteArrayInputStream(objectBytes),
-                objectMetadata
-        );
-        PutObjectResult putObjectResult = s3Client.putObject(putRequest);
-        return new ConnectorResponse(putObjectResult);
+    public ConnectorResponse putObject(RequestDetails details) throws IOException {
+        String filePath = Objects.requireNonNull(details.getFilePath(), "File path variable is required for operation PUT");
+        try (FileInputStream fis = new FileInputStream(filePath)) {
+            byte[] objectBytes = fis.readAllBytes();
+            ObjectMetadata objectMetadata = new ObjectMetadata();
+            objectMetadata.setContentLength(objectBytes.length);
+            objectMetadata.setContentType(Objects.requireNonNull(details.getContentType(), "Content type variable is required for operation PUT"));
+            objectMetadata.setSSEAlgorithm(ObjectMetadata.AES_256_SERVER_SIDE_ENCRYPTION);
+            logger.debug("object metadata {}", objectMetadata);
+            PutObjectRequest putRequest = new PutObjectRequest(
+                    details.getBucketName(),
+                    details.getObjectKey(),
+                    new ByteArrayInputStream(objectBytes),
+                    objectMetadata
+            );
+            logger.debug("request {}", putRequest);
+            PutObjectResult putObjectResult = s3Client.putObject(putRequest);
+            logger.debug("response {}", putObjectResult);
+            return new ConnectorResponse(putObjectResult);
+        }
     }
 
 }
