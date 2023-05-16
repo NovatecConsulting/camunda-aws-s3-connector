@@ -13,7 +13,7 @@ Camunda Outbound Connector to interact with the content of an S3 bucket
 | region        | the AWS region of your S3 bucket           | eu-central-1                |
 | bucketName    | the name of the S3 bucket                  | camunda-s3-connector-bucket |
 | objectKey     | path + file name in the s3 bucket          | `="invoice/"+fileName`      |
-| operationType | upload or delete                           |                             |
+| operationType | what t do on s3                            | `PUT_OBJECT`                |
 | filePath      | absolute path to the file to upload        | `=filePath`                 |
 | contentType   | the content type of the content            | `=contentType`              |
 
