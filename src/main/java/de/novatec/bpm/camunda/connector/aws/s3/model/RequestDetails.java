@@ -1,6 +1,7 @@
 package de.novatec.bpm.camunda.connector.aws.s3.model;
 
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 public class RequestDetails {
 
@@ -11,8 +12,8 @@ public class RequestDetails {
   private String filePath;
   @NotEmpty
   private String region;
+  @NotNull
   private OperationType operationType;
-
   private String contentType;
 
   public String getBucketName() {
