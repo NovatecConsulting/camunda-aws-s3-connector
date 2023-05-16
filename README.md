@@ -17,7 +17,7 @@ Camunda Outbound Connector to interact with the content of an S3 bucket
 | filePath      | absolute path to the file to upload        | `=filePath`                 |
 | contentType   | the content type of the content            | `=contentType`              |
 
-NOTE: please do not put secrets directly into your configuration. Please use the [secret provider mechanism](https://docs.camunda.io/docs/components/connectors/use-connectors/#using-secrets) provided by camunda 8
+NOTE: please do not put secrets directly into your configuration. See the secrets section for more details.
 
 #### How it looks in the modeller
 <img src="assets/connector-config-example.png" alt="how it looks like in the modeller" width="400" />
@@ -47,6 +47,15 @@ NOTE: please do not put secrets directly into your configuration. Please use the
 ```
 
 ## Runtime
+
+### Handling secrets
+Since your connector needs to run in a custom connector runtime, you cannot just add secrets in the cloud console since
+they will not be auto-magically transported into your connector runtime. You can provide them by:
+
+- adding them as environment variables (e.g. when you use the SpringBoot connector runtime)
+- adding them as an env file to your docker container
+
+NOTE: This behaviour will most likely be improved in the future
 
 ### How to generate content?
 The upload is done by resolving a local path to a `File`. Since a process variable is currently limited in size to approx. 
