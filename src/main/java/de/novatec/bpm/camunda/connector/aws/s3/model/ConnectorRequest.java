@@ -14,7 +14,6 @@ public class ConnectorRequest {
   @Valid
   @NotNull
   private RequestDetails requestDetails;
-  private String contentType;
 
   public AuthenticationRequestData getAuthentication() {
     return authentication;
