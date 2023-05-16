@@ -87,7 +87,7 @@ class S3ConnectorFunctionTest {
         details.setObjectKey("invoice/invoice-123.txt");
         details.setContentType("application/text");
         details.setFilePath(path);
-        details.setOperationType(OperationType.upload);
+        details.setOperationType(OperationType.PUT_OBJECT);
         details.setRegion("eu-central-1");
         return details;
     }

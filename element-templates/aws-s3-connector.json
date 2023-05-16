@@ -77,15 +77,15 @@
       "id": "operationType",
       "group": "operation",
       "type": "Dropdown",
-      "value": "upload",
+      "value": "PUT_OBJECT",
       "choices": [
         {
           "name": "Upload file",
-          "value": "upload"
+          "value": "PUT_OBJECT"
         },
         {
           "name": "Delete file",
-          "value": "delete"
+          "value": "DELETE_OBJECT"
         }
       ],
       "binding": {
@@ -151,7 +151,7 @@
       },
       "condition": {
         "property": "operationType",
-        "equals": "upload"
+        "equals": "PUT_OBJECT"
       }
     },
     {
@@ -166,7 +166,7 @@
       },
       "condition": {
         "property": "operationType",
-        "equals": "upload"
+        "equals": "PUT_OBJECT"
       }
     },
     {

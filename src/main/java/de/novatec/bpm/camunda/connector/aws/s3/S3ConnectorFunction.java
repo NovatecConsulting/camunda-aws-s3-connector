@@ -42,8 +42,8 @@ public class S3ConnectorFunction implements OutboundConnectorFunction {
             s3Service = S3ServiceFactory.getService(request.getAuthentication(), request.getRequestDetails().getRegion());
         }
         return switch (request.getRequestDetails().getOperationType()) {
-            case delete -> s3Service.deleteObject(request.getRequestDetails());
-            case upload -> s3Service.putObject(request.getRequestDetails());
+            case DELETE_OBJECT -> s3Service.deleteObject(request.getRequestDetails());
+            case PUT_OBJECT -> s3Service.putObject(request.getRequestDetails());
         };
     }
 
