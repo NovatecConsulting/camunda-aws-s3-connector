@@ -1,6 +1,7 @@
 package de.novatec.bpm.camunda.connector.aws.s3;
 
 import de.novatec.bpm.camunda.connector.aws.s3.service.S3Service;
+import de.novatec.bpm.camunda.connector.aws.s3.service.S3ServiceFactory;
 import io.camunda.connector.api.annotation.OutboundConnector;
 import io.camunda.connector.api.outbound.OutboundConnectorContext;
 import io.camunda.connector.api.outbound.OutboundConnectorFunction;
@@ -18,8 +19,13 @@ import java.io.IOException;
 public class S3ConnectorFunction implements OutboundConnectorFunction {
 
     private static final Logger logger = LoggerFactory.getLogger(S3ConnectorFunction.class);
+    private S3Service s3Service;
 
     public S3ConnectorFunction() {
+    }
+
+    public S3ConnectorFunction(S3Service s3Service) {
+        this.s3Service = s3Service;
     }
 
     @Override
@@ -32,10 +38,12 @@ public class S3ConnectorFunction implements OutboundConnectorFunction {
     }
 
     private ConnectorResponse execute(ConnectorRequest request) throws IOException {
-        S3Service service = new S3Service(request.getAuthentication(), request.getRequestDetails().getRegion());
+        if (s3Service == null) {
+            s3Service = S3ServiceFactory.getService(request.getAuthentication(), request.getRequestDetails().getRegion());
+        }
         return switch (request.getRequestDetails().getOperationType()) {
-            case delete -> service.deleteObject(request.getRequestDetails());
-            case upload -> service.putObject(request.getRequestDetails());
+            case delete -> s3Service.deleteObject(request.getRequestDetails());
+            case upload -> s3Service.putObject(request.getRequestDetails());
         };
     }
 
