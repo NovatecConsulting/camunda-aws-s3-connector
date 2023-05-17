@@ -1,9 +1,5 @@
 package de.novatec.bpm.camunda.connector.aws.s3;
 
-import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.model.ObjectMetadata;
-import com.amazonaws.services.s3.model.PutObjectRequest;
-import com.amazonaws.services.s3.model.PutObjectResult;
 import de.novatec.bpm.camunda.connector.aws.s3.model.*;
 import de.novatec.bpm.camunda.connector.aws.s3.service.S3Service;
 import de.novatec.bpm.camunda.connector.aws.s3.service.S3ServiceFactory;
@@ -12,9 +8,16 @@ import io.camunda.connector.test.outbound.OutboundConnectorContextBuilder.TestCo
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
+import software.amazon.awssdk.core.sync.RequestBody;
+import software.amazon.awssdk.services.s3.S3Client;
+import software.amazon.awssdk.services.s3.model.DeleteObjectRequest;
+import software.amazon.awssdk.services.s3.model.PutObjectRequest;
+import software.amazon.awssdk.services.s3.model.PutObjectResponse;
+import software.amazon.awssdk.services.s3.model.ServerSideEncryption;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.util.Objects;
 
@@ -27,10 +30,10 @@ class S3ConnectorFunctionTest {
     @Test
     void happy_path_aws_put_is_called_as_expected() throws IOException {
         // given
-        AmazonS3 client = Mockito.mock(AmazonS3.class);
+        S3Client client = Mockito.mock(S3Client.class);
         S3Service s3Service = S3ServiceFactory.getService(client);
-        PutObjectResult awsResult = createPutResult();
-        when(client.putObject(any())).thenReturn(awsResult);
+        PutObjectResponse awsResult = createPutResponse();
+        when(client.putObject(any(PutObjectRequest.class), any(RequestBody.class))).thenReturn(awsResult);
 
         S3ConnectorFunction function = new S3ConnectorFunction(s3Service);
 
@@ -39,7 +42,8 @@ class S3ConnectorFunctionTest {
 
         ConnectorRequest request = new ConnectorRequest();
         request.setAuthentication(getAuthentication());
-        request.setRequestDetails(getDetails(Objects.requireNonNull(resource).getPath()));
+        String filePath = Objects.requireNonNull(resource).getPath();
+        request.setRequestDetails(getPutDetails("bucket", "path/file.txt", filePath));
 
         TestConnectorContext context = OutboundConnectorContextBuilder.create()
                 .secret("AWS_ACCESS_KEY", "abc")
@@ -52,27 +56,65 @@ class S3ConnectorFunctionTest {
 
         // then
         assertThat(actualResult).isEqualTo(new ConnectorResponse(awsResult));
-        ArgumentCaptor<PutObjectRequest> argumentCaptor = ArgumentCaptor.forClass(PutObjectRequest.class);
-        verify(client, times(1)).putObject(argumentCaptor.capture());
-        PutObjectRequest putRequest = argumentCaptor.getValue();
-        // content + target
-        assertThat(putRequest.getBucketName()).isEqualTo("bucket");
-        assertThat(putRequest.getKey()).isEqualTo("invoice/invoice-123.txt");
-        assertThat(putRequest.getInputStream().readAllBytes()).isEqualTo(fileBytes);
-        // metadata
-        assertThat(putRequest.getMetadata().getContentType()).isEqualTo("application/text");
-        assertThat(putRequest.getMetadata().getSSEAlgorithm()).isEqualTo(ObjectMetadata.AES_256_SERVER_SIDE_ENCRYPTION);
-        assertThat(putRequest.getMetadata().getContentLength()).isEqualTo(fileBytes.length);
+
+        ArgumentCaptor<PutObjectRequest> requestCaptor = ArgumentCaptor.forClass(PutObjectRequest.class);
+        ArgumentCaptor<RequestBody> bodyCaptor = ArgumentCaptor.forClass(RequestBody.class);
+        verify(client, times(1)).putObject(requestCaptor.capture(), bodyCaptor.capture());
+        PutObjectRequest putRequest = requestCaptor.getValue();
+        assertThat(putRequest.bucket()).isEqualTo("bucket");
+        assertThat(putRequest.key()).isEqualTo("path/file.txt");
+        assertThat(putRequest.contentLength()).isEqualTo(fileBytes.length);
+        assertThat(putRequest.contentType()).isEqualTo("application/text");
+        assertThat(putRequest.serverSideEncryptionAsString()).isEqualTo(ServerSideEncryption.AES256.toString());
+
+        RequestBody requestBody = bodyCaptor.getValue();
+        try(InputStream is = requestBody.contentStreamProvider().newStream()) {
+            assertThat(is.readAllBytes()).isEqualTo(fileBytes);
+        }
 
         verifyNoMoreInteractions(client);
     }
 
-    private static PutObjectResult createPutResult() {
-        PutObjectResult awsResult = new PutObjectResult();
-        awsResult.setContentMd5("md5");
-        awsResult.setSSEAlgorithm(ObjectMetadata.AES_256_SERVER_SIDE_ENCRYPTION);
-        awsResult.setVersionId("1234567");
-        return awsResult;
+    @Test
+    void happy_path_aws_delete_is_called_as_expected() throws IOException {
+        // given
+        S3Client client = Mockito.mock(S3Client.class);
+        S3Service s3Service = S3ServiceFactory.getService(client);
+
+        S3ConnectorFunction function = new S3ConnectorFunction(s3Service);
+
+
+        ConnectorRequest request = new ConnectorRequest();
+        request.setAuthentication(getAuthentication());
+        request.setRequestDetails(getDeleteDetails("bucket", "path/file.txt"));
+
+        TestConnectorContext context = OutboundConnectorContextBuilder.create()
+                .secret("AWS_ACCESS_KEY", "abc")
+                .secret("AWS_SECRET_KEY", "123")
+                .variables(request)
+                .build();
+
+        // when
+        ConnectorResponse actualResult = (ConnectorResponse) function.execute(context);
+
+        // then
+        assertThat(actualResult).isEqualTo(new ConnectorResponse());
+
+        ArgumentCaptor<DeleteObjectRequest> argumentCaptor = ArgumentCaptor.forClass(DeleteObjectRequest.class);
+        verify(client, times(1)).deleteObject(argumentCaptor.capture());
+        DeleteObjectRequest deleteRequest = argumentCaptor.getValue();
+        assertThat(deleteRequest.bucket()).isEqualTo("bucket");
+        assertThat(deleteRequest.key()).isEqualTo("path/file.txt");
+
+        verifyNoMoreInteractions(client);
+    }
+
+    private static PutObjectResponse createPutResponse() {
+         return PutObjectResponse.builder()
+                .versionId("1234567")
+                .serverSideEncryption(ServerSideEncryption.AES256)
+                .checksumSHA256("foo")
+                .build();
     }
 
     private static byte[] getFileBytes(URL resource) throws IOException {
@@ -81,13 +123,22 @@ class S3ConnectorFunctionTest {
         }
     }
 
-    private RequestDetails getDetails(String path) {
+    private RequestDetails getPutDetails(String bucket, String key, String path) {
         RequestDetails details = new RequestDetails();
-        details.setBucketName("bucket");
-        details.setObjectKey("invoice/invoice-123.txt");
+        details.setBucketName(bucket);
+        details.setObjectKey(key);
         details.setContentType("application/text");
         details.setFilePath(path);
         details.setOperationType(OperationType.PUT_OBJECT);
+        details.setRegion("eu-central-1");
+        return details;
+    }
+
+    private RequestDetails getDeleteDetails(String bucket, String key) {
+        RequestDetails details = new RequestDetails();
+        details.setBucketName(bucket);
+        details.setObjectKey(key);
+        details.setOperationType(OperationType.DELETE_OBJECT);
         details.setRegion("eu-central-1");
         return details;
     }
