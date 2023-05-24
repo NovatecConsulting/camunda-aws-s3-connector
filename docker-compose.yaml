@@ -1,0 +1,13 @@
+services:
+  connector-runtime:
+    image: novatec/aws-s3-connector:latest
+    build:
+      context: .
+      dockerfile: runtime/Dockerfile
+    environment:
+      zeebe.client.cloud.region:
+      zeebe.client.cloud.clusterId:
+      zeebe.client.cloud.clientId:
+      zeebe.client.cloud.clientSecret:
+      operate.client.enabled: true
+    env_file: runtime/connector-secrets.txt

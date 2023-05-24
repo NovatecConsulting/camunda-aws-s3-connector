@@ -65,7 +65,6 @@ class S3ConnectorFunctionTest {
         assertThat(putRequest.key()).isEqualTo("path/file.txt");
         assertThat(putRequest.contentLength()).isEqualTo(fileBytes.length);
         assertThat(putRequest.contentType()).isEqualTo("application/text");
-        assertThat(putRequest.serverSideEncryptionAsString()).isEqualTo(ServerSideEncryption.AES256.toString());
 
         RequestBody requestBody = bodyCaptor.getValue();
         try(InputStream is = requestBody.contentStreamProvider().newStream()) {

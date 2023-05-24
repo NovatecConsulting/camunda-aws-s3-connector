@@ -59,3 +59,4 @@ build/
 # environment
 .env
 request*.json
+/.local/
