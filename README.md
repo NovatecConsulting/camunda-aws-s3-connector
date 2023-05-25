@@ -8,20 +8,26 @@ DISCLAIMER: You are responsible for your AWS configuration in your environment, 
 sure that you keep credentials in a safe place and only give access to specific resources, and be as restrictive as 
 possible. This is not a security tutorial for AWS. You should definitively know what you are doing!
 
+## Features
+
+- Upload a generated file to an AWS S3 bucket
+- Delete a file from an AWS S3 bucket
+
+
 ## Setup
 
 ### Connector configuration
 
-| name          | description                                | example                     |
-|---------------|--------------------------------------------|-----------------------------|
-| accessKey     | the AWS access key for the authorized user | `secrets.AWS_ACCESS_KEY`    |
-| secretKey     | the AWS secret key for the authorized user | `secrets.AWS_SECRET_KEY`    |
-| region        | the AWS region of your S3 bucket           | eu-central-1                |
-| bucketName    | the name of the S3 bucket                  | camunda-s3-connector-bucket |
-| objectKey     | path + file name in the s3 bucket          | `="invoice/"+fileName`      |
-| operationType | what t do on s3                            | `PUT_OBJECT`                |
-| filePath      | absolute path to the file to upload        | `=filePath`                 |
-| contentType   | the content type of the content            | `=contentType`              |
+| name            | description                                | example                     |
+|-----------------|--------------------------------------------|-----------------------------|
+| `accessKey`     | the AWS access key for the authorized user | `secrets.AWS_ACCESS_KEY`    |
+| `secretKey`     | the AWS secret key for the authorized user | `secrets.AWS_SECRET_KEY`    |
+| `region`        | the AWS region of your S3 bucket           | eu-central-1                |
+| `bucketName`    | the name of the S3 bucket                  | camunda-s3-connector-bucket |
+| `objectKey`     | path + file name in the s3 bucket          | `="invoice/"+fileName`      |
+| `operationType` | what to do on s3                           | `PUT_OBJECT`                |
+| `filePath`      | absolute path to the file to upload        | `=filePath`                 |
+| `contentType`   | the content type of the content            | `=contentType`              |
 
 NOTE: please do not put secrets directly into your configuration. See the secrets section for more details.
 
