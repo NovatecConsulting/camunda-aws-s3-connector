@@ -1,4 +1,4 @@
-[![CI](https://github.com/itsmestefanjay/camunda-s3-connector/actions/workflows/maven.yml/badge.svg)](https://github.com/itsmestefanjay/camunda-s3-connector/actions/workflows/maven.yml)
+[![CI](https://github.com/itsmestefanjay/camunda-s3-connector/actions/workflows/maven.yml/badge.svg?event=push)](https://github.com/itsmestefanjay/camunda-s3-connector/actions/workflows/maven.yml)
 
 # AWS S3 Connector
 
