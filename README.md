@@ -2,6 +2,10 @@
 
 Camunda Outbound Connector to interact with the content of an S3 bucket
 
+DISCLAIMER: You are responsible for your AWS configuration in your environment, keep in mind that you have to make
+sure that you keep credentials in a safe place and only give access to specific resources, and be as restrictive as 
+possible. This is not a security tutorial for AWS. You should definitively know what you are doing!
+
 ## Setup
 
 ### Connector configuration
@@ -48,6 +52,43 @@ NOTE: please do not put secrets directly into your configuration. See the secret
 
 ## Runtime
 
+### Get credentials from AWS
+
+In order to access AWS from your connector you need the above mentioned user with a IAM policy for S3. Additionally
+you need to generated credentials for the user. You can do this over the AWS console in IAM:
+
+- Log into your AWS console
+- Go to IAM > Users
+- Select your created user, e.g. `camunda-s3-connector-user`
+- Go to Security credentials > Access keys
+- Click `Create access key`
+- Select `Third-party service`
+- Check that you understand the risk of having a permanent access key
+- add a tag if wished
+- Click on create and save your credentials in a save place
+
+ATTENTION: There are many ways to achieve this in IAM, I only describe the easiest, 
+but possibly not the safest way to do it
+
+### Docker Compose
+
+You can use the `docker-compose.yaml` file to start a local connector runtime with the AWS S3 connector. You need to set 
+your connection details from Camunda:
+
+```yaml
+zeebe.client.cloud.region: my-region
+zeebe.client.cloud.clusterId: my-cluster-id
+zeebe.client.cloud.clientId: my-client-id
+zeebe.client.cloud.clientSecret: my-client-secret
+```
+
+And add your access and secret key from your AWS user to the `runtime/connector-secrets.txt` file:
+
+```properties
+AWS_ACCESS_KEY=my-access-key
+AWS_SECRET_KEY=my-secret-key
+```
+
 ### Handling secrets
 Since your connector needs to run in a custom connector runtime, you cannot just add secrets in the cloud console since
 they will not be auto-magically transported into your connector runtime. You can provide them by:
@@ -65,12 +106,12 @@ variable, which you then can reference with a FEEL expression in the `file path`
 
 ```java
 // generate file
-File file = pdfService.generate(orderData);
+File file=pdfService.generate(orderData);
 
 // set as variables to be picked up by connector
-variableHandler.setVariable("fileName", String.format("invoice-%s.pdf", orderData.getInvoiceId));
-variableHandler.setVariable("filePath", file.getAbsolutePath());
-variableHandler.setVariable("contentType", "application/pdf");
+variableHandler.setVariable("fileName",String.format("invoice-%s.pdf",orderData.getInvoiceId));
+variableHandler.setVariable("filePath",file.getAbsolutePath());
+variableHandler.setVariable("contentType","application/pdf");
 ```
 
 ## Example process
