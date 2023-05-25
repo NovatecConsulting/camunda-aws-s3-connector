@@ -1,6 +1,7 @@
 services:
   connector-runtime:
-    image: novatec/aws-s3-connector:latest
+    container_name: camunda-s3-connector
+    image: novatec/camunda-s3-connector:latest
     build:
       context: .
       dockerfile: runtime/Dockerfile
