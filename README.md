@@ -1,3 +1,5 @@
+[![CI](https://github.com/itsmestefanjay/camunda-s3-connector/actions/workflows/maven.yml/badge.svg)](https://github.com/itsmestefanjay/camunda-s3-connector/actions/workflows/maven.yml)
+
 # AWS S3 Connector
 
 Camunda Outbound Connector to interact with the content of an S3 bucket
