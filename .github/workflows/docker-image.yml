@@ -15,4 +15,4 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Build the Docker image
-      run: docker build ../../runtime --file Dockerfile --tag novatec/camunda-s3-connector:$(date +%s) --tag novatec/camunda-s3-connector:latest
+      run: docker build . --file ../../runtime/Dockerfile --tag novatec/camunda-s3-connector:$(date +%s) --tag novatec/camunda-s3-connector:latest
