@@ -109,8 +109,9 @@ NOTE: This behaviour will most likely be improved in the future
 ### How to generate content?
 The upload is done by resolving a local path to a `File`. Since a process variable is currently limited in size to approx. 
 2-4MB (there are some Zeebe chaos engineering tests) the file content should stay in the connector runtime. You can e.g. 
-use a `JobWorker` to generate a file and store it in a `/tmp` folder. You can then get the path and set it into a `filePath` 
-variable, which you then can reference with a FEEL expression in the `file path` configuration of the connector:
+run a `JobWorker` in the same runtime environment to generate a file and store it in a `/tmp` folder where the connector logic 
+also has access to. You can then get the path and set it into a `filePath` variable, which you then can reference with a FEEL 
+expression in the `file path` configuration of the connector:
 
 ```java
 // generate file
