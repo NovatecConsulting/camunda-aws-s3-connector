@@ -41,8 +41,11 @@ public class S3ServiceImpl implements S3Service {
                 .bucket(details.getBucketName())
                 .key(details.getObjectKey())
                 .build();
+        logger.info("Delete object: {}", details.getBucketName()+"/"+details.getObjectKey());
         logger.debug("request {}", deleteRequest);
         s3Client.deleteObject(deleteRequest);
+        logger.info("Object deleted: {}", details.getBucketName()+"/"+details.getObjectKey());
+
         return new ConnectorResponse();
     }
 
@@ -56,11 +59,11 @@ public class S3ServiceImpl implements S3Service {
                     .contentType(Objects.requireNonNull(details.getContentType(), "Content type variable is required for operation PUT"))
                     .contentLength((long) objectBytes.length)
                     .build();
+            logger.info("Put object: {}", details.getBucketName()+"/"+details.getObjectKey());
             logger.debug("request {}", request);
             PutObjectResponse response = s3Client.putObject(request, RequestBody.fromBytes(objectBytes));
+            logger.info("Object put: {}", details.getBucketName()+"/"+details.getObjectKey());
             logger.debug("response {}", response);
-
-
 
             return new ConnectorResponse(response);
         }
