@@ -34,6 +34,7 @@
     <version.mockito>5.3.1</version.mockito>
     <version.slf4j>2.0.7</version.slf4j>
     <version.aws-java-sdk>2.20.66</version.aws-java-sdk>
+    <version.logback-classic>1.4.8</version.logback-classic>
 
     <!-- maven plugins -->
     <plugin.version.maven-clean-plugin>3.2.0</plugin.version.maven-clean-plugin>
@@ -44,7 +45,6 @@
     <plugin.version.maven-resources-plugin>3.3.1</plugin.version.maven-resources-plugin>
     <plugin.version.maven-shade-plugin>3.4.1</plugin.version.maven-shade-plugin>
     <plugin.version.maven-surefire-plugin>3.0.0</plugin.version.maven-surefire-plugin>
-    <logback-classic.version>1.4.8</logback-classic.version>
   </properties>
 
   <dependencies>
@@ -73,7 +73,7 @@
     <dependency>
       <groupId>ch.qos.logback</groupId>
       <artifactId>logback-classic</artifactId>
-      <version>${logback-classic.version}</version>
+      <version>${version.logback-classic}</version>
     </dependency>
     <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>
