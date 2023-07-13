@@ -9,7 +9,6 @@ public class ConnectorRequest {
 
   @Valid
   @NotNull
-  @Secret
   private AuthenticationRequestData authentication;
   @Valid
   @NotNull

@@ -7,10 +7,8 @@ import java.util.Objects;
 
 public class AuthenticationRequestData {
   @NotEmpty
-  @Secret
   private String accessKey;
   @NotEmpty
-  @Secret
   private String secretKey;
 
   public String getAccessKey() {
