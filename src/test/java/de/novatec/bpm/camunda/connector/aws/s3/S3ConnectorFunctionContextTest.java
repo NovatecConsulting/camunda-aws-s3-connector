@@ -1,5 +1,7 @@
 package de.novatec.bpm.camunda.connector.aws.s3;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import de.novatec.bpm.camunda.connector.aws.s3.model.AuthenticationRequestData;
 import de.novatec.bpm.camunda.connector.aws.s3.model.ConnectorRequest;
 import de.novatec.bpm.camunda.connector.aws.s3.model.OperationType;
@@ -15,81 +17,99 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 class S3ConnectorFunctionContextTest {
 
     @Test
-    void should_replace_secrets() {
+    void should_replace_secrets() throws JsonProcessingException {
         // given
         ConnectorRequest request = new ConnectorRequest();
         request.setAuthentication(getAuthentication());
+        request.setRequestDetails(getDetails());
 
         TestConnectorContext context = OutboundConnectorContextBuilder.create()
                 .secret("AWS_ACCESS_KEY", "abc")
                 .secret("AWS_SECRET_KEY", "123")
+                .variables(new ObjectMapper().writeValueAsString(request))
                 .build();
 
         // when
-        context.replaceSecrets(request);
+        ConnectorRequest details = context.bindVariables(ConnectorRequest.class);
 
         // then
-        assertThat(request).extracting("authentication")
+        assertThat(details).extracting("authentication")
                 .extracting("accessKey")
                 .as("access key")
                 .isEqualTo("abc");
 
-        assertThat(request).extracting("authentication")
+        assertThat(details).extracting("authentication")
                 .extracting("secretKey")
                 .as("secret key")
                 .isEqualTo("123");
     }
 
     @Test
-    void should_fail_if_authentication_is_missing() {
+    void should_fail_if_authentication_is_missing() throws JsonProcessingException {
         // setup
         ConnectorRequest request = new ConnectorRequest();
         request.setRequestDetails(getDetails());
-        TestConnectorContext context = OutboundConnectorContextBuilder.create().build();
+        TestConnectorContext context = OutboundConnectorContextBuilder.create()
+                .secret("AWS_ACCESS_KEY", "abc")
+                .secret("AWS_SECRET_KEY", "123")
+                .variables(new ObjectMapper().writeValueAsString(request))
+                .build();
 
         // expect
         assertThatThrownBy(() -> context.validate(request))
                 .isInstanceOf(ConnectorInputException.class)
-                .hasMessage("javax.validation.ValidationException: Found constraints violated while validating input: \n - authentication: must not be null");
+                .hasMessage("javax.validation.ValidationException: Found constraints violated while validating input: \n - Property: authentication: Validation failed.");
     }
 
     @Test
-    void should_fail_if_details_are_missing() {
+    void should_fail_if_details_are_missing() throws JsonProcessingException {
         // setup
         ConnectorRequest request = new ConnectorRequest();
         AuthenticationRequestData authentication = getAuthentication();
         request.setAuthentication(authentication);
-        TestConnectorContext context = OutboundConnectorContextBuilder.create().build();
+        TestConnectorContext context = OutboundConnectorContextBuilder.create()
+                .secret("AWS_ACCESS_KEY", "abc")
+                .secret("AWS_SECRET_KEY", "123")
+                .variables(new ObjectMapper().writeValueAsString(request))
+                .build();
 
         // expect
         assertThatThrownBy(() -> context.validate(request))
                 .isInstanceOf(ConnectorInputException.class)
-                .hasMessage("javax.validation.ValidationException: Found constraints violated while validating input: \n - requestDetails: must not be null");
+                .hasMessage("javax.validation.ValidationException: Found constraints violated while validating input: \n - Property: requestDetails: Validation failed.");
     }
 
     @Test
-    void should_fail_if_required_details_values_are_missing() {
+    void should_fail_if_required_details_values_are_missing() throws JsonProcessingException {
         // setup
         ConnectorRequest request = new ConnectorRequest();
         request.setAuthentication(getAuthentication());
         request.setRequestDetails(new RequestDetails());
-        var context = OutboundConnectorContextBuilder.create().build();
+        var context = OutboundConnectorContextBuilder.create()
+                .secret("AWS_ACCESS_KEY", "abc")
+                .secret("AWS_SECRET_KEY", "123")
+                .variables(new ObjectMapper().writeValueAsString(request))
+                .build();
 
         // expect
         assertThatThrownBy(() -> context.validate(request))
                 .isInstanceOf(ConnectorInputException.class)
-                .hasMessageContainingAll("requestDetails.bucketName", "requestDetails.region", "requestDetails.objectKey", "requestDetails.operationType")
-                .hasMessageNotContainingAny("requestDetails.filePath", "requestDetails.contentType");
+                .hasMessageContainingAll("requestDetails.bucketName: Validation failed", "requestDetails.region: Validation failed", "requestDetails.objectKey: Validation failed", "requestDetails.operationType: Validation failed")
+                .hasMessageNotContainingAny("requestDetails.filePath: Validation failed", "requestDetails.contentType: Validation failed");
 
     }
 
     @Test
-    void should_fail_if_required_authentication_value_are_missing() {
+    void should_fail_if_required_authentication_value_are_missing() throws JsonProcessingException {
         // setup
         ConnectorRequest request = new ConnectorRequest();
         request.setAuthentication(new AuthenticationRequestData());
         request.setRequestDetails(getDetails());
-        var context = OutboundConnectorContextBuilder.create().build();
+        var context = OutboundConnectorContextBuilder.create()
+                .secret("AWS_ACCESS_KEY", "abc")
+                .secret("AWS_SECRET_KEY", "123")
+                .variables(new ObjectMapper().writeValueAsString(request))
+                .build();
 
         // expect
         assertThatThrownBy(() -> context.validate(request))

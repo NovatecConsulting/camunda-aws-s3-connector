@@ -1,5 +1,6 @@
 package de.novatec.bpm.camunda.connector.aws.s3;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import de.novatec.bpm.camunda.connector.aws.s3.model.*;
 import de.novatec.bpm.camunda.connector.aws.s3.service.S3Service;
 import de.novatec.bpm.camunda.connector.aws.s3.service.S3ServiceFactory;
@@ -48,7 +49,7 @@ class S3ConnectorFunctionTest {
         TestConnectorContext context = OutboundConnectorContextBuilder.create()
                 .secret("AWS_ACCESS_KEY", "abc")
                 .secret("AWS_SECRET_KEY", "123")
-                .variables(request)
+                .variables(new ObjectMapper().writeValueAsString(request))
                 .build();
 
         // when
@@ -90,7 +91,7 @@ class S3ConnectorFunctionTest {
         TestConnectorContext context = OutboundConnectorContextBuilder.create()
                 .secret("AWS_ACCESS_KEY", "abc")
                 .secret("AWS_SECRET_KEY", "123")
-                .variables(request)
+                .variables(new ObjectMapper().writeValueAsString(request))
                 .build();
 
         // when
