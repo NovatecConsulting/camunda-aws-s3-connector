@@ -35,6 +35,7 @@
     <version.slf4j>2.0.7</version.slf4j>
     <version.aws-java-sdk>2.20.103</version.aws-java-sdk>
     <version.logback-classic>1.4.8</version.logback-classic>
+    <version.lombok>1.18.28</version.lombok>
 
     <!-- maven plugins -->
     <plugin.version.maven-clean-plugin>3.3.1</plugin.version.maven-clean-plugin>
@@ -106,6 +107,12 @@
       <artifactId>slf4j-jdk14</artifactId>
       <version>${version.slf4j}</version>
       <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <version>${version.lombok}</version>
+      <scope>provided</scope>
     </dependency>
   </dependencies>
 
