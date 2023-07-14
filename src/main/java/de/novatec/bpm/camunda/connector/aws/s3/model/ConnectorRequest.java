@@ -1,10 +1,12 @@
 package de.novatec.bpm.camunda.connector.aws.s3.model;
 
 import io.camunda.connector.api.annotation.Secret;
+import lombok.Data;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
+@Data
 public class ConnectorRequest {
 
   @Valid
@@ -13,28 +15,4 @@ public class ConnectorRequest {
   @Valid
   @NotNull
   private RequestDetails requestDetails;
-
-  public AuthenticationRequestData getAuthentication() {
-    return authentication;
-  }
-
-  public void setAuthentication(AuthenticationRequestData authentication) {
-    this.authentication = authentication;
-  }
-
-  public RequestDetails getRequestDetails() {
-    return requestDetails;
-  }
-
-  public void setRequestDetails(RequestDetails requestDetails) {
-    this.requestDetails = requestDetails;
-  }
-
-  @Override
-  public String toString() {
-    return "ConnectorRequest{" +
-            "authentication=" + authentication +
-            ", requestDetails=" + requestDetails +
-            '}';
-  }
 }
