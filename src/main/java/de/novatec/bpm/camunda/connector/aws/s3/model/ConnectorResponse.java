@@ -4,11 +4,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import software.amazon.awssdk.services.s3.model.PutObjectResponse;
 
-import java.util.Objects;
-
 @Data
 @NoArgsConstructor
 public class ConnectorResponse {
+
   private String serverSideEncryption;
   private String versionId;
 
