@@ -24,7 +24,7 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
     <!-- connector SDK version -->
-    <version.connector-core>0.8.1</version.connector-core>
+    <version.connector-core>0.11.3</version.connector-core>
     <version.spring-zeebe>8.2.0</version.spring-zeebe>
 
     <!-- external libraries -->
