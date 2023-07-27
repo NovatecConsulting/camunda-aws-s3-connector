@@ -30,10 +30,8 @@ public class S3ConnectorFunction implements OutboundConnectorFunction {
 
     @Override
     public Object execute(OutboundConnectorContext context) throws IOException {
-        var request = context.getVariablesAsType(ConnectorRequest.class);
+        ConnectorRequest request = context.bindVariables(ConnectorRequest.class);
         logger.info("Executing connector with request {}", request);
-        context.validate(request);
-        context.replaceSecrets(request);
         return execute(request);
     }
 
