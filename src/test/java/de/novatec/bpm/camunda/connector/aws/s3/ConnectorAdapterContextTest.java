@@ -2,11 +2,11 @@ package de.novatec.bpm.camunda.connector.aws.s3;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import de.novatec.bpm.camunda.connector.aws.s3.model.AuthenticationRequestData;
-import de.novatec.bpm.camunda.connector.aws.s3.model.ConnectorRequest;
-import de.novatec.bpm.camunda.connector.aws.s3.model.OperationType;
-import de.novatec.bpm.camunda.connector.aws.s3.model.RequestDetails;
-import io.camunda.connector.impl.ConnectorInputException;
+import de.novatec.bpm.camunda.connector.aws.s3.adapter.in.model.AuthenticationRequestData;
+import de.novatec.bpm.camunda.connector.aws.s3.adapter.in.model.ConnectorRequest;
+import de.novatec.bpm.camunda.connector.aws.s3.adapter.in.model.OperationType;
+import de.novatec.bpm.camunda.connector.aws.s3.adapter.in.model.RequestDetails;
+import io.camunda.connector.api.error.ConnectorInputException;
 import io.camunda.connector.test.outbound.OutboundConnectorContextBuilder;
 import io.camunda.connector.test.outbound.OutboundConnectorContextBuilder.TestConnectorContext;
 import org.junit.jupiter.api.Test;
@@ -14,7 +14,7 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-class S3ConnectorFunctionContextTest {
+class ConnectorAdapterContextTest {
 
     @Test
     void should_replace_secrets() throws JsonProcessingException {
@@ -58,7 +58,7 @@ class S3ConnectorFunctionContextTest {
         // expect
         assertThatThrownBy(() -> context.validate(request))
                 .isInstanceOf(ConnectorInputException.class)
-                .hasMessage("javax.validation.ValidationException: Found constraints violated while validating input: \n - Property: authentication: Validation failed.");
+                .hasMessage("jakarta.validation.ValidationException: Found constraints violated while validating input: \n - Property: authentication: Validation failed.");
     }
 
     @Test
@@ -76,7 +76,7 @@ class S3ConnectorFunctionContextTest {
         // expect
         assertThatThrownBy(() -> context.validate(request))
                 .isInstanceOf(ConnectorInputException.class)
-                .hasMessage("javax.validation.ValidationException: Found constraints violated while validating input: \n - Property: requestDetails: Validation failed.");
+                .hasMessage("jakarta.validation.ValidationException: Found constraints violated while validating input: \n - Property: requestDetails: Validation failed.");
     }
 
     @Test

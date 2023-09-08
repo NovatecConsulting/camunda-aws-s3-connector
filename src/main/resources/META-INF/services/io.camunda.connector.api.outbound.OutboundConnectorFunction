@@ -1,1 +1,1 @@
-de.novatec.bpm.camunda.connector.aws.s3.S3ConnectorFunction
+de.novatec.bpm.camunda.connector.aws.s3.adapter.in.ConnectorAdapter

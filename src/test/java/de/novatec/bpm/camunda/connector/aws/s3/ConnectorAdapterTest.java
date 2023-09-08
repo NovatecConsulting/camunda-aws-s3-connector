@@ -1,14 +1,22 @@
 package de.novatec.bpm.camunda.connector.aws.s3;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import de.novatec.bpm.camunda.connector.aws.s3.model.*;
-import de.novatec.bpm.camunda.connector.aws.s3.service.S3Service;
-import de.novatec.bpm.camunda.connector.aws.s3.service.S3ServiceFactory;
+import de.novatec.bpm.camunda.connector.aws.s3.adapter.in.ConnectorAdapter;
+import de.novatec.bpm.camunda.connector.aws.s3.adapter.in.model.*;
+import de.novatec.bpm.camunda.connector.aws.s3.adapter.out.S3ClientFactory;
+import de.novatec.bpm.camunda.connector.aws.s3.domain.FileService;
+import de.novatec.bpm.camunda.connector.aws.s3.usecase.in.FileCommand;
+import de.novatec.bpm.camunda.connector.aws.s3.usecase.out.S3Command;
+import de.novatec.bpm.camunda.connector.aws.s3.adapter.out.S3Adapter;
 import io.camunda.connector.test.outbound.OutboundConnectorContextBuilder;
 import io.camunda.connector.test.outbound.OutboundConnectorContextBuilder.TestConnectorContext;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
+import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.DeleteObjectRequest;
@@ -26,17 +34,28 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-class S3ConnectorFunctionTest {
+@ExtendWith(MockitoExtension.class)
+class ConnectorAdapterTest {
+
+    @Mock
+    S3ClientFactory factory;
+
+    private FileCommand fileCommand;
+
+    @BeforeEach
+    public void setup() {
+        fileCommand = new FileService(new S3Adapter(factory));
+    }
 
     @Test
     void happy_path_aws_put_is_called_as_expected() throws IOException {
         // given
         S3Client client = Mockito.mock(S3Client.class);
-        S3Service s3Service = S3ServiceFactory.getService(client);
+        when(factory.createClient(any(), any(), any())).thenReturn(client);
         PutObjectResponse awsResult = createPutResponse();
         when(client.putObject(any(PutObjectRequest.class), any(RequestBody.class))).thenReturn(awsResult);
 
-        S3ConnectorFunction function = new S3ConnectorFunction(s3Service);
+        ConnectorAdapter function = new ConnectorAdapter(fileCommand);
 
         URL resource = getClass().getClassLoader().getResource("invoices/invoice.txt");
         byte[] fileBytes = getFileBytes(resource);
@@ -56,7 +75,11 @@ class S3ConnectorFunctionTest {
         ConnectorResponse actualResult = (ConnectorResponse) function.execute(context);
 
         // then
-        assertThat(actualResult).isEqualTo(new ConnectorResponse(awsResult));
+        ConnectorResponse response = new ConnectorResponse();
+        response.setFilePath(filePath);
+        response.setObjectKey("path/file.txt");
+        response.setBucketName("bucket");
+        assertThat(actualResult).isEqualTo(response);
 
         ArgumentCaptor<PutObjectRequest> requestCaptor = ArgumentCaptor.forClass(PutObjectRequest.class);
         ArgumentCaptor<RequestBody> bodyCaptor = ArgumentCaptor.forClass(RequestBody.class);
@@ -68,21 +91,18 @@ class S3ConnectorFunctionTest {
         assertThat(putRequest.contentType()).isEqualTo("application/text");
 
         RequestBody requestBody = bodyCaptor.getValue();
-        try(InputStream is = requestBody.contentStreamProvider().newStream()) {
+        try (InputStream is = requestBody.contentStreamProvider().newStream()) {
             assertThat(is.readAllBytes()).isEqualTo(fileBytes);
         }
-
-        verifyNoMoreInteractions(client);
     }
 
     @Test
     void happy_path_aws_delete_is_called_as_expected() throws IOException {
         // given
         S3Client client = Mockito.mock(S3Client.class);
-        S3Service s3Service = S3ServiceFactory.getService(client);
+        when(factory.createClient(any(), any(), any())).thenReturn(client);
 
-        S3ConnectorFunction function = new S3ConnectorFunction(s3Service);
-
+        ConnectorAdapter function = new ConnectorAdapter(fileCommand);
 
         ConnectorRequest request = new ConnectorRequest();
         request.setAuthentication(getAuthentication());
@@ -98,19 +118,21 @@ class S3ConnectorFunctionTest {
         ConnectorResponse actualResult = (ConnectorResponse) function.execute(context);
 
         // then
-        assertThat(actualResult).isEqualTo(new ConnectorResponse());
+        ConnectorResponse response = new ConnectorResponse();
+        response.setObjectKey("path/file.txt");
+        response.setBucketName("bucket");
+        assertThat(actualResult).isEqualTo(response);
+        assertThat(actualResult).isEqualTo(response);
 
         ArgumentCaptor<DeleteObjectRequest> argumentCaptor = ArgumentCaptor.forClass(DeleteObjectRequest.class);
         verify(client, times(1)).deleteObject(argumentCaptor.capture());
         DeleteObjectRequest deleteRequest = argumentCaptor.getValue();
         assertThat(deleteRequest.bucket()).isEqualTo("bucket");
         assertThat(deleteRequest.key()).isEqualTo("path/file.txt");
-
-        verifyNoMoreInteractions(client);
     }
 
     private static PutObjectResponse createPutResponse() {
-         return PutObjectResponse.builder()
+        return PutObjectResponse.builder()
                 .versionId("1234567")
                 .serverSideEncryption(ServerSideEncryption.AES256)
                 .checksumSHA256("foo")

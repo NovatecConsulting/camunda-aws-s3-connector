@@ -24,8 +24,8 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
     <!-- connector SDK version -->
-    <version.connector-sdk>0.11.2</version.connector-sdk>
     <version.spring-zeebe>8.2.8</version.spring-zeebe>
+    <version.connectors>0.22.1</version.connectors>
 
     <!-- external libraries -->
     <version.jackson>2.15.2</version.jackson>
@@ -57,20 +57,22 @@
     <dependency>
       <groupId>io.camunda.connector</groupId>
       <artifactId>connector-core</artifactId>
-      <version>${version.connector-sdk}</version>
-      <scope>provided</scope>
+      <version>${version.connectors}</version>
     </dependency>
     <dependency>
       <groupId>io.camunda.connector</groupId>
       <artifactId>connector-validation</artifactId>
-      <version>${version.connector-sdk}</version>
-      <scope>provided</scope>
+      <version>${version.connectors}</version>
     </dependency>
     <dependency>
       <groupId>io.camunda.connector</groupId>
       <artifactId>connector-test</artifactId>
-      <version>${version.connector-sdk}</version>
-      <scope>provided</scope>
+      <version>${version.connectors}</version>
+    </dependency>
+    <dependency>
+      <groupId>io.camunda.connector</groupId>
+      <artifactId>spring-boot-starter-camunda-connectors</artifactId>
+      <version>${version.connectors}</version>
     </dependency>
     <dependency>
       <groupId>org.slf4j</groupId>
