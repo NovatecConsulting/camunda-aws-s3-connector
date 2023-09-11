@@ -80,17 +80,28 @@ but possibly not the safest way to do it
 
 ### Docker Compose
 
-You can use the `docker-compose.yaml` file to start a local connector runtime with the AWS S3 connector. You need to set 
+You can use the `docker-compose.yaml` file to start the AWS S3 connector. You need to set 
 your connection details from Camunda:
 
 ```yaml
-zeebe.client.cloud.region: my-region
-zeebe.client.cloud.clusterId: my-cluster-id
-zeebe.client.cloud.clientId: my-client-id
-zeebe.client.cloud.clientSecret: my-client-secret
+ZEBBE_CLIENT_CLOUD_REGION: my-region
+ZEBBE_CLIENT_CLOUD_CLUSTERID: my-cluster-id
+ZEBBE_CLIENT_CLOUD_CLIENTID: my-client-id
+ZEBBE_CLIENT_CLOUD_CLIENTSECRET: my-client-secret
 ```
 
-And add your access and secret key from your AWS user to the `runtime/connector-secrets.txt` file:
+Or if you use a local runtime:
+
+```yaml
+ZEEBE_CLIENT_BROKER_GATEWAY-ADDRESS: zeebe:26500
+ZEEBE_CLIENT_SECURITY_PLAINTEXT: true
+OPERATE_CLIENT_ENABLED: true
+CAMUNDA_OPERATE_CLIENT_URL: http://operate:8080
+CAMUNDA_OPERATE_CLIENT_USERNAME: demo
+CAMUNDA_OPERATE_CLIENT_PASSWORD: demo
+```
+
+And add your access and secret key from your AWS user to the `connector-secrets.txt` file:
 
 ```properties
 AWS_ACCESS_KEY=my-access-key
