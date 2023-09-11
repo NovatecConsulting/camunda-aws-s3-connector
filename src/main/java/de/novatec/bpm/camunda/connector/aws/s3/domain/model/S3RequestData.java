@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class RequestData {
+public class S3RequestData {
 
     private String accessKey;
     private String secretKey;

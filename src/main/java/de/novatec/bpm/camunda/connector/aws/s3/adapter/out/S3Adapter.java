@@ -1,15 +1,16 @@
 package de.novatec.bpm.camunda.connector.aws.s3.adapter.out;
 
-import de.novatec.bpm.camunda.connector.aws.s3.domain.model.RequestData;
+import de.novatec.bpm.camunda.connector.aws.s3.domain.model.FileContent;
+import de.novatec.bpm.camunda.connector.aws.s3.domain.model.S3RequestData;
 import de.novatec.bpm.camunda.connector.aws.s3.usecase.out.S3Command;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import software.amazon.awssdk.core.ResponseInputStream;
 import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.*;
 
 import java.io.*;
-import java.util.Objects;
 
 public class S3Adapter implements S3Command {
 
@@ -21,48 +22,48 @@ public class S3Adapter implements S3Command {
         this.clientFactory = clientFactory;
     }
 
-    public void deleteObject(RequestData requestData) {
-        try (S3Client s3Client = clientFactory.createClient(requestData.getAccessKey(), requestData.getSecretKey(), requestData.getRegion())) {
+    public void deleteObject(S3RequestData s3RequestData) {
+        try (S3Client s3Client = clientFactory.createClient(s3RequestData.getAccessKey(), s3RequestData.getSecretKey(), s3RequestData.getRegion())) {
             DeleteObjectRequest awsRequest = DeleteObjectRequest.builder()
-                    .bucket(requestData.getBucket())
-                    .key(requestData.getKey())
+                    .bucket(s3RequestData.getBucket())
+                    .key(s3RequestData.getKey())
                     .build();
-            logger.info("Delete object: {}", requestData.getBucket() + "/" + requestData.getKey());
+            logger.info("Delete object: {}", s3RequestData.getBucket() + "/" + s3RequestData.getKey());
             logger.debug("request {}", awsRequest);
             s3Client.deleteObject(awsRequest);
         }
-        logger.info("Object deleted: {}", requestData.getBucket() + "/" + requestData.getKey());
+        logger.info("Object deleted: {}", s3RequestData.getBucket() + "/" + s3RequestData.getKey());
     }
 
-    public void putObject(RequestData putRequest) throws IOException {
+    public void putObject(S3RequestData putRequest, FileContent fileContent) {
         try (S3Client s3Client = clientFactory.createClient(putRequest.getAccessKey(), putRequest.getSecretKey(), putRequest.getRegion())) {
-            String filePath = Objects.requireNonNull(putRequest.getFilePath(), "File path variable is required for operation PUT");
-            try (FileInputStream fis = new FileInputStream(filePath)) {
-                byte[] objectBytes = fis.readAllBytes();
-                PutObjectRequest awsRequest = PutObjectRequest.builder()
-                        .bucket(putRequest.getBucket())
-                        .key(putRequest.getKey())
-                        .contentType(Objects.requireNonNull(putRequest.getContentType(), "Content type variable is required for operation PUT"))
-                        .contentLength((long) objectBytes.length)
-                        .build();
-                logger.info("Put object: {}", putRequest.getBucket() + "/" + putRequest.getKey());
-                logger.debug("request {}", awsRequest);
-                PutObjectResponse awsResponse = s3Client.putObject(awsRequest, RequestBody.fromBytes(objectBytes));
-                logger.info("Object put: {}", putRequest.getBucket() + "/" + putRequest.getKey());
-                logger.debug("response {}", awsResponse);
-            }
+            PutObjectRequest awsRequest = PutObjectRequest.builder()
+                    .bucket(putRequest.getBucket())
+                    .key(putRequest.getKey())
+                    .contentType(fileContent.getContentType())
+                    .contentLength(fileContent.getContentLength())
+                    .build();
+            logger.info("Put object: {}", putRequest.getBucket() + "/" + putRequest.getKey());
+            logger.debug("request {}", awsRequest);
+            PutObjectResponse awsResponse = s3Client.putObject(awsRequest, RequestBody.fromBytes(fileContent.getContent()));
+            logger.info("Object put: {}", putRequest.getBucket() + "/" + putRequest.getKey());
+            logger.debug("response {}", awsResponse);
         }
     }
 
     @Override
-    public byte[] getObject(RequestData getRequest) throws IOException {
+    public FileContent getObject(S3RequestData getRequest) throws IOException {
         try (S3Client s3Client = clientFactory.createClient(getRequest.getAccessKey(), getRequest.getSecretKey(), getRequest.getRegion())) {
             GetObjectRequest awsRequest = GetObjectRequest.builder()
                     .bucket(getRequest.getBucket())
                     .key(getRequest.getKey())
-                    .checksumMode(ChecksumMode.ENABLED)
                     .build();
-            return s3Client.getObject(awsRequest).readAllBytes();
+            ResponseInputStream<GetObjectResponse> object = s3Client.getObject(awsRequest);
+            return FileContent.builder()
+                    .content(object.readAllBytes())
+                    .contentType(object.response().contentType())
+                    .contentLength(object.response().contentLength())
+                    .build();
         }
     }
 

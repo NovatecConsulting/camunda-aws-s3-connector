@@ -1,8 +1,10 @@
 package de.novatec.bpm.camunda.connector.aws.s3.common;
 
+import de.novatec.bpm.camunda.connector.aws.s3.adapter.out.FileAdapter;
 import de.novatec.bpm.camunda.connector.aws.s3.adapter.out.S3ClientFactory;
-import de.novatec.bpm.camunda.connector.aws.s3.domain.FileService;
-import de.novatec.bpm.camunda.connector.aws.s3.usecase.in.FileCommand;
+import de.novatec.bpm.camunda.connector.aws.s3.domain.CloudFileService;
+import de.novatec.bpm.camunda.connector.aws.s3.usecase.in.CloudFileCommand;
+import de.novatec.bpm.camunda.connector.aws.s3.usecase.out.LocalFileCommand;
 import de.novatec.bpm.camunda.connector.aws.s3.usecase.out.S3Command;
 import de.novatec.bpm.camunda.connector.aws.s3.adapter.out.S3Adapter;
 import org.springframework.context.annotation.Bean;
@@ -17,12 +19,17 @@ public class ConnectorConfiguration {
     }
 
     @Bean
+    LocalFileCommand localFileCommand() {
+        return new FileAdapter();
+    }
+
+    @Bean
     S3ClientFactory clientFactory() {
         return new S3ClientFactory();
     }
 
     @Bean
-    FileCommand fileCommand(S3Command s3Command) {
-        return new FileService(s3Command);
+    CloudFileCommand cloudFileCommand(S3Command s3Command, LocalFileCommand localFileComand) {
+        return new CloudFileService(s3Command, localFileComand);
     }
 }

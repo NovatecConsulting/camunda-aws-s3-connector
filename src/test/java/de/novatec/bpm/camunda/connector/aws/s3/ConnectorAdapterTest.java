@@ -3,10 +3,11 @@ package de.novatec.bpm.camunda.connector.aws.s3;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.novatec.bpm.camunda.connector.aws.s3.adapter.in.ConnectorAdapter;
 import de.novatec.bpm.camunda.connector.aws.s3.adapter.in.model.*;
+import de.novatec.bpm.camunda.connector.aws.s3.adapter.out.FileAdapter;
 import de.novatec.bpm.camunda.connector.aws.s3.adapter.out.S3ClientFactory;
-import de.novatec.bpm.camunda.connector.aws.s3.domain.FileService;
-import de.novatec.bpm.camunda.connector.aws.s3.usecase.in.FileCommand;
-import de.novatec.bpm.camunda.connector.aws.s3.usecase.out.S3Command;
+import de.novatec.bpm.camunda.connector.aws.s3.domain.CloudFileService;
+import de.novatec.bpm.camunda.connector.aws.s3.usecase.in.CloudFileCommand;
+import de.novatec.bpm.camunda.connector.aws.s3.usecase.out.LocalFileCommand;
 import de.novatec.bpm.camunda.connector.aws.s3.adapter.out.S3Adapter;
 import io.camunda.connector.test.outbound.OutboundConnectorContextBuilder;
 import io.camunda.connector.test.outbound.OutboundConnectorContextBuilder.TestConnectorContext;
@@ -17,17 +18,15 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import software.amazon.awssdk.core.ResponseInputStream;
 import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.services.s3.S3Client;
-import software.amazon.awssdk.services.s3.model.DeleteObjectRequest;
-import software.amazon.awssdk.services.s3.model.PutObjectRequest;
-import software.amazon.awssdk.services.s3.model.PutObjectResponse;
-import software.amazon.awssdk.services.s3.model.ServerSideEncryption;
+import software.amazon.awssdk.services.s3.model.*;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Path;
 import java.util.Objects;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -38,13 +37,17 @@ import static org.mockito.Mockito.*;
 class ConnectorAdapterTest {
 
     @Mock
-    S3ClientFactory factory;
+    S3ClientFactory factory; // mock component to S3
 
-    private FileCommand fileCommand;
+    @Mock
+    FileAdapter fileAdapter; // mock component to local file system
+
+    private ConnectorAdapter connector;
 
     @BeforeEach
     public void setup() {
-        fileCommand = new FileService(new S3Adapter(factory));
+        CloudFileCommand cloudFileCommand = new CloudFileService(new S3Adapter(factory), fileAdapter);
+        connector = new ConnectorAdapter(cloudFileCommand);
     }
 
     @Test
@@ -55,15 +58,18 @@ class ConnectorAdapterTest {
         PutObjectResponse awsResult = createPutResponse();
         when(client.putObject(any(PutObjectRequest.class), any(RequestBody.class))).thenReturn(awsResult);
 
-        ConnectorAdapter function = new ConnectorAdapter(fileCommand);
-
-        URL resource = getClass().getClassLoader().getResource("invoices/invoice.txt");
-        byte[] fileBytes = getFileBytes(resource);
+        byte[] fileBytes = "hello, world!".getBytes(StandardCharsets.UTF_8);
+        when(fileAdapter.loadFile(anyString())).thenReturn(fileBytes);
 
         ConnectorRequest request = new ConnectorRequest();
         request.setAuthentication(getAuthentication());
-        String filePath = Objects.requireNonNull(resource).getPath();
+        String filePath = "my/path/to/file.txt";
         request.setRequestDetails(getPutDetails("bucket", "path/file.txt", filePath));
+
+        ConnectorResponse expectedResponse = new ConnectorResponse();
+        expectedResponse.setFilePath(filePath);
+        expectedResponse.setObjectKey("path/file.txt");
+        expectedResponse.setBucketName("bucket");
 
         TestConnectorContext context = OutboundConnectorContextBuilder.create()
                 .secret("AWS_ACCESS_KEY", "abc")
@@ -72,14 +78,10 @@ class ConnectorAdapterTest {
                 .build();
 
         // when
-        ConnectorResponse actualResult = (ConnectorResponse) function.execute(context);
+        ConnectorResponse actualResult = (ConnectorResponse) connector.execute(context);
 
         // then
-        ConnectorResponse response = new ConnectorResponse();
-        response.setFilePath(filePath);
-        response.setObjectKey("path/file.txt");
-        response.setBucketName("bucket");
-        assertThat(actualResult).isEqualTo(response);
+        assertThat(actualResult).isEqualTo(expectedResponse);
 
         ArgumentCaptor<PutObjectRequest> requestCaptor = ArgumentCaptor.forClass(PutObjectRequest.class);
         ArgumentCaptor<RequestBody> bodyCaptor = ArgumentCaptor.forClass(RequestBody.class);
@@ -94,6 +96,9 @@ class ConnectorAdapterTest {
         try (InputStream is = requestBody.contentStreamProvider().newStream()) {
             assertThat(is.readAllBytes()).isEqualTo(fileBytes);
         }
+
+        verify(fileAdapter, times(1)).loadFile(eq(filePath));
+        verify(client, times(1)).putObject(any(PutObjectRequest.class), any(RequestBody.class));
     }
 
     @Test
@@ -102,11 +107,9 @@ class ConnectorAdapterTest {
         S3Client client = Mockito.mock(S3Client.class);
         when(factory.createClient(any(), any(), any())).thenReturn(client);
 
-        ConnectorAdapter function = new ConnectorAdapter(fileCommand);
-
         ConnectorRequest request = new ConnectorRequest();
         request.setAuthentication(getAuthentication());
-        request.setRequestDetails(getDeleteDetails("bucket", "path/file.txt"));
+        request.setRequestDetails(getDeleteDetails("bucket", "path/file.txt", "my/path/file.txt"));
 
         TestConnectorContext context = OutboundConnectorContextBuilder.create()
                 .secret("AWS_ACCESS_KEY", "abc")
@@ -115,13 +118,13 @@ class ConnectorAdapterTest {
                 .build();
 
         // when
-        ConnectorResponse actualResult = (ConnectorResponse) function.execute(context);
+        ConnectorResponse actualResult = (ConnectorResponse) connector.execute(context);
 
         // then
         ConnectorResponse response = new ConnectorResponse();
         response.setObjectKey("path/file.txt");
         response.setBucketName("bucket");
-        assertThat(actualResult).isEqualTo(response);
+        response.setFilePath("my/path/file.txt");
         assertThat(actualResult).isEqualTo(response);
 
         ArgumentCaptor<DeleteObjectRequest> argumentCaptor = ArgumentCaptor.forClass(DeleteObjectRequest.class);
@@ -129,7 +132,60 @@ class ConnectorAdapterTest {
         DeleteObjectRequest deleteRequest = argumentCaptor.getValue();
         assertThat(deleteRequest.bucket()).isEqualTo("bucket");
         assertThat(deleteRequest.key()).isEqualTo("path/file.txt");
+
+        verify(fileAdapter, times(1)).deleteFile(eq("my/path/file.txt"));
+        verify(client, times(1)).deleteObject(any(DeleteObjectRequest.class));
+
     }
+
+    @Test
+    void happy_path_aws_get_is_called_as_expected() throws IOException {
+        // given
+        S3Client client = Mockito.mock(S3Client.class);
+        when(factory.createClient(any(), any(), any())).thenReturn(client);
+
+        String filePath = "my/path/to/file.txt";
+        byte[] fileBytes = "hello, world!".getBytes(StandardCharsets.UTF_8);
+        when(fileAdapter.saveFile(eq(fileBytes), eq(filePath))).thenReturn(Path.of(filePath));
+
+        GetObjectResponse response = GetObjectResponse.builder()
+                .contentLength(1L)
+                .contentType("application/text")
+                .build();
+        ResponseInputStream<GetObjectResponse> result = new ResponseInputStream<>(response, new ByteArrayInputStream(fileBytes));
+        when(client.getObject(any(GetObjectRequest.class))).thenReturn(result);
+
+        ConnectorRequest request = new ConnectorRequest();
+        request.setAuthentication(getAuthentication());
+        request.setRequestDetails(getGetDetails("bucket", "path/file.txt", filePath));
+
+        ConnectorResponse expectedResponse = new ConnectorResponse();
+        expectedResponse.setFilePath(filePath);
+        expectedResponse.setObjectKey("path/file.txt");
+        expectedResponse.setBucketName("bucket");
+
+        TestConnectorContext context = OutboundConnectorContextBuilder.create()
+                .secret("AWS_ACCESS_KEY", "abc")
+                .secret("AWS_SECRET_KEY", "123")
+                .variables(new ObjectMapper().writeValueAsString(request))
+                .build();
+
+        // when
+        ConnectorResponse actualResult = (ConnectorResponse) connector.execute(context);
+
+        // then
+        assertThat(actualResult).isEqualTo(expectedResponse);
+
+        ArgumentCaptor<GetObjectRequest> requestCaptor = ArgumentCaptor.forClass(GetObjectRequest.class);
+        verify(client, times(1)).getObject(requestCaptor.capture());
+        GetObjectRequest getRequest = requestCaptor.getValue();
+        assertThat(getRequest.bucket()).isEqualTo("bucket");
+        assertThat(getRequest.key()).isEqualTo("path/file.txt");
+
+        verify(fileAdapter, times(1)).saveFile(eq(fileBytes), eq(filePath));
+        verify(client, times(1)).getObject(any(GetObjectRequest.class));
+    }
+
 
     private static PutObjectResponse createPutResponse() {
         return PutObjectResponse.builder()
@@ -156,10 +212,22 @@ class ConnectorAdapterTest {
         return details;
     }
 
-    private RequestDetails getDeleteDetails(String bucket, String key) {
+    private RequestDetails getGetDetails(String bucket, String key, String path) {
         RequestDetails details = new RequestDetails();
         details.setBucketName(bucket);
         details.setObjectKey(key);
+        details.setContentType("application/text");
+        details.setFilePath(path);
+        details.setOperationType(OperationType.GET_OBJECT);
+        details.setRegion("eu-central-1");
+        return details;
+    }
+
+    private RequestDetails getDeleteDetails(String bucket, String key, String path) {
+        RequestDetails details = new RequestDetails();
+        details.setBucketName(bucket);
+        details.setObjectKey(key);
+        details.setFilePath(path);
         details.setOperationType(OperationType.DELETE_OBJECT);
         details.setRegion("eu-central-1");
         return details;
