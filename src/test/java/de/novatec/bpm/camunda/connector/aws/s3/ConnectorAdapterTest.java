@@ -1,14 +1,13 @@
 package de.novatec.bpm.camunda.connector.aws.s3;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import de.novatec.bpm.camunda.connector.aws.s3.adapter.in.ConnectorAdapter;
-import de.novatec.bpm.camunda.connector.aws.s3.adapter.in.model.*;
-import de.novatec.bpm.camunda.connector.aws.s3.adapter.out.FileAdapter;
-import de.novatec.bpm.camunda.connector.aws.s3.adapter.out.S3ClientFactory;
-import de.novatec.bpm.camunda.connector.aws.s3.domain.CloudFileService;
-import de.novatec.bpm.camunda.connector.aws.s3.usecase.in.CloudFileCommand;
-import de.novatec.bpm.camunda.connector.aws.s3.usecase.out.LocalFileCommand;
-import de.novatec.bpm.camunda.connector.aws.s3.adapter.out.S3Adapter;
+import de.novatec.bpm.camunda.connector.aws.s3.adapter.in.process.ConnectorAdapter;
+import de.novatec.bpm.camunda.connector.aws.s3.adapter.in.process.model.*;
+import de.novatec.bpm.camunda.connector.aws.s3.adapter.out.local.LocalFileAdapter;
+import de.novatec.bpm.camunda.connector.aws.s3.adapter.out.cloud.CloudClientFactory;
+import de.novatec.bpm.camunda.connector.aws.s3.domain.FileService;
+import de.novatec.bpm.camunda.connector.aws.s3.usecase.in.FileCommand;
+import de.novatec.bpm.camunda.connector.aws.s3.adapter.out.cloud.CloudFileAdapter;
 import io.camunda.connector.test.outbound.OutboundConnectorContextBuilder;
 import io.camunda.connector.test.outbound.OutboundConnectorContextBuilder.TestConnectorContext;
 import org.junit.jupiter.api.BeforeEach;
@@ -27,7 +26,6 @@ import java.io.*;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
-import java.util.Objects;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -37,17 +35,17 @@ import static org.mockito.Mockito.*;
 class ConnectorAdapterTest {
 
     @Mock
-    S3ClientFactory factory; // mock component to S3
+    CloudClientFactory factory; // mock component to S3
 
     @Mock
-    FileAdapter fileAdapter; // mock component to local file system
+    LocalFileAdapter localFileAdapter; // mock component to local file system
 
     private ConnectorAdapter connector;
 
     @BeforeEach
     public void setup() {
-        CloudFileCommand cloudFileCommand = new CloudFileService(new S3Adapter(factory), fileAdapter);
-        connector = new ConnectorAdapter(cloudFileCommand);
+        FileCommand fileCommand = new FileService(new CloudFileAdapter(factory), localFileAdapter);
+        connector = new ConnectorAdapter(fileCommand);
     }
 
     @Test
@@ -59,7 +57,7 @@ class ConnectorAdapterTest {
         when(client.putObject(any(PutObjectRequest.class), any(RequestBody.class))).thenReturn(awsResult);
 
         byte[] fileBytes = "hello, world!".getBytes(StandardCharsets.UTF_8);
-        when(fileAdapter.loadFile(anyString())).thenReturn(fileBytes);
+        when(localFileAdapter.loadFile(anyString())).thenReturn(fileBytes);
 
         ConnectorRequest request = new ConnectorRequest();
         request.setAuthentication(getAuthentication());
@@ -97,7 +95,7 @@ class ConnectorAdapterTest {
             assertThat(is.readAllBytes()).isEqualTo(fileBytes);
         }
 
-        verify(fileAdapter, times(1)).loadFile(eq(filePath));
+        verify(localFileAdapter, times(1)).loadFile(eq(filePath));
         verify(client, times(1)).putObject(any(PutObjectRequest.class), any(RequestBody.class));
     }
 
@@ -133,7 +131,7 @@ class ConnectorAdapterTest {
         assertThat(deleteRequest.bucket()).isEqualTo("bucket");
         assertThat(deleteRequest.key()).isEqualTo("path/file.txt");
 
-        verify(fileAdapter, times(1)).deleteFile(eq("my/path/file.txt"));
+        verify(localFileAdapter, times(1)).deleteFile(eq("my/path/file.txt"));
         verify(client, times(1)).deleteObject(any(DeleteObjectRequest.class));
 
     }
@@ -146,7 +144,7 @@ class ConnectorAdapterTest {
 
         String filePath = "my/path/to/file.txt";
         byte[] fileBytes = "hello, world!".getBytes(StandardCharsets.UTF_8);
-        when(fileAdapter.saveFile(eq(fileBytes), eq(filePath))).thenReturn(Path.of(filePath));
+        when(localFileAdapter.saveFile(eq(fileBytes), eq(filePath))).thenReturn(Path.of(filePath));
 
         GetObjectResponse response = GetObjectResponse.builder()
                 .contentLength(1L)
@@ -182,7 +180,7 @@ class ConnectorAdapterTest {
         assertThat(getRequest.bucket()).isEqualTo("bucket");
         assertThat(getRequest.key()).isEqualTo("path/file.txt");
 
-        verify(fileAdapter, times(1)).saveFile(eq(fileBytes), eq(filePath));
+        verify(localFileAdapter, times(1)).saveFile(eq(fileBytes), eq(filePath));
         verify(client, times(1)).getObject(any(GetObjectRequest.class));
     }
 

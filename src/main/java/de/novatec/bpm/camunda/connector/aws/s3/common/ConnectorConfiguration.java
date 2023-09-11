@@ -1,35 +1,39 @@
 package de.novatec.bpm.camunda.connector.aws.s3.common;
 
-import de.novatec.bpm.camunda.connector.aws.s3.adapter.out.FileAdapter;
-import de.novatec.bpm.camunda.connector.aws.s3.adapter.out.S3ClientFactory;
-import de.novatec.bpm.camunda.connector.aws.s3.domain.CloudFileService;
-import de.novatec.bpm.camunda.connector.aws.s3.usecase.in.CloudFileCommand;
+import de.novatec.bpm.camunda.connector.aws.s3.adapter.out.local.LocalFileAdapter;
+import de.novatec.bpm.camunda.connector.aws.s3.adapter.out.cloud.CloudClientFactory;
+import de.novatec.bpm.camunda.connector.aws.s3.domain.FileService;
+import de.novatec.bpm.camunda.connector.aws.s3.usecase.in.FileCommand;
 import de.novatec.bpm.camunda.connector.aws.s3.usecase.out.LocalFileCommand;
-import de.novatec.bpm.camunda.connector.aws.s3.usecase.out.S3Command;
-import de.novatec.bpm.camunda.connector.aws.s3.adapter.out.S3Adapter;
+import de.novatec.bpm.camunda.connector.aws.s3.usecase.out.CloudFileCommand;
+import de.novatec.bpm.camunda.connector.aws.s3.adapter.out.cloud.CloudFileAdapter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.attribute.FileAttribute;
 
 @Configuration
 public class ConnectorConfiguration {
 
     @Bean
-    S3Command s3Command(S3ClientFactory clientFactory) {
-        return new S3Adapter(clientFactory);
+    CloudFileCommand s3Command(CloudClientFactory clientFactory) {
+        return new CloudFileAdapter(clientFactory);
     }
 
     @Bean
-    LocalFileCommand localFileCommand() {
-        return new FileAdapter();
+    LocalFileCommand localFileCommand() throws IOException {
+        return new LocalFileAdapter(Files.createTempDirectory("aws-connector-files-"));
     }
 
     @Bean
-    S3ClientFactory clientFactory() {
-        return new S3ClientFactory();
+    CloudClientFactory cloudClientFactory() {
+        return new CloudClientFactory();
     }
 
     @Bean
-    CloudFileCommand cloudFileCommand(S3Command s3Command, LocalFileCommand localFileComand) {
-        return new CloudFileService(s3Command, localFileComand);
+    FileCommand fileCommand(CloudFileCommand cloudFileCommand, LocalFileCommand localFileCommand) {
+        return new FileService(cloudFileCommand, localFileCommand);
     }
 }

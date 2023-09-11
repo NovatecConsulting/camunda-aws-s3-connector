@@ -1,8 +1,8 @@
-package de.novatec.bpm.camunda.connector.aws.s3.adapter.out;
+package de.novatec.bpm.camunda.connector.aws.s3.adapter.out.cloud;
 
 import de.novatec.bpm.camunda.connector.aws.s3.domain.model.FileContent;
-import de.novatec.bpm.camunda.connector.aws.s3.domain.model.S3RequestData;
-import de.novatec.bpm.camunda.connector.aws.s3.usecase.out.S3Command;
+import de.novatec.bpm.camunda.connector.aws.s3.domain.model.RequestData;
+import de.novatec.bpm.camunda.connector.aws.s3.usecase.out.CloudFileCommand;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import software.amazon.awssdk.core.ResponseInputStream;
@@ -12,30 +12,30 @@ import software.amazon.awssdk.services.s3.model.*;
 
 import java.io.*;
 
-public class S3Adapter implements S3Command {
+public class CloudFileAdapter implements CloudFileCommand {
 
-    private static final Logger logger = LoggerFactory.getLogger(S3Adapter.class);
+    private static final Logger logger = LoggerFactory.getLogger(CloudFileAdapter.class);
 
-    private final S3ClientFactory clientFactory;
+    private final CloudClientFactory clientFactory;
 
-    public S3Adapter(S3ClientFactory clientFactory) {
+    public CloudFileAdapter(CloudClientFactory clientFactory) {
         this.clientFactory = clientFactory;
     }
 
-    public void deleteObject(S3RequestData s3RequestData) {
-        try (S3Client s3Client = clientFactory.createClient(s3RequestData.getAccessKey(), s3RequestData.getSecretKey(), s3RequestData.getRegion())) {
+    public void deleteObject(RequestData requestData) {
+        try (S3Client s3Client = clientFactory.createClient(requestData.getAccessKey(), requestData.getSecretKey(), requestData.getRegion())) {
             DeleteObjectRequest awsRequest = DeleteObjectRequest.builder()
-                    .bucket(s3RequestData.getBucket())
-                    .key(s3RequestData.getKey())
+                    .bucket(requestData.getBucket())
+                    .key(requestData.getKey())
                     .build();
-            logger.info("Delete object: {}", s3RequestData.getBucket() + "/" + s3RequestData.getKey());
+            logger.info("Delete object: {}", requestData.getBucket() + "/" + requestData.getKey());
             logger.debug("request {}", awsRequest);
             s3Client.deleteObject(awsRequest);
         }
-        logger.info("Object deleted: {}", s3RequestData.getBucket() + "/" + s3RequestData.getKey());
+        logger.info("Object deleted: {}", requestData.getBucket() + "/" + requestData.getKey());
     }
 
-    public void putObject(S3RequestData putRequest, FileContent fileContent) {
+    public void putObject(RequestData putRequest, FileContent fileContent) {
         try (S3Client s3Client = clientFactory.createClient(putRequest.getAccessKey(), putRequest.getSecretKey(), putRequest.getRegion())) {
             PutObjectRequest awsRequest = PutObjectRequest.builder()
                     .bucket(putRequest.getBucket())
@@ -52,7 +52,7 @@ public class S3Adapter implements S3Command {
     }
 
     @Override
-    public FileContent getObject(S3RequestData getRequest) throws IOException {
+    public FileContent getObject(RequestData getRequest) throws IOException {
         try (S3Client s3Client = clientFactory.createClient(getRequest.getAccessKey(), getRequest.getSecretKey(), getRequest.getRegion())) {
             GetObjectRequest awsRequest = GetObjectRequest.builder()
                     .bucket(getRequest.getBucket())

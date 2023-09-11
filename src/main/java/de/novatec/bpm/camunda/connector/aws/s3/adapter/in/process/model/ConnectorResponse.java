@@ -1,6 +1,6 @@
-package de.novatec.bpm.camunda.connector.aws.s3.adapter.in.model;
+package de.novatec.bpm.camunda.connector.aws.s3.adapter.in.process.model;
 
-import de.novatec.bpm.camunda.connector.aws.s3.domain.model.S3RequestData;
+import de.novatec.bpm.camunda.connector.aws.s3.domain.model.RequestData;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -12,7 +12,7 @@ public class ConnectorResponse {
     private String objectKey;
     private String filePath;
 
-    public ConnectorResponse(S3RequestData request) {
+    public ConnectorResponse(RequestData request) {
         this.bucketName = request.getBucket();
         this.objectKey = request.getKey();
         this.filePath = request.getFilePath();

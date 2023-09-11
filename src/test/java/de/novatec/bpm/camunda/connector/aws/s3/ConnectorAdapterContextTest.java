@@ -2,10 +2,10 @@ package de.novatec.bpm.camunda.connector.aws.s3;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import de.novatec.bpm.camunda.connector.aws.s3.adapter.in.model.AuthenticationRequestData;
-import de.novatec.bpm.camunda.connector.aws.s3.adapter.in.model.ConnectorRequest;
-import de.novatec.bpm.camunda.connector.aws.s3.adapter.in.model.OperationType;
-import de.novatec.bpm.camunda.connector.aws.s3.adapter.in.model.RequestDetails;
+import de.novatec.bpm.camunda.connector.aws.s3.adapter.in.process.model.AuthenticationRequestData;
+import de.novatec.bpm.camunda.connector.aws.s3.adapter.in.process.model.ConnectorRequest;
+import de.novatec.bpm.camunda.connector.aws.s3.adapter.in.process.model.OperationType;
+import de.novatec.bpm.camunda.connector.aws.s3.adapter.in.process.model.RequestDetails;
 import io.camunda.connector.api.error.ConnectorInputException;
 import io.camunda.connector.test.outbound.OutboundConnectorContextBuilder;
 import io.camunda.connector.test.outbound.OutboundConnectorContextBuilder.TestConnectorContext;

@@ -1,4 +1,4 @@
-package de.novatec.bpm.camunda.connector.aws.s3.adapter.in.model;
+package de.novatec.bpm.camunda.connector.aws.s3.adapter.in.process.model;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;

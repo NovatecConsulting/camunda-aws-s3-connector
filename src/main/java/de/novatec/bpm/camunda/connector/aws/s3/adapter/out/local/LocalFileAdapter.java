@@ -1,4 +1,4 @@
-package de.novatec.bpm.camunda.connector.aws.s3.adapter.out;
+package de.novatec.bpm.camunda.connector.aws.s3.adapter.out.local;
 
 import de.novatec.bpm.camunda.connector.aws.s3.usecase.out.LocalFileCommand;
 import org.slf4j.Logger;
@@ -10,12 +10,17 @@ import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-public class FileAdapter implements LocalFileCommand {
+public class LocalFileAdapter implements LocalFileCommand {
 
-    Logger logger = LoggerFactory.getLogger(FileAdapter.class);
+    private final Path baseDir;
+    Logger logger = LoggerFactory.getLogger(LocalFileAdapter.class);
+
+    public LocalFileAdapter(Path baseDir) {
+        this.baseDir = baseDir;
+    }
 
     public Path saveFile(byte[] content, String filePath) throws IOException {
-        Path file = Path.of(filePath);
+        Path file = baseDir.resolve(filePath);
         logger.info("Writing file to {}", filePath);
         try (OutputStream stream = Files.newOutputStream(file)) {
             stream.write(content);
@@ -25,8 +30,9 @@ public class FileAdapter implements LocalFileCommand {
     }
 
     public byte[] loadFile(String filePath) throws IOException {
+        Path file = baseDir.resolve(filePath);
         logger.info("Reading file from {}", filePath);
-        try (InputStream stream = Files.newInputStream(Path.of(filePath))) {
+        try (InputStream stream = Files.newInputStream(file)) {
             byte[] bytes = stream.readAllBytes();
             logger.debug("{} bytes read from disk", bytes.length);
             return bytes;
@@ -35,7 +41,7 @@ public class FileAdapter implements LocalFileCommand {
 
     @Override
     public void deleteFile(String filePath) throws IOException {
-        Path file = Path.of(filePath);
+        Path file = baseDir.resolve(filePath);
         logger.info("Deleting file {}", filePath);
         Files.delete(file);
         logger.debug("File deleted from disk");

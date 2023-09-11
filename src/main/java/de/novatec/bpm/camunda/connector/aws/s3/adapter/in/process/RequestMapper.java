@@ -1,12 +1,12 @@
-package de.novatec.bpm.camunda.connector.aws.s3.adapter.in;
+package de.novatec.bpm.camunda.connector.aws.s3.adapter.in.process;
 
-import de.novatec.bpm.camunda.connector.aws.s3.adapter.in.model.ConnectorRequest;
-import de.novatec.bpm.camunda.connector.aws.s3.domain.model.S3RequestData;
+import de.novatec.bpm.camunda.connector.aws.s3.adapter.in.process.model.ConnectorRequest;
+import de.novatec.bpm.camunda.connector.aws.s3.domain.model.RequestData;
 
 public class RequestMapper {
 
-    public static S3RequestData mapRequest(ConnectorRequest request) {
-        return S3RequestData.builder()
+    public static RequestData mapRequest(ConnectorRequest request) {
+        return RequestData.builder()
                 .accessKey(request.getAuthentication().getAccessKey())
                 .secretKey(request.getAuthentication().getSecretKey())
                 .region(request.getRequestDetails().getRegion())

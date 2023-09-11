@@ -1,12 +1,12 @@
-package de.novatec.bpm.camunda.connector.aws.s3.adapter.in;
+package de.novatec.bpm.camunda.connector.aws.s3.adapter.in.process;
 
-import de.novatec.bpm.camunda.connector.aws.s3.adapter.in.model.ConnectorResponse;
-import de.novatec.bpm.camunda.connector.aws.s3.domain.model.S3RequestData;
-import de.novatec.bpm.camunda.connector.aws.s3.usecase.in.CloudFileCommand;
+import de.novatec.bpm.camunda.connector.aws.s3.adapter.in.process.model.ConnectorResponse;
+import de.novatec.bpm.camunda.connector.aws.s3.domain.model.RequestData;
+import de.novatec.bpm.camunda.connector.aws.s3.usecase.in.FileCommand;
 import io.camunda.connector.api.annotation.OutboundConnector;
 import io.camunda.connector.api.outbound.OutboundConnectorContext;
 import io.camunda.connector.api.outbound.OutboundConnectorFunction;
-import de.novatec.bpm.camunda.connector.aws.s3.adapter.in.model.ConnectorRequest;
+import de.novatec.bpm.camunda.connector.aws.s3.adapter.in.process.model.ConnectorRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -21,13 +21,13 @@ import java.io.IOException;
 public class ConnectorAdapter implements OutboundConnectorFunction {
 
     private static final Logger logger = LoggerFactory.getLogger(ConnectorAdapter.class);
-    private CloudFileCommand cloudFileCommand;
+    private FileCommand fileCommand;
 
     public ConnectorAdapter() {
     }
 
-    public ConnectorAdapter(CloudFileCommand cloudFileCommand) {
-        this.cloudFileCommand = cloudFileCommand;
+    public ConnectorAdapter(FileCommand fileCommand) {
+        this.fileCommand = fileCommand;
     }
 
     @Override
@@ -38,11 +38,11 @@ public class ConnectorAdapter implements OutboundConnectorFunction {
     }
 
     private ConnectorResponse execute(ConnectorRequest request) throws IOException {
-        S3RequestData s3RequestData = RequestMapper.mapRequest(request);
-        S3RequestData result = switch (request.getRequestDetails().getOperationType()) {
-            case DELETE_OBJECT -> cloudFileCommand.deleteFile(s3RequestData);
-            case PUT_OBJECT -> cloudFileCommand.uploadFile(s3RequestData);
-            case GET_OBJECT -> cloudFileCommand.downloadFile(s3RequestData);
+        RequestData requestData = RequestMapper.mapRequest(request);
+        RequestData result = switch (request.getRequestDetails().getOperationType()) {
+            case DELETE_OBJECT -> fileCommand.deleteFile(requestData);
+            case PUT_OBJECT -> fileCommand.uploadFile(requestData);
+            case GET_OBJECT -> fileCommand.downloadFile(requestData);
         };
         return new ConnectorResponse(result);
     }
