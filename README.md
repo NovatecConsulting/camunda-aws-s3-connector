@@ -38,7 +38,7 @@ NOTE: please do not put secrets directly into your configuration. See the secret
 
 ### AWS Resources
 - S3 bucket (non-public) with server-side encryption and versioning enabled
-- IAM User with putObject and deleteObject rights to the bucket
+- IAM User with putObject, deleteObject and getObject rights to the bucket
 - Access key and Secret key for the IAM user
 
 #### IAM policy
