@@ -1,19 +1,18 @@
 package de.novatec.bpm.camunda.connector.aws.s3.adapter.in.process;
 
+import de.novatec.bpm.camunda.connector.aws.s3.adapter.in.process.model.ConnectorRequest;
 import de.novatec.bpm.camunda.connector.aws.s3.adapter.in.process.model.ConnectorResponse;
 import de.novatec.bpm.camunda.connector.aws.s3.domain.model.RequestData;
 import de.novatec.bpm.camunda.connector.aws.s3.usecase.in.FileCommand;
 import io.camunda.connector.api.annotation.OutboundConnector;
 import io.camunda.connector.api.outbound.OutboundConnectorContext;
 import io.camunda.connector.api.outbound.OutboundConnectorFunction;
-import de.novatec.bpm.camunda.connector.aws.s3.adapter.in.process.model.ConnectorRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.IOException;
 
-@Component
 @OutboundConnector(
         name = "AWSS3",
         inputVariables = {"authentication", "requestDetails"},
@@ -21,6 +20,8 @@ import java.io.IOException;
 public class ConnectorAdapter implements OutboundConnectorFunction {
 
     private static final Logger logger = LoggerFactory.getLogger(ConnectorAdapter.class);
+
+    @Autowired
     private FileCommand fileCommand;
 
     public ConnectorAdapter() {

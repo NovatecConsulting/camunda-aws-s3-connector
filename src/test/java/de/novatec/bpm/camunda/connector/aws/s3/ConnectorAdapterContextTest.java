@@ -94,8 +94,16 @@ class ConnectorAdapterContextTest {
         // expect
         assertThatThrownBy(() -> context.validate(request))
                 .isInstanceOf(ConnectorInputException.class)
-                .hasMessageContainingAll("requestDetails.bucketName: Validation failed", "requestDetails.region: Validation failed", "requestDetails.objectKey: Validation failed", "requestDetails.operationType: Validation failed")
-                .hasMessageNotContainingAny("requestDetails.filePath: Validation failed", "requestDetails.contentType: Validation failed");
+                .hasMessageContainingAll(
+                        "requestDetails.bucketName: Validation failed",
+                        "requestDetails.region: Validation failed",
+                        "requestDetails.objectKey: Validation failed",
+                        "requestDetails.operationType: Validation failed"
+                )
+                .hasMessageNotContainingAny(
+                        "requestDetails.contentType: Validation failed",
+                        "requestDetails.filePath: Validation failed"
+                );
 
     }
 

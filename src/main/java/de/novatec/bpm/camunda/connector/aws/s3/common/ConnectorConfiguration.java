@@ -1,18 +1,19 @@
 package de.novatec.bpm.camunda.connector.aws.s3.common;
 
-import de.novatec.bpm.camunda.connector.aws.s3.adapter.out.local.LocalFileAdapter;
+import de.novatec.bpm.camunda.connector.aws.s3.adapter.in.process.ConnectorAdapter;
+import de.novatec.bpm.camunda.connector.aws.s3.adapter.in.process.MyJobWorker;
 import de.novatec.bpm.camunda.connector.aws.s3.adapter.out.cloud.CloudClientFactory;
-import de.novatec.bpm.camunda.connector.aws.s3.domain.FileService;
-import de.novatec.bpm.camunda.connector.aws.s3.usecase.in.FileCommand;
-import de.novatec.bpm.camunda.connector.aws.s3.usecase.out.LocalFileCommand;
-import de.novatec.bpm.camunda.connector.aws.s3.usecase.out.CloudFileCommand;
 import de.novatec.bpm.camunda.connector.aws.s3.adapter.out.cloud.CloudFileAdapter;
+import de.novatec.bpm.camunda.connector.aws.s3.adapter.out.local.LocalFileAdapter;
+import de.novatec.bpm.camunda.connector.aws.s3.domain.CloudFileService;
+import de.novatec.bpm.camunda.connector.aws.s3.usecase.in.FileCommand;
+import de.novatec.bpm.camunda.connector.aws.s3.usecase.out.CloudFileCommand;
+import de.novatec.bpm.camunda.connector.aws.s3.usecase.out.LocalFileCommand;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.attribute.FileAttribute;
 
 @Configuration
 public class ConnectorConfiguration {
@@ -24,7 +25,7 @@ public class ConnectorConfiguration {
 
     @Bean
     LocalFileCommand localFileCommand() throws IOException {
-        return new LocalFileAdapter(Files.createTempDirectory("aws-connector-files-"));
+        return new LocalFileAdapter(Files.createTempDirectory("connector-files-"));
     }
 
     @Bean
@@ -34,6 +35,16 @@ public class ConnectorConfiguration {
 
     @Bean
     FileCommand fileCommand(CloudFileCommand cloudFileCommand, LocalFileCommand localFileCommand) {
-        return new FileService(cloudFileCommand, localFileCommand);
+        return new CloudFileService(cloudFileCommand, localFileCommand);
+    }
+
+    @Bean
+    ConnectorAdapter connector(FileCommand fileCommand) {
+        return new ConnectorAdapter(fileCommand);
+    }
+
+    @Bean
+    MyJobWorker jobWorker(LocalFileCommand localFileCommand) {
+        return new MyJobWorker(localFileCommand);
     }
 }

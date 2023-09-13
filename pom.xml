@@ -30,7 +30,7 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
     <!-- connector SDK version -->
-    <version.spring-zeebe>8.2.8</version.spring-zeebe>
+    <version.spring-zeebe>8.2.4</version.spring-zeebe>
     <version.connectors>0.22.1</version.connectors>
 
     <!-- external libraries -->
@@ -79,6 +79,11 @@
       <groupId>io.camunda.connector</groupId>
       <artifactId>spring-boot-starter-camunda-connectors</artifactId>
       <version>${version.connectors}</version>
+    </dependency>
+    <dependency>
+      <groupId>io.camunda.spring</groupId>
+      <artifactId>spring-boot-starter-camunda</artifactId>
+      <version>${version.spring-zeebe}</version>
     </dependency>
     <dependency>
       <groupId>org.slf4j</groupId>

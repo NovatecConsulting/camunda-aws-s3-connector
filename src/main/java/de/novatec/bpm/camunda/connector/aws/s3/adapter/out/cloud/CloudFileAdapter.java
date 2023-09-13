@@ -10,7 +10,7 @@ import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.*;
 
-import java.io.*;
+import java.io.IOException;
 
 public class CloudFileAdapter implements CloudFileCommand {
 
@@ -30,40 +30,47 @@ public class CloudFileAdapter implements CloudFileCommand {
                     .build();
             logger.info("Delete object: {}", requestData.getBucket() + "/" + requestData.getKey());
             logger.debug("request {}", awsRequest);
-            s3Client.deleteObject(awsRequest);
+            DeleteObjectResponse response = s3Client.deleteObject(awsRequest);
+            logger.info("Object deleted: {}", requestData.getBucket() + "/" + requestData.getKey());
+            logger.debug("response {}", response);
         }
-        logger.info("Object deleted: {}", requestData.getBucket() + "/" + requestData.getKey());
     }
 
-    public void putObject(RequestData putRequest, FileContent fileContent) {
-        try (S3Client s3Client = clientFactory.createClient(putRequest.getAccessKey(), putRequest.getSecretKey(), putRequest.getRegion())) {
+    public void putObject(RequestData requestData, FileContent fileContent) {
+        try (S3Client s3Client = clientFactory.createClient(requestData.getAccessKey(), requestData.getSecretKey(), requestData.getRegion())) {
             PutObjectRequest awsRequest = PutObjectRequest.builder()
-                    .bucket(putRequest.getBucket())
-                    .key(putRequest.getKey())
+                    .bucket(requestData.getBucket())
+                    .key(requestData.getKey())
                     .contentType(fileContent.getContentType())
                     .contentLength(fileContent.getContentLength())
                     .build();
-            logger.info("Put object: {}", putRequest.getBucket() + "/" + putRequest.getKey());
+            logger.info("Put object: {}", requestData.getBucket() + "/" + requestData.getKey());
             logger.debug("request {}", awsRequest);
             PutObjectResponse awsResponse = s3Client.putObject(awsRequest, RequestBody.fromBytes(fileContent.getContent()));
-            logger.info("Object put: {}", putRequest.getBucket() + "/" + putRequest.getKey());
+            logger.info("Object put: {}", requestData.getBucket() + "/" + requestData.getKey());
             logger.debug("response {}", awsResponse);
         }
     }
 
     @Override
-    public FileContent getObject(RequestData getRequest) throws IOException {
-        try (S3Client s3Client = clientFactory.createClient(getRequest.getAccessKey(), getRequest.getSecretKey(), getRequest.getRegion())) {
+    public FileContent getObject(RequestData requestData) throws IOException {
+        try (S3Client s3Client = clientFactory.createClient(requestData.getAccessKey(), requestData.getSecretKey(), requestData.getRegion())) {
             GetObjectRequest awsRequest = GetObjectRequest.builder()
-                    .bucket(getRequest.getBucket())
-                    .key(getRequest.getKey())
+                    .bucket(requestData.getBucket())
+                    .key(requestData.getKey())
                     .build();
-            ResponseInputStream<GetObjectResponse> object = s3Client.getObject(awsRequest);
-            return FileContent.builder()
-                    .content(object.readAllBytes())
-                    .contentType(object.response().contentType())
-                    .contentLength(object.response().contentLength())
-                    .build();
+            logger.info("Get object: {}", requestData.getBucket() + "/" + requestData.getKey());
+            logger.debug("request {}", awsRequest);
+            try (ResponseInputStream<GetObjectResponse> object = s3Client.getObject(awsRequest)) {
+                FileContent result = FileContent.builder()
+                        .content(object.readAllBytes())
+                        .contentType(object.response().contentType())
+                        .contentLength(object.response().contentLength())
+                        .build();
+                logger.info("Object received: {}", requestData.getBucket() + "/" + requestData.getKey());
+                logger.debug("response {}", object.response());
+                return result;
+            }
         }
     }
 

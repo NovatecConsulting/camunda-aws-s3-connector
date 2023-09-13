@@ -17,10 +17,13 @@ public class LocalFileAdapter implements LocalFileCommand {
 
     public LocalFileAdapter(Path baseDir) {
         this.baseDir = baseDir;
+        logger.info("Initialized local file adapter base path: {}", baseDir);
     }
 
     public Path saveFile(byte[] content, String filePath) throws IOException {
         Path file = baseDir.resolve(filePath);
+        Path directories = Files.createDirectories(file.getParent());
+        logger.info("Created directories {}", directories);
         logger.info("Writing file to {}", filePath);
         try (OutputStream stream = Files.newOutputStream(file)) {
             stream.write(content);
@@ -43,8 +46,12 @@ public class LocalFileAdapter implements LocalFileCommand {
     public void deleteFile(String filePath) throws IOException {
         Path file = baseDir.resolve(filePath);
         logger.info("Deleting file {}", filePath);
-        Files.delete(file);
-        logger.debug("File deleted from disk");
+        boolean deleted = Files.deleteIfExists(file);
+        if (deleted) {
+            logger.debug("File deleted from disk.");
+        } else {
+            logger.debug("File didn't exist.");
+        }
     }
 
 }
