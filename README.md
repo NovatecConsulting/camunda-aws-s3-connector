@@ -12,6 +12,8 @@ possible. This is not a security tutorial for AWS. You should definitively know 
 
 - Upload a generated file to an AWS S3 bucket
 - Delete a file from an AWS S3 bucket
+- Download a file from an AWS S3 bucket
+- Files are saved in the local filesystem to allow interaction between activities
 
 
 ## Setup
@@ -32,7 +34,7 @@ possible. This is not a security tutorial for AWS. You should definitively know 
 NOTE: please do not put secrets directly into your configuration. See the secrets section for more details.
 
 #### How it looks in the modeller
-<img src="assets/connector-config-example.png" alt="how it looks like in the modeller" width="400" />
+<img src="assets/connector-config-example.png" alt="how it looks like in the modeler" width="680" />
 
 ### AWS Resources
 - S3 bucket (non-public) with server-side encryption and versioning enabled
@@ -50,7 +52,8 @@ NOTE: please do not put secrets directly into your configuration. See the secret
             "Effect": "Allow",
             "Action": [
                 "s3:PutObject",
-                "s3:DeleteObject"
+                "s3:DeleteObject",
+                "s3:GetObject"
             ],
             "Resource": "arn:aws:s3:::<bucket-name>/*"
         }
@@ -80,22 +83,39 @@ but possibly not the safest way to do it
 
 ### Docker Compose
 
-You can use the `docker-compose.yaml` file to start a local connector runtime with the AWS S3 connector. You need to set 
-your connection details from Camunda:
+You can use the `compose-camunda-platform.yaml` file to start a local Camunda 8 platform instance with Operate. The connector
+and additional JobWorkers that might generate files, are run in a separate Springboot application.
 
-```yaml
-zeebe.client.cloud.region: my-region
-zeebe.client.cloud.clusterId: my-cluster-id
-zeebe.client.cloud.clientId: my-client-id
-zeebe.client.cloud.clientSecret: my-client-secret
-```
+### Running the connector
 
-And add your access and secret key from your AWS user to the `runtime/connector-secrets.txt` file:
+- Configure your Springboot application for local or camunda platform
 
 ```properties
+zeebe.client.cloud.region: my-region
+zeebe.client.cloud.clusterid: my-cluster-id
+zeebe.client.cloud.clientid: my-client-id
+zeebe.client.cloud.clientsecret: my-client-secret
+```
+
+Or if you use a local runtime:
+
+```properties
+operate.client.enabled=true
+camunda.operate.client.url=http://localhost:8081
+camunda.operate.client.username=demo
+camunda.operate.client.password=demo
+zeebe.client.broker.gateway-address=localhost:26500
+zeebe.client.security.plaintext=true
+```
+
+And add your access and secret key from your AWS as environment variables:
+
+```
 AWS_ACCESS_KEY=my-access-key
 AWS_SECRET_KEY=my-secret-key
 ```
+
+- Start the Springboot application
 
 ### Handling secrets
 Since your connector needs to run in a custom connector runtime, you cannot just add secrets in the cloud console since
@@ -106,22 +126,45 @@ they will not be auto-magically transported into your connector runtime. You can
 
 NOTE: This behaviour will most likely be improved in the future
 
+## FileAdapter
+
+The connector has two file adapters:
+
+- *cloud file adapter* to S3
+- *local file adapter* to the local file system
+
+### Why is this necessary?
+If you are handling a lot of files (maybe even big files) it is a best practice approach to NOT store your file or the content
+in a process variable for several reasons:
+
+- Zeebe currently only support variables < 2MB
+- The files become part of the process state
+- You have no way to clean it up (yet)
+
+With the local file adapter the file can be written to a temp directory and the file path can be handed to other activities.
+If you want to move files to another process instance, just upload it back to S3 and start another process with the
+input variables needed to download the file again from S3.
+
 ### How to generate content?
-The upload is done by resolving a local path to a `File`. Since a process variable is currently limited in size to approx. 
+The upload is done by resolving a local path to a `Path`. Since a process variable is currently limited in size to approx. 
 2-4MB (there are some Zeebe chaos engineering tests) the file content should stay in the connector runtime. You can e.g. 
-run a `JobWorker` in the same runtime environment to generate a file and store it in a `/tmp` folder where the connector logic 
-also has access to. You can then get the path and set it into a `filePath` variable, which you then can reference with a FEEL 
-expression in the `file path` configuration of the connector:
+run a `JobWorker` in the same runtime environment to generate a file and store it with the `LocalFileCommand` interface. 
+You can then get the path and set it into a `filePath` variable, which you then can reference with a FEEL expression in 
+the `filePath` configuration of the connector:
 
 ```java
-// generate file
-File file=pdfService.generate(orderData);
-
-// set as variables to be picked up by connector
-variableHandler.setVariable("fileName",String.format("invoice-%s.pdf",orderData.getInvoiceId));
-variableHandler.setVariable("filePath",file.getAbsolutePath());
-variableHandler.setVariable("contentType","application/pdf");
+public class MyWorkerClass {
+    
+    @JobWorker("generate-file")
+    public void generate() {
+        byte[] content = "This is some random file".getBytes(StandardCharsets.UTF_8);
+        String filePath = String.format("results/%s/my-file.txt", job.getProcessInstanceKey());
+        localFileCommand.saveFile(content, filePath);
+        return Map.of("generatedFilePath", filePath, "generatedFileContentType", "text/plain");
+    }
+    
+}
 ```
 
 ## Example process
-![process.png](assets/process.png)
+![process.png](assets/example-process.png)

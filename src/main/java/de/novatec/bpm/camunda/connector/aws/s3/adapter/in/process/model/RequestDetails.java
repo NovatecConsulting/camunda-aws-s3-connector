@@ -1,9 +1,8 @@
-package de.novatec.bpm.camunda.connector.aws.s3.model;
+package de.novatec.bpm.camunda.connector.aws.s3.adapter.in.process.model;
 
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
-
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 
 @Data
 public class RequestDetails {

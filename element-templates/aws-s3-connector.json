@@ -86,6 +86,10 @@
         {
           "name": "Delete file",
           "value": "DELETE_OBJECT"
+        },
+        {
+          "name": "Download file",
+          "value": "GET_OBJECT"
         }
       ],
       "binding": {
@@ -141,17 +145,13 @@
     },
     {
       "label": "File Path",
-      "description": "Provide an absolute path to the file to upload",
+      "description": "Provide the path to a local file, default is the same as objectKey",
       "group": "operationDetails",
       "type": "String",
       "feel": "optional",
       "binding": {
         "type": "zeebe:input",
         "name": "requestDetails.filePath"
-      },
-      "condition": {
-        "property": "operationType",
-        "equals": "PUT_OBJECT"
       }
     },
     {
@@ -163,10 +163,6 @@
       "binding": {
         "type": "zeebe:input",
         "name": "requestDetails.contentType"
-      },
-      "condition": {
-        "property": "operationType",
-        "equals": "PUT_OBJECT"
       }
     },
     {

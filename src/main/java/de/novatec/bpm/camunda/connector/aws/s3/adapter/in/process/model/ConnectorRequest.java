@@ -1,9 +1,8 @@
-package de.novatec.bpm.camunda.connector.aws.s3.model;
+package de.novatec.bpm.camunda.connector.aws.s3.adapter.in.process.model;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
-
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 
 @Data
 public class ConnectorRequest {
