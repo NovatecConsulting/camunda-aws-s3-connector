@@ -33,12 +33,12 @@ possible. This is not a security tutorial for AWS. You should definitively know 
 
 NOTE: please do not put secrets directly into your configuration. See the secrets section for more details.
 
-#### How it looks in the modeller
-<img src="assets/connector-config-example.png" alt="how it looks like in the modeler" width="680" />
+#### How it looks in the modeler
+<img src="assets/connector-config-example.png" alt="how it looks like in the modeler" width="400" />
 
 ### AWS Resources
 - S3 bucket (non-public) with server-side encryption and versioning enabled
-- IAM User with putObject and deleteObject rights to the bucket
+- IAM User with putObject, deleteObject and getObject rights to the bucket
 - Access key and Secret key for the IAM user
 
 #### IAM policy
