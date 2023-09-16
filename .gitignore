@@ -57,6 +57,5 @@ build/
 .vscode/
 
 # environment
-docker/.env
 request*.json
 /.local/
