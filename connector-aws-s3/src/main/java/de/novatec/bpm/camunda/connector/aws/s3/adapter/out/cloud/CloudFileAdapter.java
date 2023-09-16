@@ -1,6 +1,6 @@
 package de.novatec.bpm.camunda.connector.aws.s3.adapter.out.cloud;
 
-import de.novatec.bpm.camunda.connector.file.api.CloudFileCommand;
+import de.novatec.bpm.camunda.connector.file.api.RemoteFileCommand;
 import de.novatec.bpm.camunda.connector.file.api.impl.model.FileContent;
 import de.novatec.bpm.camunda.connector.file.api.impl.model.RequestData;
 import org.slf4j.Logger;
@@ -12,7 +12,7 @@ import software.amazon.awssdk.services.s3.model.*;
 
 import java.io.IOException;
 
-public class CloudFileAdapter implements CloudFileCommand {
+public class CloudFileAdapter implements RemoteFileCommand {
 
     private static final Logger logger = LoggerFactory.getLogger(CloudFileAdapter.class);
 

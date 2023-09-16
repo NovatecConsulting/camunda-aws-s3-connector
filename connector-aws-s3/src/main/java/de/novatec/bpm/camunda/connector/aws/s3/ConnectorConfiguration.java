@@ -4,10 +4,10 @@ import de.novatec.bpm.camunda.connector.aws.s3.adapter.in.process.ConnectorAdapt
 import de.novatec.bpm.camunda.connector.aws.s3.adapter.out.cloud.CloudClientFactory;
 import de.novatec.bpm.camunda.connector.aws.s3.adapter.out.cloud.CloudFileAdapter;
 import de.novatec.bpm.camunda.connector.aws.s3.adapter.out.local.LocalFileAdapter;
-import de.novatec.bpm.camunda.connector.file.api.CloudFileCommand;
-import de.novatec.bpm.camunda.connector.file.api.FileCommand;
+import de.novatec.bpm.camunda.connector.file.api.RemoteFileCommand;
+import de.novatec.bpm.camunda.connector.file.api.ConnectorFileCommand;
 import de.novatec.bpm.camunda.connector.file.api.LocalFileCommand;
-import de.novatec.bpm.camunda.connector.file.api.impl.CloudFileService;
+import de.novatec.bpm.camunda.connector.file.api.impl.ConnectorFileService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -18,7 +18,7 @@ import java.nio.file.Files;
 public class ConnectorConfiguration {
 
     @Bean
-    CloudFileCommand cloudFileCommand(CloudClientFactory clientFactory) {
+    RemoteFileCommand remoteFileCommand(CloudClientFactory clientFactory) {
         return new CloudFileAdapter(clientFactory);
     }
 
@@ -33,12 +33,12 @@ public class ConnectorConfiguration {
     }
 
     @Bean
-    FileCommand fileCommand(CloudFileCommand cloudFileCommand, LocalFileCommand localFileCommand) {
-        return new CloudFileService(cloudFileCommand, localFileCommand);
+    ConnectorFileCommand connectorFileCommand(RemoteFileCommand remoteFileCommand, LocalFileCommand localFileCommand) {
+        return new ConnectorFileService(remoteFileCommand, localFileCommand);
     }
 
     @Bean
-    ConnectorAdapter connector(FileCommand fileCommand) {
-        return new ConnectorAdapter(fileCommand);
+    ConnectorAdapter connectorAdapter(ConnectorFileCommand connectorFileCommand) {
+        return new ConnectorAdapter(connectorFileCommand);
     }
 }

@@ -6,8 +6,8 @@ import de.novatec.bpm.camunda.connector.aws.s3.adapter.in.process.model.*;
 import de.novatec.bpm.camunda.connector.aws.s3.adapter.out.cloud.CloudClientFactory;
 import de.novatec.bpm.camunda.connector.aws.s3.adapter.out.cloud.CloudFileAdapter;
 import de.novatec.bpm.camunda.connector.aws.s3.adapter.out.local.LocalFileAdapter;
-import de.novatec.bpm.camunda.connector.file.api.FileCommand;
-import de.novatec.bpm.camunda.connector.file.api.impl.CloudFileService;
+import de.novatec.bpm.camunda.connector.file.api.ConnectorFileCommand;
+import de.novatec.bpm.camunda.connector.file.api.impl.ConnectorFileService;
 import io.camunda.connector.test.outbound.OutboundConnectorContextBuilder;
 import io.camunda.connector.test.outbound.OutboundConnectorContextBuilder.TestConnectorContext;
 import org.junit.jupiter.api.BeforeEach;
@@ -23,10 +23,8 @@ import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.*;
 
 import java.io.ByteArrayInputStream;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 
@@ -47,8 +45,8 @@ class ConnectorAdapterTest {
 
     @BeforeEach
     public void setup() {
-        FileCommand fileCommand = new CloudFileService(new CloudFileAdapter(factory), localFileAdapter);
-        connector = new ConnectorAdapter(fileCommand);
+        ConnectorFileCommand connectorFileCommand = new ConnectorFileService(new CloudFileAdapter(factory), localFileAdapter);
+        connector = new ConnectorAdapter(connectorFileCommand);
     }
 
     @Test

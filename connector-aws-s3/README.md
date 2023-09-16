@@ -126,9 +126,9 @@ they will not be auto-magically transported into your connector runtime. You can
 
 NOTE: This behaviour will most likely be improved in the future
 
-## FileAdapter
+## File Handling
 
-The connector uses two file adapters:
+The connector has two file adapters:
 
 - *cloud file adapter* to S3
 - *local file adapter* to the local file system
@@ -144,25 +144,3 @@ in a process variable for several reasons:
 With the local file adapter the file can be written to a temp directory and the file path can be handed to other activities.
 If you want to move files to another process instance, just upload it back to S3 and start another process with the
 input variables needed to download the file again from S3.
-
-### How to generate content?
-The upload is done by resolving a local path to a `Path`. Since a process variable is currently limited in size to approx. 
-2-4MB (there are some Zeebe chaos engineering tests) the file content should stay in the connector runtime. You can e.g. 
-run a `JobWorker` in the same runtime environment to generate a file and store it with the `LocalFileCommand` interface. 
-You can then get the path and set it into a `filePath` variable, which you then can reference with a FEEL expression in 
-the `filePath` configuration of the connector:
-
-```java
-public class MyWorkerClass {
-    
-    @JobWorker("generate-file")
-    public void generate() {
-        byte[] content = "This is some random file".getBytes(StandardCharsets.UTF_8);
-        String filePath = String.format("results/%s/my-file.txt", job.getProcessInstanceKey());
-        localFileCommand.saveFile(content, filePath);
-        return Map.of("generatedFilePath", filePath, "generatedFileContentType", "text/plain");
-    }
-    
-}
-```
-
