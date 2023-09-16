@@ -20,7 +20,7 @@ public class CloudFileService implements FileCommand {
     }
 
     public RequestData uploadFile(RequestData request) throws IOException {
-        String contentType = Objects.requireNonNull(request.getContentType(), "Content type variable is required for operation.");
+        String contentType = Objects.requireNonNull(request.getContentType(), "Content type must be set");
         byte[] content = localFileCommand.loadFile(request.getFilePath());
         cloudFileCommand.putObject(request, FileContent.builder()
                 .content(content)
