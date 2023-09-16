@@ -1,6 +1,7 @@
 package de.novatec.bpm.camunda.connector.aws.s3.adapter.out.local;
 
 import de.novatec.bpm.camunda.connector.file.api.LocalFileCommand;
+import de.novatec.bpm.camunda.connector.file.api.impl.exceptions.LocalFileException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,6 +23,9 @@ public class LocalFileAdapter implements LocalFileCommand {
 
     public Path saveFile(byte[] content, String filePath) throws IOException {
         Path file = baseDir.resolve(filePath);
+        if (Files.exists(file)) {
+            throw new LocalFileException(String.format("The file already exists: %s", filePath));
+        }
         Path directories = Files.createDirectories(file.getParent());
         logger.info("Created directories {}", directories);
         logger.info("Writing file to {}", filePath);
@@ -34,6 +38,9 @@ public class LocalFileAdapter implements LocalFileCommand {
 
     public byte[] loadFile(String filePath) throws IOException {
         Path file = baseDir.resolve(filePath);
+        if (!Files.exists(file)) {
+            throw new LocalFileException(String.format("The file doesn't exist: %s", filePath));
+        }
         logger.info("Reading file from {}", filePath);
         try (InputStream stream = Files.newInputStream(file)) {
             byte[] bytes = stream.readAllBytes();
@@ -48,9 +55,9 @@ public class LocalFileAdapter implements LocalFileCommand {
         logger.info("Deleting file {}", filePath);
         boolean deleted = Files.deleteIfExists(file);
         if (deleted) {
-            logger.debug("File deleted from disk.");
+            logger.debug("File deleted from disk: {}", filePath);
         } else {
-            logger.debug("File didn't exist.");
+            logger.debug("File didn't exist: {}", filePath);
         }
     }
 

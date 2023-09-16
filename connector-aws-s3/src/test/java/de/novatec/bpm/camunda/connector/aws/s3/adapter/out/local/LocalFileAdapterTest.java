@@ -1,5 +1,6 @@
 package de.novatec.bpm.camunda.connector.aws.s3.adapter.out.local;
 
+import de.novatec.bpm.camunda.connector.file.api.impl.exceptions.LocalFileException;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -36,12 +37,12 @@ class LocalFileAdapterTest {
     }
 
     @Test
-    @SneakyThrows(NoSuchFileException.class)
+    @SneakyThrows(LocalFileException.class)
     void file_is_written_and_loaded() throws IOException {
         adapter.saveFile("foo".getBytes(StandardCharsets.UTF_8), "foo.txt");
         byte[] bytes = adapter.loadFile("foo.txt");
         assertThat(new String(bytes)).isEqualTo("foo");
-        adapter.loadFile("foo.txt");
+        adapter.deleteFile("foo.txt");
     }
 
     @Test
@@ -55,8 +56,16 @@ class LocalFileAdapterTest {
     @Test
     void loading_missing_file_throws_exception() {
         assertThatThrownBy(() -> adapter.loadFile("unknown.txt"))
-                .isExactlyInstanceOf(NoSuchFileException.class)
+                .isExactlyInstanceOf(LocalFileException.class)
                 .hasMessageContaining("unknown.txt");
+    }
+
+    @Test
+    void saving_existing_file_throws_exception() throws IOException {
+        adapter.saveFile("text".getBytes(StandardCharsets.UTF_8), "known.txt");
+        assertThatThrownBy(() -> adapter.saveFile("new text".getBytes(StandardCharsets.UTF_8), "known.txt"))
+                .isExactlyInstanceOf(LocalFileException.class)
+                .hasMessageContaining("known.txt");
     }
 
     @Test
