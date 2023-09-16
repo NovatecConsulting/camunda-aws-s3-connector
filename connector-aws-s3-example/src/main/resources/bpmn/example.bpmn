@@ -27,14 +27,14 @@
           <zeebe:input source="=report.region" target="requestDetails.region" />
           <zeebe:input source="=report.bucket" target="requestDetails.bucketName" />
           <zeebe:input source="=report.key" target="requestDetails.objectKey" />
-          <zeebe:input source="=report.key" target="requestDetails.filePath" />
+          <zeebe:input source="=pik+&#34;/&#34;+report.key" target="requestDetails.filePath" />
           <zeebe:input source="text/plain" target="requestDetails.contentType" />
         </zeebe:ioMapping>
         <zeebe:taskHeaders>
           <zeebe:header key="resultVariable" value="downloadResult" />
         </zeebe:taskHeaders>
       </bpmn:extensionElements>
-      <bpmn:incoming>Flow_1tykba5</bpmn:incoming>
+      <bpmn:incoming>Flow_08wmedv</bpmn:incoming>
       <bpmn:outgoing>Flow_0hw6s02</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:serviceTask id="generate_result" name="generate result file">
@@ -54,9 +54,6 @@
       <bpmn:incoming>Flow_0hw6s02</bpmn:incoming>
       <bpmn:outgoing>Flow_10tgivs</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:startEvent id="Event_1x8d6oe" name="new file available">
-      <bpmn:outgoing>Flow_1tykba5</bpmn:outgoing>
-    </bpmn:startEvent>
     <bpmn:serviceTask id="upload_file" name="upload file to S3" zeebe:modelerTemplate="6f60159e-f5f5-49d0-805b-9320aab39ee5" zeebe:modelerTemplateVersion="1" zeebe:modelerTemplateIcon="data:image/svg+xml;base64,PHN2ZyBoZWlnaHQ9IjI1MDAiIHdpZHRoPSIyNTAwIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA4MCA4MCI+PGxpbmVhckdyYWRpZW50IGlkPSJhIiB4MT0iMCUiIHkxPSIxMDAlIiB5Mj0iMCUiPjxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iIzFiNjYwZiIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzZjYWUzZSIvPjwvbGluZWFyR3JhZGllbnQ+PGcgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIj48cGF0aCBkPSJNMCAwaDgwdjgwSDB6IiBmaWxsPSJ1cmwoI2EpIi8+PHBhdGggZD0iTTYwLjgzNiA0Mi44OTNsLjM4NC0yLjcwNGMzLjU0IDIuMTIgMy41ODcgMi45OTcgMy41ODYgMy4wMi0uMDA2LjAwNi0uNjEuNTEtMy45Ny0uMzE2em0tMS45NDMtLjU0QzUyLjc3MyA0MC41IDQ0LjI1IDM2LjU5IDQwLjggMzQuOTZjMC0uMDE0LjAwNC0uMDI3LjAwNC0uMDQxYTIuNDA2IDIuNDA2IDAgMCAwLTIuNDA0LTIuNDAzYy0xLjMyNCAwLTIuNDAyIDEuMDc4LTIuNDAyIDIuNDAzczEuMDc4IDIuNDAzIDIuNDAyIDIuNDAzYy41ODIgMCAxLjExLS4yMTcgMS41MjctLjU2MiA0LjA1OCAxLjkyIDEyLjUxNSA1Ljc3NCAxOC42OCA3LjU5NEw1Ni4xNyA2MS41NmEuOTU1Ljk1NSAwIDAgMC0uMDEuMTRjMCAxLjUxNi02LjcwNyA0LjI5OS0xNy42NjYgNC4yOTktMTEuMDc1IDAtMTcuODUzLTIuNzgzLTE3Ljg1My00LjI5OCAwLS4wNDYtLjAwMy0uMDkxLS4wMS0uMTM2bC01LjA5My0zNy4yMDdjNC40MDkgMy4wMzUgMTMuODkyIDQuNjQgMjIuOTYyIDQuNjQgOS4wNTYgMCAxOC41MjMtMS42IDIyLjk0LTQuNjI1ek0xNSAyMC40NzhDMTUuMDcyIDE5LjE2MiAyMi42MzQgMTQgMzguNSAxNGMxNS44NjQgMCAyMy40MjcgNS4xNiAyMy41IDYuNDc4di40NDlDNjEuMTMgMjMuODc3IDUxLjMzIDI3IDM4LjUgMjdjLTEyLjg1MiAwLTIyLjY1Ny0zLjEzMi0yMy41LTYuMDg3em00OSAuMDIyYzAtMy40NjUtOS45MzQtOC41LTI1LjUtOC41UzEzIDE3LjAzNSAxMyAyMC41bC4wOTQuNzU0IDUuNTQ4IDQwLjUyNEMxOC43NzUgNjYuMzEgMzAuODYgNjggMzguNDk0IDY4YzkuNDcyIDAgMTkuNTM1LTIuMTc4IDE5LjY2NS02LjIybDIuMzk2LTE2Ljg5NmMxLjMzMy4zMTkgMi40My40ODIgMy4zMS40ODIgMS4xODQgMCAxLjk4NC0uMjkgMi40NjktLjg2N2ExLjk1IDEuOTUgMCAwIDAgLjQzNi0xLjY2Yy0uMjYtMS4zODMtMS45MDItMi44NzUtNS4yNDgtNC43ODRsMi4zNzYtMTYuNzYyeiIgZmlsbD0iI2ZmZiIvPjwvZz48L3N2Zz4K">
       <bpmn:extensionElements>
         <zeebe:taskDefinition type="de.novatec.bpm:aws-s3:1" />
@@ -64,8 +61,8 @@
           <zeebe:input source="secrets.AWS_ACCESS_KEY" target="authentication.accessKey" />
           <zeebe:input source="secrets.AWS_SECRET_KEY" target="authentication.secretKey" />
           <zeebe:input source="PUT_OBJECT" target="requestDetails.operationType" />
-          <zeebe:input source="eu-central-1" target="requestDetails.region" />
-          <zeebe:input source="camunda-connector-bucket" target="requestDetails.bucketName" />
+          <zeebe:input source="=reportRegion" target="requestDetails.region" />
+          <zeebe:input source="=downloadResult.bucketName" target="requestDetails.bucketName" />
           <zeebe:input source="=generatedFilePath" target="requestDetails.objectKey" />
           <zeebe:input source="=generatedFilePath" target="requestDetails.filePath" />
           <zeebe:input source="=generatedFileContentType" target="requestDetails.contentType" />
@@ -85,9 +82,9 @@
           <zeebe:input source="secrets.AWS_SECRET_KEY" target="authentication.secretKey" />
           <zeebe:input source="DELETE_OBJECT" target="requestDetails.operationType" />
           <zeebe:input source="=reportRegion" target="requestDetails.region" />
-          <zeebe:input source="=reportBucket" target="requestDetails.bucketName" />
-          <zeebe:input source="=reportKey" target="requestDetails.objectKey" />
-          <zeebe:input source="=reportKey" target="requestDetails.filePath" />
+          <zeebe:input source="=downloadResult.bucketName" target="requestDetails.bucketName" />
+          <zeebe:input source="=downloadResult.objectKey" target="requestDetails.objectKey" />
+          <zeebe:input source="=downloadResult.filePath" target="requestDetails.filePath" />
           <zeebe:input source="plain/text" target="requestDetails.contentType" />
         </zeebe:ioMapping>
         <zeebe:taskHeaders>
@@ -100,6 +97,20 @@
     <bpmn:endEvent id="Event_0fwt9bt" name="file invalid">
       <bpmn:incoming>Flow_17z4lrw</bpmn:incoming>
     </bpmn:endEvent>
+    <bpmn:startEvent id="Event_1x8d6oe" name="new file available">
+      <bpmn:extensionElements />
+      <bpmn:outgoing>Flow_1tykba5</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:serviceTask id="add_context" name="add process context">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="add-context" />
+        <zeebe:ioMapping>
+          <zeebe:output source="=processInstanceKey" target="pik" />
+        </zeebe:ioMapping>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1tykba5</bpmn:incoming>
+      <bpmn:outgoing>Flow_08wmedv</bpmn:outgoing>
+    </bpmn:serviceTask>
     <bpmn:sequenceFlow id="Flow_10tgivs" sourceRef="validate_file" targetRef="Gateway_1ywnmkl" />
     <bpmn:sequenceFlow id="Flow_06wkca3" name="yes" sourceRef="Gateway_1ywnmkl" targetRef="generate_result">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=reportValid</bpmn:conditionExpression>
@@ -108,126 +119,146 @@
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=not(reportValid)</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="Flow_0xi93as" sourceRef="upload_file" targetRef="Event_00z2dln" />
-    <bpmn:sequenceFlow id="Flow_1tykba5" sourceRef="Event_1x8d6oe" targetRef="download_file" />
+    <bpmn:sequenceFlow id="Flow_08wmedv" sourceRef="add_context" targetRef="download_file" />
     <bpmn:sequenceFlow id="Flow_0hw6s02" sourceRef="download_file" targetRef="validate_file" />
     <bpmn:sequenceFlow id="Flow_1jx52zd" sourceRef="generate_result" targetRef="upload_file" />
     <bpmn:sequenceFlow id="Flow_17z4lrw" sourceRef="delete_file" targetRef="Event_0fwt9bt" />
+    <bpmn:sequenceFlow id="Flow_1tykba5" sourceRef="Event_1x8d6oe" targetRef="add_context" />
     <bpmn:textAnnotation id="TextAnnotation_00yj0zc">
       <bpmn:text>bucket, key and region of file provided</bpmn:text>
     </bpmn:textAnnotation>
+    <bpmn:textAnnotation id="TextAnnotation_06v6dq1">
+      <bpmn:text>set current instanceKey as variable</bpmn:text>
+    </bpmn:textAnnotation>
     <bpmn:association id="Association_0of5n1y" sourceRef="Event_1x8d6oe" targetRef="TextAnnotation_00yj0zc" />
+    <bpmn:association id="Association_0xuajyc" sourceRef="add_context" targetRef="TextAnnotation_06v6dq1" />
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_0u3n87i">
       <bpmndi:BPMNShape id="Participant_1j5onc6_di" bpmnElement="Participant_1j5onc6" isHorizontal="true">
-        <dc:Bounds x="159" y="190" width="1071" height="250" />
+        <dc:Bounds x="160" y="190" width="1170" height="250" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="TextAnnotation_00yj0zc_di" bpmnElement="TextAnnotation_00yj0zc">
-        <dc:Bounds x="210" y="260" width="100" height="55" />
+        <dc:Bounds x="220" y="260" width="100" height="55" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_06v6dq1_di" bpmnElement="TextAnnotation_06v6dq1">
+        <dc:Bounds x="360" y="222" width="100" height="55" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Gateway_1ywnmkl_di" bpmnElement="Gateway_1ywnmkl" isMarkerVisible="true">
-        <dc:Bounds x="675" y="335" width="50" height="50" />
+        <dc:Bounds x="775" y="335" width="50" height="50" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="677" y="395" width="46" height="14" />
+          <dc:Bounds x="777" y="395" width="46" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_00z2dln_di" bpmnElement="Event_00z2dln">
-        <dc:Bounds x="1132" y="342" width="36" height="36" />
+        <dc:Bounds x="1232" y="342" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1131" y="385" width="40" height="14" />
+          <dc:Bounds x="1231" y="385" width="40" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_1djeeaq_di" bpmnElement="download_file">
-        <dc:Bounds x="350" y="320" width="100" height="80" />
+        <dc:Bounds x="450" y="320" width="100" height="80" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_0xjz6bj_di" bpmnElement="generate_result">
-        <dc:Bounds x="790" y="320" width="100" height="80" />
+        <dc:Bounds x="890" y="320" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_1ga37gh_di" bpmnElement="validate_file">
-        <dc:Bounds x="510" y="320" width="100" height="80" />
+        <dc:Bounds x="610" y="320" width="100" height="80" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_0awfzu9_di" bpmnElement="Event_1x8d6oe">
-        <dc:Bounds x="262" y="342" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="238" y="385" width="84" height="14" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_1bn877n_di" bpmnElement="upload_file">
-        <dc:Bounds x="990" y="320" width="100" height="80" />
+        <dc:Bounds x="1090" y="320" width="100" height="80" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_1r00ybe_di" bpmnElement="delete_file">
-        <dc:Bounds x="790" y="210" width="100" height="80" />
+        <dc:Bounds x="890" y="210" width="100" height="80" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_0fwt9bt_di" bpmnElement="Event_0fwt9bt">
-        <dc:Bounds x="1132" y="232" width="36" height="36" />
+        <dc:Bounds x="1232" y="232" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1126" y="275" width="49" height="14" />
+          <dc:Bounds x="1226" y="275" width="49" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0awfzu9_di" bpmnElement="Event_1x8d6oe">
+        <dc:Bounds x="232" y="342" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="208" y="385" width="84" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_18hxkrm_di" bpmnElement="add_context">
+        <dc:Bounds x="310" y="320" width="100" height="80" />
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Association_0of5n1y_di" bpmnElement="Association_0of5n1y">
-        <di:waypoint x="276" y="343" />
-        <di:waypoint x="269" y="315" />
+        <di:waypoint x="255" y="343" />
+        <di:waypoint x="264" y="315" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_0xuajyc_di" bpmnElement="Association_0xuajyc">
+        <di:waypoint x="376" y="320" />
+        <di:waypoint x="394" y="277" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_10tgivs_di" bpmnElement="Flow_10tgivs">
-        <di:waypoint x="610" y="360" />
-        <di:waypoint x="675" y="360" />
+        <di:waypoint x="710" y="360" />
+        <di:waypoint x="775" y="360" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_06wkca3_di" bpmnElement="Flow_06wkca3">
-        <di:waypoint x="725" y="360" />
-        <di:waypoint x="790" y="360" />
+        <di:waypoint x="825" y="360" />
+        <di:waypoint x="890" y="360" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="741" y="342" width="18" height="14" />
+          <dc:Bounds x="841" y="342" width="18" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_15pp39j_di" bpmnElement="Flow_15pp39j">
-        <di:waypoint x="700" y="335" />
-        <di:waypoint x="700" y="250" />
-        <di:waypoint x="790" y="250" />
+        <di:waypoint x="800" y="335" />
+        <di:waypoint x="800" y="250" />
+        <di:waypoint x="890" y="250" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="677" y="313" width="13" height="14" />
+          <dc:Bounds x="777" y="313" width="13" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0xi93as_di" bpmnElement="Flow_0xi93as">
-        <di:waypoint x="1090" y="360" />
-        <di:waypoint x="1132" y="360" />
+        <di:waypoint x="1190" y="360" />
+        <di:waypoint x="1232" y="360" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_1tykba5_di" bpmnElement="Flow_1tykba5">
-        <di:waypoint x="298" y="360" />
-        <di:waypoint x="350" y="360" />
+      <bpmndi:BPMNEdge id="Flow_08wmedv_di" bpmnElement="Flow_08wmedv">
+        <di:waypoint x="410" y="360" />
+        <di:waypoint x="450" y="360" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0hw6s02_di" bpmnElement="Flow_0hw6s02">
-        <di:waypoint x="450" y="360" />
-        <di:waypoint x="510" y="360" />
+        <di:waypoint x="550" y="360" />
+        <di:waypoint x="610" y="360" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_1jx52zd_di" bpmnElement="Flow_1jx52zd">
-        <di:waypoint x="890" y="360" />
         <di:waypoint x="990" y="360" />
+        <di:waypoint x="1090" y="360" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_17z4lrw_di" bpmnElement="Flow_17z4lrw">
-        <di:waypoint x="890" y="250" />
-        <di:waypoint x="1132" y="250" />
+        <di:waypoint x="990" y="250" />
+        <di:waypoint x="1232" y="250" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1tykba5_di" bpmnElement="Flow_1tykba5">
+        <di:waypoint x="268" y="360" />
+        <di:waypoint x="310" y="360" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="Participant_0404fre_di" bpmnElement="Participant_0kuc20y" isHorizontal="true">
-        <dc:Bounds x="159" y="80" width="1071" height="60" />
+        <dc:Bounds x="160" y="80" width="1170" height="60" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Flow_1jpoyo5_di" bpmnElement="Flow_1jpoyo5">
-        <di:waypoint x="400" y="140" />
-        <di:waypoint x="400" y="320" />
+        <di:waypoint x="500" y="140" />
+        <di:waypoint x="500" y="320" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_00se8ej_di" bpmnElement="Flow_00se8ej">
-        <di:waypoint x="1040" y="320" />
-        <di:waypoint x="1040" y="140" />
+        <di:waypoint x="1140" y="320" />
+        <di:waypoint x="1140" y="140" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0tlj3a5_di" bpmnElement="Flow_0tlj3a5">
-        <di:waypoint x="840" y="210" />
-        <di:waypoint x="840" y="140" />
+        <di:waypoint x="940" y="210" />
+        <di:waypoint x="940" y="140" />
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

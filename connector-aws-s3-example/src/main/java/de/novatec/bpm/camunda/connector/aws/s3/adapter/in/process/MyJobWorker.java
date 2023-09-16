@@ -20,6 +20,13 @@ public class MyJobWorker {
         this.localFileCommand = localFileCommand;
     }
 
+
+    @JobWorker(type = "add-context")
+    public Map<String, Object> addContext(ActivatedJob job) {
+        logger.info("Received job {}", job.getKey());
+        return Map.of("processInstanceKey", job.getProcessInstanceKey());
+    }
+
     @JobWorker(type = "generate-file")
     public Map<String, Object> generateFile(ActivatedJob job) throws IOException {
         logger.info("Received job {}", job.getKey());
