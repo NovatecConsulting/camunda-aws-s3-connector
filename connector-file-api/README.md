@@ -4,7 +4,14 @@ This API streamlines file handling for connectors or job workers. It provides in
 and offers a service to combine local and cloud file handling in one place. 
 
 This way files are stored locally before being uploaded to a cloud provider, where other activities or even processes
-can pick them up again.
+can pick them up again. 
+
+Developers are free in the implementation of the interfaces directed to the services. A remote file command can be directed
+to any cloud service, a local command can be implemented as in memory stack or even go to a database.
+
+## Overview
+
+<img src="../assets/connector-file-api.png" alt="how it looks like in the modeler" width="1000" />
 
 ## Interfaces
 
