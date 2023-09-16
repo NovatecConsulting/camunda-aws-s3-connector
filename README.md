@@ -128,7 +128,7 @@ NOTE: This behaviour will most likely be improved in the future
 
 ## FileAdapter
 
-The connector has two file adapters:
+The connector uses two file adapters:
 
 - *cloud file adapter* to S3
 - *local file adapter* to the local file system
