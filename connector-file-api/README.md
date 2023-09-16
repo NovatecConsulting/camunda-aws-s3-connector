@@ -8,9 +8,9 @@ can pick them up again.
 
 ## Interfaces
 
-### ConnectorFileCommand
+### ProcessFileCommand
 
-Called by the connector to store, load or delete a file. Implemented by the API to combine the local and remote call.
+Called by the process instance to store, load or delete a file. Implemented by the API to combine the local and remote call.
 
 ### LocalFileCommand
 

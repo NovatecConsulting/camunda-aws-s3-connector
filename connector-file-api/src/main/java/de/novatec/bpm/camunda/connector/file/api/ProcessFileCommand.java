@@ -4,7 +4,7 @@ import de.novatec.bpm.camunda.connector.file.api.impl.model.RequestData;
 
 import java.io.IOException;
 
-public interface ConnectorFileCommand {
+public interface ProcessFileCommand {
 
     RequestData uploadFile(RequestData request) throws IOException;
 

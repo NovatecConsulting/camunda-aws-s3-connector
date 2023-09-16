@@ -1,7 +1,7 @@
 package de.novatec.bpm.camunda.connector.file.api.impl;
 
 import de.novatec.bpm.camunda.connector.file.api.RemoteFileCommand;
-import de.novatec.bpm.camunda.connector.file.api.ConnectorFileCommand;
+import de.novatec.bpm.camunda.connector.file.api.ProcessFileCommand;
 import de.novatec.bpm.camunda.connector.file.api.LocalFileCommand;
 import de.novatec.bpm.camunda.connector.file.api.impl.model.FileContent;
 import de.novatec.bpm.camunda.connector.file.api.impl.model.RequestData;
@@ -9,12 +9,12 @@ import de.novatec.bpm.camunda.connector.file.api.impl.model.RequestData;
 import java.io.IOException;
 import java.util.Objects;
 
-public class ConnectorFileService implements ConnectorFileCommand {
+public class ProcessFileService implements ProcessFileCommand {
 
     private final RemoteFileCommand remoteFileCommand;
     private final LocalFileCommand localFileCommand;
 
-    public ConnectorFileService(RemoteFileCommand remoteFileCommand, LocalFileCommand localFileCommand) {
+    public ProcessFileService(RemoteFileCommand remoteFileCommand, LocalFileCommand localFileCommand) {
         this.remoteFileCommand = remoteFileCommand;
         this.localFileCommand = localFileCommand;
     }

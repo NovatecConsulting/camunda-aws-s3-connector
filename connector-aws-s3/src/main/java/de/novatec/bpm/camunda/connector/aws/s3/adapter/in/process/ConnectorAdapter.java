@@ -2,7 +2,7 @@ package de.novatec.bpm.camunda.connector.aws.s3.adapter.in.process;
 
 import de.novatec.bpm.camunda.connector.aws.s3.adapter.in.process.model.ConnectorRequest;
 import de.novatec.bpm.camunda.connector.aws.s3.adapter.in.process.model.ConnectorResponse;
-import de.novatec.bpm.camunda.connector.file.api.ConnectorFileCommand;
+import de.novatec.bpm.camunda.connector.file.api.ProcessFileCommand;
 import de.novatec.bpm.camunda.connector.file.api.impl.model.RequestData;
 import io.camunda.connector.api.annotation.OutboundConnector;
 import io.camunda.connector.api.outbound.OutboundConnectorContext;
@@ -22,13 +22,13 @@ public class ConnectorAdapter implements OutboundConnectorFunction {
     private static final Logger logger = LoggerFactory.getLogger(ConnectorAdapter.class);
 
     @Autowired
-    private ConnectorFileCommand connectorFileCommand;
+    private ProcessFileCommand processFileCommand;
 
     public ConnectorAdapter() {
     }
 
-    public ConnectorAdapter(ConnectorFileCommand connectorFileCommand) {
-        this.connectorFileCommand = connectorFileCommand;
+    public ConnectorAdapter(ProcessFileCommand processFileCommand) {
+        this.processFileCommand = processFileCommand;
     }
 
     @Override
@@ -41,9 +41,9 @@ public class ConnectorAdapter implements OutboundConnectorFunction {
     private ConnectorResponse execute(ConnectorRequest request) throws IOException {
         RequestData requestData = RequestMapper.mapRequest(request);
         RequestData result = switch (request.getRequestDetails().getOperationType()) {
-            case DELETE_OBJECT -> connectorFileCommand.deleteFile(requestData);
-            case PUT_OBJECT -> connectorFileCommand.uploadFile(requestData);
-            case GET_OBJECT -> connectorFileCommand.downloadFile(requestData);
+            case DELETE_OBJECT -> processFileCommand.deleteFile(requestData);
+            case PUT_OBJECT -> processFileCommand.uploadFile(requestData);
+            case GET_OBJECT -> processFileCommand.downloadFile(requestData);
         };
         return new ConnectorResponse(result);
     }

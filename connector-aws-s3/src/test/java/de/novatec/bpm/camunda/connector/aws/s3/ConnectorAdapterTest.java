@@ -6,8 +6,8 @@ import de.novatec.bpm.camunda.connector.aws.s3.adapter.in.process.model.*;
 import de.novatec.bpm.camunda.connector.aws.s3.adapter.out.cloud.CloudClientFactory;
 import de.novatec.bpm.camunda.connector.aws.s3.adapter.out.cloud.CloudFileAdapter;
 import de.novatec.bpm.camunda.connector.aws.s3.adapter.out.local.LocalFileAdapter;
-import de.novatec.bpm.camunda.connector.file.api.ConnectorFileCommand;
-import de.novatec.bpm.camunda.connector.file.api.impl.ConnectorFileService;
+import de.novatec.bpm.camunda.connector.file.api.ProcessFileCommand;
+import de.novatec.bpm.camunda.connector.file.api.impl.ProcessFileService;
 import io.camunda.connector.test.outbound.OutboundConnectorContextBuilder;
 import io.camunda.connector.test.outbound.OutboundConnectorContextBuilder.TestConnectorContext;
 import org.junit.jupiter.api.BeforeEach;
@@ -45,8 +45,8 @@ class ConnectorAdapterTest {
 
     @BeforeEach
     public void setup() {
-        ConnectorFileCommand connectorFileCommand = new ConnectorFileService(new CloudFileAdapter(factory), localFileAdapter);
-        connector = new ConnectorAdapter(connectorFileCommand);
+        ProcessFileCommand processFileCommand = new ProcessFileService(new CloudFileAdapter(factory), localFileAdapter);
+        connector = new ConnectorAdapter(processFileCommand);
     }
 
     @Test

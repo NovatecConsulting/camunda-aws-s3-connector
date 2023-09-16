@@ -5,9 +5,9 @@ import de.novatec.bpm.camunda.connector.aws.s3.adapter.out.cloud.CloudClientFact
 import de.novatec.bpm.camunda.connector.aws.s3.adapter.out.cloud.CloudFileAdapter;
 import de.novatec.bpm.camunda.connector.aws.s3.adapter.out.local.LocalFileAdapter;
 import de.novatec.bpm.camunda.connector.file.api.RemoteFileCommand;
-import de.novatec.bpm.camunda.connector.file.api.ConnectorFileCommand;
+import de.novatec.bpm.camunda.connector.file.api.ProcessFileCommand;
 import de.novatec.bpm.camunda.connector.file.api.LocalFileCommand;
-import de.novatec.bpm.camunda.connector.file.api.impl.ConnectorFileService;
+import de.novatec.bpm.camunda.connector.file.api.impl.ProcessFileService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -33,12 +33,12 @@ public class ConnectorConfiguration {
     }
 
     @Bean
-    ConnectorFileCommand connectorFileCommand(RemoteFileCommand remoteFileCommand, LocalFileCommand localFileCommand) {
-        return new ConnectorFileService(remoteFileCommand, localFileCommand);
+    ProcessFileCommand processFileCommand(RemoteFileCommand remoteFileCommand, LocalFileCommand localFileCommand) {
+        return new ProcessFileService(remoteFileCommand, localFileCommand);
     }
 
     @Bean
-    ConnectorAdapter connectorAdapter(ConnectorFileCommand connectorFileCommand) {
-        return new ConnectorAdapter(connectorFileCommand);
+    ConnectorAdapter connectorAdapter(ProcessFileCommand processFileCommand) {
+        return new ConnectorAdapter(processFileCommand);
     }
 }

@@ -21,7 +21,7 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class ConnectorFileServiceTest {
+class ProcessFileServiceTest {
 
     @Mock
     RemoteFileCommand remoteFileCommand;
@@ -29,11 +29,11 @@ class ConnectorFileServiceTest {
     @Mock
     LocalFileCommand localFileCommand;
 
-    private ConnectorFileService service;
+    private ProcessFileService service;
 
     @BeforeEach
     void setUp() {
-        service = new ConnectorFileService(remoteFileCommand, localFileCommand);
+        service = new ProcessFileService(remoteFileCommand, localFileCommand);
     }
 
     @Test
