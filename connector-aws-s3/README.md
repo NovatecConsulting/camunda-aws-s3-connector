@@ -1,5 +1,3 @@
-[![CI](https://github.com/itsmestefanjay/camunda-s3-connector/actions/workflows/maven.yml/badge.svg?event=push)](https://github.com/itsmestefanjay/camunda-s3-connector/actions/workflows/maven.yml)
-
 # AWS S3 Connector
 
 Camunda Outbound Connector to interact with the content of an S3 bucket
@@ -34,7 +32,7 @@ possible. This is not a security tutorial for AWS. You should definitively know 
 NOTE: please do not put secrets directly into your configuration. See the secrets section for more details.
 
 #### How it looks in the modeler
-<img src="assets/connector-config-example.png" alt="how it looks like in the modeler" width="400" />
+<img src="../assets/connector-config-example.png" alt="how it looks like in the modeler" width="400" />
 
 ### AWS Resources
 - S3 bucket (non-public) with server-side encryption and versioning enabled
@@ -132,6 +130,8 @@ The connector has two file adapters:
 
 - *cloud file adapter* to S3
 - *local file adapter* to the local file system
+
+They are implementations of the [Connector File API](../connector-file-api)
 
 ### Why is this necessary?
 If you are handling a lot of files (maybe even big files) it is a best practice approach to NOT store your file or the content
