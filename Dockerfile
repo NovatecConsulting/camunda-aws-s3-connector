@@ -20,6 +20,4 @@ RUN mvn -B -e clean install -DskipTests=true
 FROM arm64v8/openjdk:17
 WORKDIR /opt/app
 COPY --from=BUILDER /opt/app/connector-aws-s3/target/connector-aws-s3-1.1.0-SNAPSHOT.jar /connector.jar
-ENV AWS_ACCESS_KEY=xxx
-ENV AWS_SECRET_KEY=xxx
 CMD [ "java", "-jar", "/connector.jar" ]

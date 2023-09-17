@@ -20,14 +20,29 @@ public class MyJobWorker {
         this.localFileCommand = localFileCommand;
     }
 
-    @JobWorker(type = "generate-file")
-    public Map<String, Object> generateFile(ActivatedJob job) throws IOException {
+
+    @JobWorker(type = "add-context")
+    public Map<String, Object> addContext(ActivatedJob job) {
         logger.info("Received job {}", job.getKey());
-        byte[] myFileContent = "This is some random file".getBytes(StandardCharsets.UTF_8);
+        long processInstanceKey = job.getProcessInstanceKey();
+        logger.info("Setting processInstanceKey {}", processInstanceKey);
+        return Map.of("processInstanceKey", processInstanceKey);
+    }
+
+    @JobWorker(type = "generate-file")
+    public Map<String, Object> generateFile(ActivatedJob job, @Variable String filePath, @Variable String contentType) throws IOException {
+        logger.info("Received job {}", job.getKey());
+        byte[] report = localFileCommand.loadFile(filePath);
+        byte[] result = convertReport(report, contentType);
         String generatedFilePath = String.format("results/%s/my-file.txt", job.getProcessInstanceKey());
         logger.info("Result file generated");
-        localFileCommand.saveFile(myFileContent, generatedFilePath);
+        localFileCommand.saveFile(result, generatedFilePath);
         return Map.of("generatedFilePath", generatedFilePath, "generatedFileContentType", "text/plain");
+    }
+
+    private byte[] convertReport(byte[] bytes, String contentType) {
+        logger.info("Processing {} report content bytes ({})...", bytes.length, contentType);
+        return "This is some random file".getBytes(StandardCharsets.UTF_8);
     }
 
     @JobWorker(type = "validate-report")

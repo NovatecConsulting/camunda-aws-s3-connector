@@ -1,6 +1,6 @@
 package de.novatec.bpm.camunda.connector.file.api.impl;
 
-import de.novatec.bpm.camunda.connector.file.api.CloudFileCommand;
+import de.novatec.bpm.camunda.connector.file.api.RemoteFileCommand;
 import de.novatec.bpm.camunda.connector.file.api.LocalFileCommand;
 import de.novatec.bpm.camunda.connector.file.api.impl.model.FileContent;
 import de.novatec.bpm.camunda.connector.file.api.impl.model.RequestData;
@@ -21,19 +21,19 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class CloudFileServiceTest {
+class ProcessFileServiceTest {
 
     @Mock
-    CloudFileCommand cloudFileCommand;
+    RemoteFileCommand remoteFileCommand;
 
     @Mock
     LocalFileCommand localFileCommand;
 
-    private CloudFileService service;
+    private ProcessFileService service;
 
     @BeforeEach
     void setUp() {
-        service = new CloudFileService(cloudFileCommand, localFileCommand);
+        service = new ProcessFileService(remoteFileCommand, localFileCommand);
     }
 
     @Test
@@ -52,7 +52,7 @@ class CloudFileServiceTest {
         // then
         verify(localFileCommand, times(1)).loadFile(eq("myfile.txt"));
         ArgumentCaptor<FileContent> argumentCaptor = ArgumentCaptor.forClass(FileContent.class);
-        verify(cloudFileCommand, times(1)).putObject(eq(requestData), argumentCaptor.capture());
+        verify(remoteFileCommand, times(1)).putObject(eq(requestData), argumentCaptor.capture());
         FileContent value = argumentCaptor.getValue();
         assertThat(value.getContent()).as("content").isEqualTo(expectedContent);
         assertThat(value.getContentLength()).as("content length").isEqualTo(expectedContent.length);
@@ -72,7 +72,7 @@ class CloudFileServiceTest {
 
         // then
         verify(localFileCommand, times(1)).deleteFile(eq("myfile.txt"));
-        verify(cloudFileCommand, times(1)).deleteObject(eq(requestData));
+        verify(remoteFileCommand, times(1)).deleteObject(eq(requestData));
         assertThat(response).isEqualTo(requestData);
     }
 
@@ -84,14 +84,14 @@ class CloudFileServiceTest {
                 .contentType("contentType")
                 .build();
         byte[] expectedContent = "foo".getBytes(StandardCharsets.UTF_8);
-        when(cloudFileCommand.getObject(eq(requestData))).thenReturn(FileContent.builder().content(expectedContent).build());
+        when(remoteFileCommand.getObject(eq(requestData))).thenReturn(FileContent.builder().content(expectedContent).build());
         when(localFileCommand.saveFile(eq(expectedContent), eq("myfile.txt"))).thenReturn(Path.of("myfile.txt"));
 
         // when
         RequestData response = service.downloadFile(requestData);
 
         // then
-        verify(cloudFileCommand, times(1)).getObject(eq(requestData));
+        verify(remoteFileCommand, times(1)).getObject(eq(requestData));
         verify(localFileCommand, times(1)).saveFile(eq(expectedContent), eq("myfile.txt"));
         assertThat(response).isEqualTo(requestData);
     }

@@ -11,11 +11,13 @@ public class ConnectorResponse {
     private String bucketName;
     private String objectKey;
     private String filePath;
+    private String contentType;
 
     public ConnectorResponse(RequestData request) {
         this.bucketName = request.getBucket();
         this.objectKey = request.getKey();
         this.filePath = request.getFilePath();
+        this.contentType = request.getContentType();
     }
 
 }
