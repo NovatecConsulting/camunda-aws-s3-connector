@@ -72,8 +72,8 @@
       <bpmn:extensionElements>
         <zeebe:taskDefinition type="de.novatec.bpm:aws-s3:1" />
         <zeebe:ioMapping>
-          <zeebe:input source="secrets.AWS_ACCESS_KEY" target="authentication.accessKey" />
-          <zeebe:input source="secrets.AWS_SECRET_KEY" target="authentication.secretKey" />
+          <zeebe:input source="{{secrets.AWS_ACCESS_KEY}}" target="authentication.accessKey" />
+          <zeebe:input source="{{secrets.AWS_SECRET_KEY}}" target="authentication.secretKey" />
           <zeebe:input source="GET_OBJECT" target="requestDetails.operationType" />
           <zeebe:input source="=report.region" target="requestDetails.region" />
           <zeebe:input source="=report.bucket" target="requestDetails.bucketName" />
@@ -92,7 +92,7 @@
       <bpmn:extensionElements>
         <zeebe:taskDefinition type="de.novatec.bpm:aws-s3:1" />
         <zeebe:ioMapping>
-          <zeebe:input source="secrets.AWS_ACCESS_KEY" target="authentication.accessKey" />
+          <zeebe:input source="{{secrets.AWS_ACCESS_KEY}}" target="authentication.accessKey" />
           <zeebe:input source="secrets.AWS_SECRET_KEY" target="authentication.secretKey" />
           <zeebe:input source="DELETE_OBJECT" target="requestDetails.operationType" />
           <zeebe:input source="=report.region" target="requestDetails.region" />
@@ -112,8 +112,8 @@
       <bpmn:extensionElements>
         <zeebe:taskDefinition type="de.novatec.bpm:aws-s3:1" />
         <zeebe:ioMapping>
-          <zeebe:input source="secrets.AWS_ACCESS_KEY" target="authentication.accessKey" />
-          <zeebe:input source="secrets.AWS_SECRET_KEY" target="authentication.secretKey" />
+          <zeebe:input source="{{secrets.AWS_ACCESS_KEY}}" target="authentication.accessKey" />
+          <zeebe:input source="{{secrets.AWS_SECRET_KEY}}" target="authentication.secretKey" />
           <zeebe:input source="PUT_OBJECT" target="requestDetails.operationType" />
           <zeebe:input source="=report.region" target="requestDetails.region" />
           <zeebe:input source="=downloadResult.bucketName" target="requestDetails.bucketName" />
