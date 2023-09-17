@@ -69,6 +69,7 @@ class ConnectorAdapterTest {
         expectedResponse.setFilePath(filePath);
         expectedResponse.setObjectKey("path/file.txt");
         expectedResponse.setBucketName("bucket");
+        expectedResponse.setContentType("application/text");
 
         TestConnectorContext context = OutboundConnectorContextBuilder.create()
                 .secret("AWS_ACCESS_KEY", "abc")
@@ -162,6 +163,7 @@ class ConnectorAdapterTest {
         expectedResponse.setFilePath(filePath);
         expectedResponse.setObjectKey("path/file.txt");
         expectedResponse.setBucketName("bucket");
+        expectedResponse.setContentType("application/text");
 
         TestConnectorContext context = OutboundConnectorContextBuilder.create()
                 .secret("AWS_ACCESS_KEY", "abc")
