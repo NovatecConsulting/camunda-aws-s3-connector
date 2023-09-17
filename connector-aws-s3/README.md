@@ -144,3 +144,12 @@ in a process variable for several reasons:
 With the local file adapter the file can be written to a temp directory and the file path can be handed to other activities.
 If you want to move files to another process instance, just upload it back to S3 and start another process with the
 input variables needed to download the file again from S3.
+
+### Current Restrictions
+
+It is currently not possible to receive process instance specific variables like the process instance key in the connector 
+or with a feel expression. Both improvements exist as a feature request. The only way to get an instance key is by calling
+the value from an activated job in a JobWorker and setting it as a process variable for others to pick up.
+
+NOTE: the process instance key is used for generating file paths so local and remote files are not overwritten by other
+instances
