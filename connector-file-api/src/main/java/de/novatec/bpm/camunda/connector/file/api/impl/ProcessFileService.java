@@ -40,6 +40,8 @@ public class ProcessFileService implements ProcessFileCommand {
     public RequestData downloadFile(RequestData request) throws IOException {
         FileContent response = remoteFileCommand.getObject(request);
         localFileCommand.saveFile(response.getContent(), request.getFilePath());
+        // overwrite with actual content type
+        request.setContentType(request.getContentType());
         return request;
     }
 }
