@@ -49,6 +49,22 @@ services:
       - zeebe
       - elasticsearch
 
+  aws-s3-connector:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    container_name: aws-s3-connector
+    environment:
+      AWS_ACCESS_KEY: xxx
+      AWS_SECRET_KEY: xxx
+      CAMUNDA_OPERATE_CLIENT_URL: http://operate:8080
+      ZEEBE_CLIENT_BROKER_GATEWAY-ADDRESS: zeebe:26500
+    networks:
+      - camunda-platform
+    depends_on:
+      - operate
+
+
   elasticsearch: # https://hub.docker.com/_/elasticsearch
     image: docker.elastic.co/elasticsearch/elasticsearch:${ELASTIC_VERSION}
     container_name: elasticsearch

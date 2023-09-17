@@ -6,6 +6,15 @@ DISCLAIMER: You are responsible for your AWS configuration in your environment, 
 sure that you keep credentials in a safe place and only give access to specific resources, and be as restrictive as 
 possible. This is not a security tutorial for AWS. You should definitively know what you are doing!
 
+## Compatibility
+
+- JDK 17+
+- Camunda Platform v8.2.x
+- Connector SDK v0.23.x
+- AWS SDK v2.20.x
+
+NOTE: The Docker image is based on the `arm64v8` architecture. If you need another one just switch out the base image.
+
 ## Features
 
 - Upload a generated file to an AWS S3 bucket
