@@ -1,4 +1,4 @@
-**[![Java CI main](https://github.com/NovatecConsulting/camunda-aws-s3-connector/actions/workflows/maven.yml/badge.svg?branch=main)](https://github.com/NovatecConsulting/camunda-aws-s3-connector/actions/workflows/maven.yml)
+[![Java CI main](https://github.com/NovatecConsulting/camunda-aws-s3-connector/actions/workflows/maven.yml/badge.svg?branch=main)](https://github.com/NovatecConsulting/camunda-aws-s3-connector/actions/workflows/maven.yml)
 
 # AWS S3 Connector
 
