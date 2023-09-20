@@ -38,7 +38,7 @@
         <version.slf4j>2.0.9</version.slf4j>
         <version.aws-java-sdk>2.20.146</version.aws-java-sdk>
         <version.logback-classic>1.4.11</version.logback-classic>
-        <version.lombok>1.18.28</version.lombok>
+        <version.lombok>1.18.30</version.lombok>
         <version.testcontainers>1.19.0</version.testcontainers>
 
         <!-- maven plugins -->
