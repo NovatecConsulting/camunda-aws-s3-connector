@@ -59,6 +59,15 @@ AWS_SECRET_KEY=my-secret-key
 NOTE: the bucket and the report file must exist on your AWS Account. The AWS setup is described in 
 the [connector's README](../connector-aws-s3-libs/README.md)
 
+NOTE: the docker image is based on the `arm64v8` architecture since it is developed on an Mx chip by Apple, you can switch this out
+for any matching architecture:
+
+```
+...
+FROM arm64v8/openjdk:17
+...
+```
+
 ## Further improvement ideas
 
 - Use an inbound connector to get notified via SQS or SNS if there are new files instead of setting it explicitly via
