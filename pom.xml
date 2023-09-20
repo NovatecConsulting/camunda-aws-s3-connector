@@ -58,6 +58,12 @@
                 <groupId>software.amazon.awssdk</groupId>
                 <artifactId>s3</artifactId>
                 <version>${version.aws-java-sdk}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>commons-logging</groupId>
+                        <artifactId>commons-logging</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>io.camunda.connector</groupId>
@@ -83,6 +89,12 @@
                 <groupId>io.camunda.spring</groupId>
                 <artifactId>spring-boot-starter-camunda</artifactId>
                 <version>${version.spring-zeebe}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>commons-logging</groupId>
+                        <artifactId>commons-logging</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>org.slf4j</groupId>
