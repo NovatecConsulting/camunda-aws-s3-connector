@@ -7,24 +7,24 @@ included.
 
 - Configure your Springboot application for local or camunda platform
 
-```properties
+```yaml
 zeebe.client.cloud.region: my-region
 zeebe.client.cloud.clusterid: my-cluster-id
 zeebe.client.cloud.clientid: my-client-id
 zeebe.client.cloud.clientsecret: my-client-secret
 ```
 
-Or if you use a local runtime:
+- Or if you use a local runtime:
 
-```properties
-zeebe.client.broker.gateway-address=localhost:26500
-zeebe.client.security.plaintext=true
+```yaml
+zeebe.client.broker.gateway-address: localhost:26500
+zeebe.client.security.plaintext: true
 ```
 
 NOTE: you don't need an Operate client for an outbound connector therefore I removed the AutoConfiguration for inbound
 connectors and the endpoint to Operate from the properties
 
-And add your access and secret key from your AWS as **environment** variables:
+- Add your access and secret key from your AWS as **environment** variables:
 
 ```
 AWS_ACCESS_KEY=my-access-key
@@ -39,7 +39,5 @@ NOTE: the docker image is based on the `arm64v8` architecture since it is develo
 for any matching architecture:
 
 ```
-...
 FROM arm64v8/openjdk:17
-...
 ```
