@@ -67,6 +67,14 @@ FROM arm64v8/openjdk:17
 NOTE: the bucket and the report file must exist on your AWS Account. The AWS setup is described in 
 the [connector's README](../connector-aws-s3-libs/README.md)
 
+## Integration testing the process with AWS
+
+To do an integration test I use the following technologies:
+
+- Testcontainer's [localstack module](https://java.testcontainers.org/modules/localstack/) to mimik AWS S3
+- SpringBootTest to run my process application
+- Spring Zeebe Test to run an in-memory Zeebe process engine and assert the state of the process
+
 ## Further improvement ideas
 
 - Use an inbound connector to get notified via SQS or SNS if there are new files instead of setting it explicitly via
