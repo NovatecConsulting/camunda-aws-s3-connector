@@ -10,9 +10,10 @@
 
     <name>connector-aws-s3-parent</name>
     <modules>
-        <module>connector-aws-s3</module>
+        <module>connector-aws-s3-libs</module>
         <module>connector-aws-s3-example</module>
         <module>connector-file-api</module>
+        <module>connector-aws-s3-standalone</module>
     </modules>
 
     <groupId>de.novatec.bpm.camunda.connector</groupId>
@@ -38,6 +39,7 @@
         <version.aws-java-sdk>2.20.146</version.aws-java-sdk>
         <version.logback-classic>1.4.11</version.logback-classic>
         <version.lombok>1.18.28</version.lombok>
+        <version.testcontainers>1.19.0</version.testcontainers>
 
         <!-- maven plugins -->
         <plugin.version.maven-clean-plugin>3.3.1</plugin.version.maven-clean-plugin>
@@ -103,31 +105,46 @@
                 <version>${version.lombok}</version>
             </dependency>
 
-
             <!-- test dependencies -->
             <dependency>
                 <groupId>org.junit.jupiter</groupId>
                 <artifactId>junit-jupiter</artifactId>
                 <version>${version.junit-jupiter}</version>
-                <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>org.mockito</groupId>
                 <artifactId>mockito-junit-jupiter</artifactId>
                 <version>${version.mockito}</version>
-                <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>org.assertj</groupId>
                 <artifactId>assertj-core</artifactId>
                 <version>${version.assertj}</version>
-                <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-jdk14</artifactId>
                 <version>${version.slf4j}</version>
-                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>io.camunda</groupId>
+                <artifactId>spring-zeebe-test</artifactId>
+                <version>${version.spring-zeebe}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.camunda.spring</groupId>
+                <artifactId>spring-boot-starter-camunda-test</artifactId>
+                <version>${version.spring-zeebe}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.testcontainers</groupId>
+                <artifactId>localstack</artifactId>
+                <version>${version.testcontainers}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.testcontainers</groupId>
+                <artifactId>junit-jupiter</artifactId>
+                <version>${version.testcontainers}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

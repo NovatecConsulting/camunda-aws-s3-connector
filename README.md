@@ -6,11 +6,14 @@ Camunda Outbound Connector to interact with the content of an S3 bucket
 
 ## Content
 
-* 🔌 **[AWS S3 Connector implementation](connector-aws-s3/README.md)** to interact with an S3 bucket in AWS
+* **[AWS S3 Connector implementation](connector-aws-s3-libs/README.md)** to interact with an S3 bucket in AWS
 
-* 👉🏻 **[Process example](connector-aws-s3-example/README.md)** on ho to generate content and upload it with the connector
+* **[AWS S3 Connector Springboot Runtime](connector-aws-s3-standalone/README.md)** to run as a standalone connector 
+without any additional worker logic
 
-* 📁 **[File API](connector-file-api/README.md)** to streamline file handling between job workers and the connector
+* **[Process example](connector-aws-s3-example/README.md)** on ho to generate content and upload it with the connector
+
+* **[Process File API](connector-file-api/README.md)** to streamline file handling between job workers and the connector
 
 ## Compatibility
 
