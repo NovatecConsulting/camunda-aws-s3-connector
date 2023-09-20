@@ -35,7 +35,7 @@
         <version.junit-jupiter>5.10.0</version.junit-jupiter>
         <version.mockito>5.5.0</version.mockito>
         <version.slf4j>2.0.9</version.slf4j>
-        <version.aws-java-sdk>2.20.146</version.aws-java-sdk>
+        <version.aws-java-sdk>2.20.151</version.aws-java-sdk>
         <version.logback-classic>1.4.11</version.logback-classic>
         <version.lombok>1.18.28</version.lombok>
 
