@@ -15,11 +15,9 @@ public class MyJobWorker {
 
     private static final Logger logger = LoggerFactory.getLogger(MyJobWorker.class);
     private final LocalFileCommand localFileCommand;
-
     public MyJobWorker(LocalFileCommand localFileCommand) {
         this.localFileCommand = localFileCommand;
     }
-
 
     @JobWorker(type = "add-context")
     public Map<String, Object> addContext(ActivatedJob job) {
