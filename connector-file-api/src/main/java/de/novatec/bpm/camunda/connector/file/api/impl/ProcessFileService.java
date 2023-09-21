@@ -22,7 +22,7 @@ public class ProcessFileService implements ProcessFileCommand {
     public RequestData uploadFile(RequestData request) throws IOException {
         String contentType = Objects.requireNonNull(request.getContentType(), "Content type must be set");
         byte[] content = localFileCommand.loadFile(request.getFilePath());
-        remoteFileCommand.putObject(request, FileContent.builder()
+        remoteFileCommand.putFile(request, FileContent.builder()
                 .content(content)
                 .contentLength((long) content.length)
                 .contentType(contentType)
@@ -33,12 +33,12 @@ public class ProcessFileService implements ProcessFileCommand {
 
     public RequestData deleteFile(RequestData request) throws IOException {
         localFileCommand.deleteFile(request.getFilePath());
-        remoteFileCommand.deleteObject(request);
+        remoteFileCommand.deleteFile(request);
         return request;
     }
 
     public RequestData downloadFile(RequestData request) throws IOException {
-        FileContent response = remoteFileCommand.getObject(request);
+        FileContent response = remoteFileCommand.getFile(request);
         localFileCommand.saveFile(response.getContent(), request.getFilePath());
         // overwrite with actual content type
         request.setContentType(request.getContentType());

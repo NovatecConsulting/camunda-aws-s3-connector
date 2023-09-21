@@ -71,9 +71,9 @@ the [connector's README](../connector-aws-s3-libs/README.md)
 
 To do an integration test I use the following technologies:
 
-- Testcontainer's [localstack module](https://java.testcontainers.org/modules/localstack/) to mimik AWS S3
+- Testcontainer [localstack module](https://java.testcontainers.org/modules/localstack/) to mimik AWS S3
 - SpringBootTest to run my process application
-- Spring Zeebe Test to run an in-memory Zeebe process engine and assert the state of the process
+- SpringZeebeTest to run an in-memory Zeebe process engine and assert the state of the process
 
 ## Further improvement ideas
 

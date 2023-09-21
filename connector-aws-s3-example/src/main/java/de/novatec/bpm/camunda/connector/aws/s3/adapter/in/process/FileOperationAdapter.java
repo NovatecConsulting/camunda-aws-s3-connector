@@ -11,16 +11,17 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
-public class MyJobWorker {
+public class FileOperationAdapter {
 
-    private static final Logger logger = LoggerFactory.getLogger(MyJobWorker.class);
+    private static final Logger logger = LoggerFactory.getLogger(FileOperationAdapter.class);
     private final LocalFileCommand localFileCommand;
-    public MyJobWorker(LocalFileCommand localFileCommand) {
+    public FileOperationAdapter(LocalFileCommand localFileCommand) {
         this.localFileCommand = localFileCommand;
     }
 
     @JobWorker(type = "add-context")
     public Map<String, Object> addContext(ActivatedJob job) {
+        // TODO replace as soon as variables are available in context
         logger.info("Received job {}", job.getKey());
         long processInstanceKey = job.getProcessInstanceKey();
         logger.info("Setting processInstanceKey {}", processInstanceKey);

@@ -22,8 +22,8 @@ public class CloudFileAdapter implements RemoteFileCommand {
         this.clientFactory = clientFactory;
     }
 
-    public void deleteObject(RequestData requestData) {
-        try (S3Client s3Client = clientFactory.createClient(requestData.getAccessKey(), requestData.getSecretKey(), requestData.getRegion())) {
+    public void deleteFile(RequestData requestData) {
+        try (S3Client s3Client = clientFactory.createClient(requestData.getAuthenticationKey(), requestData.getAuthenticationSecret(), requestData.getRegion())) {
             DeleteObjectRequest awsRequest = DeleteObjectRequest.builder()
                     .bucket(requestData.getBucket())
                     .key(requestData.getKey())
@@ -36,8 +36,8 @@ public class CloudFileAdapter implements RemoteFileCommand {
         }
     }
 
-    public void putObject(RequestData requestData, FileContent fileContent) {
-        try (S3Client s3Client = clientFactory.createClient(requestData.getAccessKey(), requestData.getSecretKey(), requestData.getRegion())) {
+    public void putFile(RequestData requestData, FileContent fileContent) {
+        try (S3Client s3Client = clientFactory.createClient(requestData.getAuthenticationKey(), requestData.getAuthenticationSecret(), requestData.getRegion())) {
             PutObjectRequest awsRequest = PutObjectRequest.builder()
                     .bucket(requestData.getBucket())
                     .key(requestData.getKey())
@@ -53,8 +53,8 @@ public class CloudFileAdapter implements RemoteFileCommand {
     }
 
     @Override
-    public FileContent getObject(RequestData requestData) throws IOException {
-        try (S3Client s3Client = clientFactory.createClient(requestData.getAccessKey(), requestData.getSecretKey(), requestData.getRegion())) {
+    public FileContent getFile(RequestData requestData) throws IOException {
+        try (S3Client s3Client = clientFactory.createClient(requestData.getAuthenticationKey(), requestData.getAuthenticationSecret(), requestData.getRegion())) {
             GetObjectRequest awsRequest = GetObjectRequest.builder()
                     .bucket(requestData.getBucket())
                     .key(requestData.getKey())

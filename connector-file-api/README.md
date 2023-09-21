@@ -26,3 +26,13 @@ Implemented by the connector to represent the local storage of the file
 ### RemoteFileCommand
 
 Implemented by the connector to represent the remote storage of the file
+
+## Authentication Data
+
+In the request data object there are two fields where you can put authentication related content:
+
+- `authenticationKey` representing a user identifier of any kind
+- `authenticationSecret` representing a token or password of any kind
+
+The content can be set by you as you need it e.g. a user password combo or AWS_ACCESS_KEY and AWS_SECRET_KEY when
+connecting to AWS.

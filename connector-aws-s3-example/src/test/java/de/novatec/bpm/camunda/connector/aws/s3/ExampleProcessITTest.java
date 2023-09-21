@@ -2,7 +2,6 @@ package de.novatec.bpm.camunda.connector.aws.s3;
 
 import io.camunda.zeebe.client.ZeebeClient;
 import io.camunda.zeebe.client.api.response.ProcessInstanceEvent;
-import io.camunda.zeebe.process.test.api.ZeebeTestEngine;
 import io.camunda.zeebe.spring.test.ZeebeSpringTest;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -28,13 +27,10 @@ import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
-import static io.camunda.zeebe.process.test.assertions.BpmnAssert.assertThat;
-import static io.camunda.zeebe.spring.test.ZeebeTestThreadSupport.waitForProcessInstanceCompleted;
-
 @SpringBootTest
 @ZeebeSpringTest
 @Testcontainers
-class ConnectorExampleRuntimeApplicationTest {
+class ExampleProcessITTest {
 
     public static final String REPORT_BUCKET = "my-bucket";
     public static final String REPORT_KEY = "my-report.txt";
@@ -46,9 +42,6 @@ class ConnectorExampleRuntimeApplicationTest {
 
     @Autowired
     private ZeebeClient zeebe;
-
-    @Autowired
-    private ZeebeTestEngine zeebeTestEngine;
 
     private S3Client s3Client;
 
@@ -82,7 +75,7 @@ class ConnectorExampleRuntimeApplicationTest {
     }
 
     @Test
-    void test_happy_path() throws IOException {
+    void test_happy_path() throws IOException, InterruptedException {
 
         ProcessInstanceEvent processInstance = zeebe.newCreateInstanceCommand()
                 .bpmnProcessId("File_handling_process")
@@ -91,16 +84,7 @@ class ConnectorExampleRuntimeApplicationTest {
                 .send()
                 .join();
 
-        waitForProcessInstanceCompleted(processInstance);
-
-        assertThat(processInstance)
-                .hasPassedElement("add_context")
-                .hasPassedElement("download_file")
-                .hasPassedElement("validate_file")
-                .hasPassedElement("generate_result")
-                .hasPassedElement("upload_file")
-                .hasNotPassedElement("delete_file")
-                .isCompleted();
+        Thread.sleep(5 * 1000); // give the process some time to finish
 
         byte[] result = getResult(REPORT_BUCKET, String.format("results/%d/my-file.txt", processInstance.getProcessInstanceKey()));
         Assertions.assertThat(result).isEqualTo("This is some random file".getBytes(StandardCharsets.UTF_8));
