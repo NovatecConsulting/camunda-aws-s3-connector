@@ -1,0 +1,7 @@
+{
+  "report": {
+    "region": "eu-central-1",
+    "bucket": "my-connector-bucket",
+    "key":"reports/report-xyz.txt"
+  }
+}
