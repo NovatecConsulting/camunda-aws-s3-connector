@@ -7,8 +7,8 @@ import lombok.Data;
 @Builder
 public class RequestData {
 
-    private String accessKey;
-    private String secretKey;
+    private String authenticationKey;
+    private String authenticationSecret;
     private String bucket;
     private String key;
     private String region;

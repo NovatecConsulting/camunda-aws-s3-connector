@@ -52,7 +52,7 @@ class ProcessFileServiceTest {
         // then
         verify(localFileCommand, times(1)).loadFile(eq("myfile.txt"));
         ArgumentCaptor<FileContent> argumentCaptor = ArgumentCaptor.forClass(FileContent.class);
-        verify(remoteFileCommand, times(1)).putObject(eq(requestData), argumentCaptor.capture());
+        verify(remoteFileCommand, times(1)).putFile(eq(requestData), argumentCaptor.capture());
         FileContent value = argumentCaptor.getValue();
         assertThat(value.getContent()).as("content").isEqualTo(expectedContent);
         assertThat(value.getContentLength()).as("content length").isEqualTo(expectedContent.length);
@@ -72,7 +72,7 @@ class ProcessFileServiceTest {
 
         // then
         verify(localFileCommand, times(1)).deleteFile(eq("myfile.txt"));
-        verify(remoteFileCommand, times(1)).deleteObject(eq(requestData));
+        verify(remoteFileCommand, times(1)).deleteFile(eq(requestData));
         assertThat(response).isEqualTo(requestData);
     }
 
@@ -84,14 +84,14 @@ class ProcessFileServiceTest {
                 .contentType("contentType")
                 .build();
         byte[] expectedContent = "foo".getBytes(StandardCharsets.UTF_8);
-        when(remoteFileCommand.getObject(eq(requestData))).thenReturn(FileContent.builder().content(expectedContent).build());
+        when(remoteFileCommand.getFile(eq(requestData))).thenReturn(FileContent.builder().content(expectedContent).build());
         when(localFileCommand.saveFile(eq(expectedContent), eq("myfile.txt"))).thenReturn(Path.of("myfile.txt"));
 
         // when
         RequestData response = service.downloadFile(requestData);
 
         // then
-        verify(remoteFileCommand, times(1)).getObject(eq(requestData));
+        verify(remoteFileCommand, times(1)).getFile(eq(requestData));
         verify(localFileCommand, times(1)).saveFile(eq(expectedContent), eq("myfile.txt"));
         assertThat(response).isEqualTo(requestData);
     }

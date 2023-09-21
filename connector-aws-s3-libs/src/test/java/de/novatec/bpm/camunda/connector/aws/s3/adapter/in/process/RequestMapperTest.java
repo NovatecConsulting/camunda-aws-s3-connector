@@ -38,10 +38,10 @@ class RequestMapperTest {
         assertThat(requestData.getContentType())
                 .as("content type")
                 .isEqualTo(request.getRequestDetails().getContentType());
-        assertThat(requestData.getAccessKey())
+        assertThat(requestData.getAuthenticationKey())
                 .as("access key")
                 .isEqualTo(request.getAuthentication().getAccessKey());
-        assertThat(requestData.getSecretKey())
+        assertThat(requestData.getAuthenticationSecret())
                 .as("secret key")
                 .isEqualTo(request.getAuthentication().getSecretKey());
     }

@@ -9,8 +9,8 @@ public class RequestMapper {
 
     public static RequestData mapRequest(ConnectorRequest request) {
         return RequestData.builder()
-                .accessKey(request.getAuthentication().getAccessKey())
-                .secretKey(request.getAuthentication().getSecretKey())
+                .authenticationKey(request.getAuthentication().getAccessKey())
+                .authenticationSecret(request.getAuthentication().getSecretKey())
                 .region(request.getRequestDetails().getRegion())
                 .bucket(request.getRequestDetails().getBucketName())
                 .key(request.getRequestDetails().getObjectKey())
