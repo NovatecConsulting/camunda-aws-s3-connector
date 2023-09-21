@@ -6,7 +6,7 @@ COPY connector-aws-s3-example/pom.xml connector-aws-s3-example/pom.xml
 COPY connector-file-api/pom.xml connector-file-api/pom.xml
 COPY pom.xml .
 
-RUN mvn -B -e -C org.apache.maven.plugins:maven-dependency-plugin:3.1.2:go-offline -DexcludeArtifactIds=connector-aws-s3-libs,connector-file-api,connector-aws-s3-example
+RUN mvn -B -e -C org.apache.maven.plugins:maven-dependency-plugin:3.1.2:go-offline -DexcludeArtifactIds=connector-aws-s3-standalone,connector-aws-s3-libs,connector-file-api,connector-aws-s3-example
 
 FROM maven:3.9.3-eclipse-temurin-17 as BUILDER
 WORKDIR /opt/app

@@ -9,15 +9,12 @@ import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.S3ClientBuilder;
 
 import java.net.URI;
-import java.util.Objects;
-import java.util.Optional;
 
 public class CloudClientFactory {
 
-    private final String endpointOverride;
+    private String endpointOverride;
 
     public CloudClientFactory() {
-        endpointOverride = "";
     }
 
     public CloudClientFactory(String endpointOverride) {
