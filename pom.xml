@@ -36,7 +36,7 @@
         <version.aws-java-sdk>2.20.152</version.aws-java-sdk>
         <version.logback-classic>1.4.11</version.logback-classic>
         <version.lombok>1.18.30</version.lombok>
-        <version.junit-jupiter>5.10.0</version.junit-jupiter>
+        <version.junit-jupiter>5.10.1</version.junit-jupiter>
         <version.mockito>5.5.0</version.mockito>
         <version.assertj>3.24.2</version.assertj>
         <version.testcontainers>1.19.0</version.testcontainers>
