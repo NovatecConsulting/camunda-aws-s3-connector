@@ -27,7 +27,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
         <!-- connector SDK version -->
-        <version.spring-zeebe>8.2.4</version.spring-zeebe>
+        <version.spring-zeebe>8.3.1</version.spring-zeebe>
         <version.connectors>8.3.0</version.connectors>
 
         <!-- external libraries -->
@@ -137,11 +137,6 @@
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-jdk14</artifactId>
                 <version>${version.slf4j}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.camunda</groupId>
-                <artifactId>spring-zeebe-test</artifactId>
-                <version>${version.spring-zeebe}</version>
             </dependency>
             <dependency>
                 <groupId>io.camunda.spring</groupId>
