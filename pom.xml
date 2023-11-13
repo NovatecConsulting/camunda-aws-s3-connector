@@ -31,7 +31,7 @@
         <version.connectors>0.23.0</version.connectors>
 
         <!-- external libraries -->
-        <version.jackson>2.15.2</version.jackson>
+        <version.jackson>2.15.3</version.jackson>
         <version.slf4j>2.0.9</version.slf4j>
         <version.aws-java-sdk>2.20.152</version.aws-java-sdk>
         <version.logback-classic>1.4.11</version.logback-classic>
