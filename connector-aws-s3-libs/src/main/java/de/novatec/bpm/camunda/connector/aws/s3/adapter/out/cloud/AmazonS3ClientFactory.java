@@ -10,18 +10,18 @@ import software.amazon.awssdk.services.s3.S3ClientBuilder;
 
 import java.net.URI;
 
-public class CloudClientFactory {
+public class AmazonS3ClientFactory {
 
     private String endpointOverride;
 
-    public CloudClientFactory() {
+    public AmazonS3ClientFactory() {
     }
 
-    public CloudClientFactory(String endpointOverride) {
+    public AmazonS3ClientFactory(String endpointOverride) {
         this.endpointOverride = endpointOverride;
     }
 
-    private static final Logger logger = LoggerFactory.getLogger(CloudClientFactory.class);
+    private static final Logger logger = LoggerFactory.getLogger(AmazonS3ClientFactory.class);
 
     public S3Client createClient(String accessKey, String secretKey, String region) {
         AwsBasicCredentials credentials = AwsBasicCredentials.create(accessKey, secretKey);

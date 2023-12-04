@@ -3,8 +3,8 @@ package de.novatec.bpm.camunda.connector.aws.s3;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.novatec.bpm.camunda.connector.aws.s3.adapter.in.process.ConnectorAdapter;
 import de.novatec.bpm.camunda.connector.aws.s3.adapter.in.process.model.*;
-import de.novatec.bpm.camunda.connector.aws.s3.adapter.out.cloud.CloudClientFactory;
-import de.novatec.bpm.camunda.connector.aws.s3.adapter.out.cloud.CloudFileAdapter;
+import de.novatec.bpm.camunda.connector.aws.s3.adapter.out.cloud.AmazonS3ClientFactory;
+import de.novatec.bpm.camunda.connector.aws.s3.adapter.out.cloud.AmazonS3Adapter;
 import de.novatec.bpm.camunda.connector.aws.s3.adapter.out.local.LocalFileAdapter;
 import de.novatec.bpm.camunda.connector.file.api.ProcessFileCommand;
 import de.novatec.bpm.camunda.connector.file.api.impl.ProcessFileService;
@@ -36,7 +36,7 @@ import static org.mockito.Mockito.*;
 class ConnectorAdapterTest {
 
     @Mock
-    CloudClientFactory factory; // mock component to S3
+    AmazonS3ClientFactory factory; // mock component to S3
 
     @Mock
     LocalFileAdapter localFileAdapter; // mock component to local file system
@@ -45,7 +45,7 @@ class ConnectorAdapterTest {
 
     @BeforeEach
     public void setup() {
-        ProcessFileCommand processFileCommand = new ProcessFileService(new CloudFileAdapter(factory), localFileAdapter);
+        ProcessFileCommand processFileCommand = new ProcessFileService(new AmazonS3Adapter(factory), localFileAdapter);
         connector = new ConnectorAdapter(processFileCommand);
     }
 

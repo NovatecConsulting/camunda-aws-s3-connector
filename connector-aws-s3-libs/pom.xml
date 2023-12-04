@@ -44,6 +44,18 @@
             <artifactId>s3</artifactId>
         </dependency>
         <dependency>
+            <groupId>com.azure</groupId>
+            <artifactId>azure-storage-blob</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.google.cloud</groupId>
+            <artifactId>google-cloud-storage</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.aliyun.oss</groupId>
+            <artifactId>aliyun-sdk-oss</artifactId>
+        </dependency>
+        <dependency>
             <groupId>io.camunda.connector</groupId>
             <artifactId>connector-core</artifactId>
         </dependency>
@@ -51,10 +63,6 @@
             <groupId>io.camunda.connector</groupId>
             <artifactId>connector-validation</artifactId>
         </dependency>
-        <!--<dependency>
-            <groupId>io.camunda.connector</groupId>
-            <artifactId>connector-test</artifactId>
-        </dependency>-->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>

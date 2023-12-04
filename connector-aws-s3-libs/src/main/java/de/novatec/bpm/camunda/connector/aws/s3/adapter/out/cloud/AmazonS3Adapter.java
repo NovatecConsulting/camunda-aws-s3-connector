@@ -12,13 +12,13 @@ import software.amazon.awssdk.services.s3.model.*;
 
 import java.io.IOException;
 
-public class CloudFileAdapter implements RemoteFileCommand {
+public class AmazonS3Adapter implements RemoteFileCommand {
 
-    private static final Logger logger = LoggerFactory.getLogger(CloudFileAdapter.class);
+    private static final Logger logger = LoggerFactory.getLogger(AmazonS3Adapter.class);
 
-    private final CloudClientFactory clientFactory;
+    private final AmazonS3ClientFactory clientFactory;
 
-    public CloudFileAdapter(CloudClientFactory clientFactory) {
+    public AmazonS3Adapter(AmazonS3ClientFactory clientFactory) {
         this.clientFactory = clientFactory;
     }
 

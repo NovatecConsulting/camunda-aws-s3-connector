@@ -2,8 +2,8 @@ package de.novatec.bpm.camunda.connector.aws.s3.common;
 
 import de.novatec.bpm.camunda.connector.aws.s3.adapter.in.process.ConnectorAdapter;
 import de.novatec.bpm.camunda.connector.aws.s3.adapter.in.process.FileOperationAdapter;
-import de.novatec.bpm.camunda.connector.aws.s3.adapter.out.cloud.CloudClientFactory;
-import de.novatec.bpm.camunda.connector.aws.s3.adapter.out.cloud.CloudFileAdapter;
+import de.novatec.bpm.camunda.connector.aws.s3.adapter.out.cloud.AmazonS3ClientFactory;
+import de.novatec.bpm.camunda.connector.aws.s3.adapter.out.cloud.AmazonS3Adapter;
 import de.novatec.bpm.camunda.connector.aws.s3.adapter.out.local.LocalFileAdapter;
 import de.novatec.bpm.camunda.connector.file.api.LocalFileCommand;
 import de.novatec.bpm.camunda.connector.file.api.ProcessFileCommand;
@@ -24,8 +24,8 @@ public class ExampleProcessConfiguration {
     String awsEndpointOverride;
 
     @Bean
-    RemoteFileCommand remoteFileCommand(CloudClientFactory clientFactory) {
-        return new CloudFileAdapter(clientFactory);
+    RemoteFileCommand remoteFileCommand(AmazonS3ClientFactory clientFactory) {
+        return new AmazonS3Adapter(clientFactory);
     }
 
     @Bean
@@ -34,8 +34,8 @@ public class ExampleProcessConfiguration {
     }
 
     @Bean
-    CloudClientFactory cloudClientFactory() {
-        return new CloudClientFactory(awsEndpointOverride);
+    AmazonS3ClientFactory cloudClientFactory() {
+        return new AmazonS3ClientFactory(awsEndpointOverride);
     }
 
     @Bean

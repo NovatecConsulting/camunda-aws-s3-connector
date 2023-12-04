@@ -6,7 +6,7 @@ import de.novatec.bpm.camunda.connector.file.api.impl.model.RequestData;
 import java.io.IOException;
 
 public interface RemoteFileCommand {
-    void deleteFile(RequestData requestData);
+    void deleteFile(RequestData requestData) throws IOException;
     void putFile(RequestData requestData, FileContent fileContent) throws IOException;
     FileContent getFile(RequestData requestData) throws IOException;
 }

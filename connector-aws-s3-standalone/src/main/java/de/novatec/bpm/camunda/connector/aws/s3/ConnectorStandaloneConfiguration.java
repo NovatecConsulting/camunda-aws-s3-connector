@@ -1,14 +1,13 @@
 package de.novatec.bpm.camunda.connector.aws.s3;
 
 import de.novatec.bpm.camunda.connector.aws.s3.adapter.in.process.ConnectorAdapter;
-import de.novatec.bpm.camunda.connector.aws.s3.adapter.out.cloud.CloudClientFactory;
-import de.novatec.bpm.camunda.connector.aws.s3.adapter.out.cloud.CloudFileAdapter;
+import de.novatec.bpm.camunda.connector.aws.s3.adapter.out.cloud.AmazonS3ClientFactory;
+import de.novatec.bpm.camunda.connector.aws.s3.adapter.out.cloud.AmazonS3Adapter;
 import de.novatec.bpm.camunda.connector.aws.s3.adapter.out.local.LocalFileAdapter;
 import de.novatec.bpm.camunda.connector.file.api.RemoteFileCommand;
 import de.novatec.bpm.camunda.connector.file.api.ProcessFileCommand;
 import de.novatec.bpm.camunda.connector.file.api.LocalFileCommand;
 import de.novatec.bpm.camunda.connector.file.api.impl.ProcessFileService;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -19,8 +18,8 @@ import java.nio.file.Files;
 public class ConnectorStandaloneConfiguration {
 
     @Bean
-    RemoteFileCommand remoteFileCommand(CloudClientFactory clientFactory) {
-        return new CloudFileAdapter(clientFactory);
+    RemoteFileCommand remoteFileCommand(AmazonS3ClientFactory clientFactory) {
+        return new AmazonS3Adapter(clientFactory);
     }
 
     @Bean
@@ -29,8 +28,8 @@ public class ConnectorStandaloneConfiguration {
     }
 
     @Bean
-    CloudClientFactory cloudClientFactory() {
-        return new CloudClientFactory();
+    AmazonS3ClientFactory cloudClientFactory() {
+        return new AmazonS3ClientFactory();
     }
 
     @Bean
