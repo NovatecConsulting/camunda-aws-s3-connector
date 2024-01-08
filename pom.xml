@@ -27,29 +27,29 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
         <!-- connector SDK version -->
-        <version.spring-zeebe>8.3.1</version.spring-zeebe>
-        <version.connectors>8.3.0</version.connectors>
+        <version.spring-zeebe>8.3.4.5</version.spring-zeebe>
+        <version.connectors>8.3.3</version.connectors>
 
         <!-- external libraries -->
         <version.jackson>2.15.3</version.jackson>
-        <version.slf4j>2.0.9</version.slf4j>
-        <version.aws-java-sdk>2.21.21</version.aws-java-sdk>
+        <version.slf4j>2.0.10</version.slf4j>
+        <version.aws-java-sdk>2.22.12</version.aws-java-sdk>
         <version.logback-classic>1.4.11</version.logback-classic>
         <version.lombok>1.18.30</version.lombok>
         <version.junit-jupiter>5.10.1</version.junit-jupiter>
-        <version.mockito>5.7.0</version.mockito>
-        <version.assertj>3.24.2</version.assertj>
-        <version.testcontainers>1.19.1</version.testcontainers>
+        <version.mockito>5.8.0</version.mockito>
+        <version.assertj>3.25.1</version.assertj>
+        <version.testcontainers>1.19.3</version.testcontainers>
 
         <!-- maven plugins -->
         <plugin.version.maven-clean-plugin>3.3.2</plugin.version.maven-clean-plugin>
-        <plugin.version.maven-compiler-plugin>3.11.0</plugin.version.maven-compiler-plugin>
+        <plugin.version.maven-compiler-plugin>3.12.1</plugin.version.maven-compiler-plugin>
         <plugin.version.maven-dependency-plugin>3.6.1</plugin.version.maven-dependency-plugin>
         <plugin.version.maven-install-plugin>3.1.1</plugin.version.maven-install-plugin>
         <plugin.version.maven-jar-plugin>3.3.0</plugin.version.maven-jar-plugin>
         <plugin.version.maven-resources-plugin>3.3.1</plugin.version.maven-resources-plugin>
         <plugin.version.maven-shade-plugin>3.5.0</plugin.version.maven-shade-plugin>
-        <plugin.version.maven-surefire-plugin>3.2.2</plugin.version.maven-surefire-plugin>
+        <plugin.version.maven-surefire-plugin>3.2.3</plugin.version.maven-surefire-plugin>
     </properties>
 
     <dependencyManagement>
