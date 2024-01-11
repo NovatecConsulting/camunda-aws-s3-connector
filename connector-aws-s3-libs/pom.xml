@@ -28,8 +28,8 @@
     <artifactId>connector-aws-s3-libs</artifactId>
 
     <properties>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
+        <maven.compiler.source>${version.java}</maven.compiler.source>
+        <maven.compiler.target>${version.java}</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
@@ -51,10 +51,6 @@
             <groupId>io.camunda.connector</groupId>
             <artifactId>connector-validation</artifactId>
         </dependency>
-        <!--<dependency>
-            <groupId>io.camunda.connector</groupId>
-            <artifactId>connector-test</artifactId>
-        </dependency>-->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>

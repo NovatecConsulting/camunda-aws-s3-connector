@@ -25,4 +25,4 @@ updates:
     open-pull-requests-limit: 99
     ignore:
       - dependency-name: "jackson-databind"
-        versions: [ "2.16.x"]
+        versions: ["2.16.x"]
