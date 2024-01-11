@@ -8,9 +8,9 @@ possible. This is not a security tutorial for AWS. You should definitively know 
 
 ## Compatibility
 
-- JDK 17+
-- Camunda Platform v8.3.x
-- Connector SDK v0.23.x
+- JDK 21+
+- Camunda Platform v8.4.x
+- Connector SDK v8.4.x
 - AWS SDK v2.x
 
 NOTE: The Docker image is based on the `arm64v8` architecture. If you need another one just switch out the base image.
