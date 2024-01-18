@@ -8,7 +8,6 @@ import de.novatec.bpm.camunda.connector.file.api.RemoteFileCommand;
 import de.novatec.bpm.camunda.connector.file.api.ProcessFileCommand;
 import de.novatec.bpm.camunda.connector.file.api.LocalFileCommand;
 import de.novatec.bpm.camunda.connector.file.api.impl.ProcessFileService;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
