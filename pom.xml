@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.1.5</version>
+        <version>3.2.1</version>
     </parent>
 
     <name>connector-aws-s3-parent</name>
@@ -22,34 +22,36 @@
     <packaging>pom</packaging>
 
     <properties>
-        <maven.compiler.release>17</maven.compiler.release>
+        <version.java>21</version.java>
+        <maven.compiler.release>${version.java}</maven.compiler.release>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
         <!-- connector SDK version -->
-        <version.spring-zeebe>8.3.1</version.spring-zeebe>
-        <version.connectors>8.3.0</version.connectors>
+        <version.spring-zeebe>8.4.0</version.spring-zeebe>
+        <version.connectors>8.4.3</version.connectors>
 
         <!-- external libraries -->
         <version.jackson>2.15.3</version.jackson>
-        <version.slf4j>2.0.9</version.slf4j>
-        <version.aws-java-sdk>2.21.21</version.aws-java-sdk>
-        <version.logback-classic>1.4.11</version.logback-classic>
+        <version.slf4j>2.0.11</version.slf4j>
+        <version.aws-java-sdk>2.23.6</version.aws-java-sdk>
+        <version.logback-classic>1.4.14</version.logback-classic>
+        <version.logback-core>1.4.14</version.logback-core>
         <version.lombok>1.18.30</version.lombok>
         <version.junit-jupiter>5.10.1</version.junit-jupiter>
-        <version.mockito>5.7.0</version.mockito>
-        <version.assertj>3.24.2</version.assertj>
-        <version.testcontainers>1.19.1</version.testcontainers>
+        <version.mockito>5.9.0</version.mockito>
+        <version.assertj>3.25.1</version.assertj>
+        <version.testcontainers>1.19.3</version.testcontainers>
 
         <!-- maven plugins -->
         <plugin.version.maven-clean-plugin>3.3.2</plugin.version.maven-clean-plugin>
-        <plugin.version.maven-compiler-plugin>3.11.0</plugin.version.maven-compiler-plugin>
+        <plugin.version.maven-compiler-plugin>3.12.1</plugin.version.maven-compiler-plugin>
         <plugin.version.maven-dependency-plugin>3.6.1</plugin.version.maven-dependency-plugin>
         <plugin.version.maven-install-plugin>3.1.1</plugin.version.maven-install-plugin>
         <plugin.version.maven-jar-plugin>3.3.0</plugin.version.maven-jar-plugin>
         <plugin.version.maven-resources-plugin>3.3.1</plugin.version.maven-resources-plugin>
         <plugin.version.maven-shade-plugin>3.5.0</plugin.version.maven-shade-plugin>
-        <plugin.version.maven-surefire-plugin>3.2.2</plugin.version.maven-surefire-plugin>
+        <plugin.version.maven-surefire-plugin>3.2.5</plugin.version.maven-surefire-plugin>
     </properties>
 
     <dependencyManagement>
@@ -105,6 +107,11 @@
                 <groupId>ch.qos.logback</groupId>
                 <artifactId>logback-classic</artifactId>
                 <version>${version.logback-classic}</version>
+            </dependency>
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-core</artifactId>
+                <version>${version.logback-core}</version>
             </dependency>
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>

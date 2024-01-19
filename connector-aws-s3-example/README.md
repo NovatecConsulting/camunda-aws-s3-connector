@@ -49,7 +49,7 @@ NOTE: the docker image is based on the `arm64v8` architecture since it is develo
 for any matching architecture:
 
 ```
-FROM arm64v8/openjdk:17
+FROM arm64v8/openjdk:21
 ```
  
 - Start a process instance with the following variable
