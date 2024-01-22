@@ -1,9 +1,9 @@
-package de.novatec.bpm.camunda.connector.aws.s3;
+package info.novatec.bpm.camunda.connector.aws.s3;
 
-import de.novatec.bpm.camunda.connector.file.api.LocalFileCommand;
-import de.novatec.bpm.camunda.connector.file.api.RemoteFileCommand;
-import de.novatec.bpm.camunda.connector.file.api.impl.model.FileContent;
-import de.novatec.bpm.camunda.connector.file.api.impl.model.RequestData;
+import info.novatec.bpm.camunda.connector.file.api.LocalFileCommand;
+import info.novatec.bpm.camunda.connector.file.api.RemoteFileCommand;
+import info.novatec.bpm.camunda.connector.file.api.impl.model.FileContent;
+import info.novatec.bpm.camunda.connector.file.api.impl.model.RequestData;
 import io.camunda.zeebe.client.ZeebeClient;
 import io.camunda.zeebe.client.api.response.ProcessInstanceEvent;
 import io.camunda.zeebe.spring.test.ZeebeSpringTest;

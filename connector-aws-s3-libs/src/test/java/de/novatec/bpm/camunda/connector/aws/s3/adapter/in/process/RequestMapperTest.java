@@ -1,10 +1,10 @@
-package de.novatec.bpm.camunda.connector.aws.s3.adapter.in.process;
+package info.novatec.bpm.camunda.connector.aws.s3.adapter.in.process;
 
-import de.novatec.bpm.camunda.connector.aws.s3.adapter.in.process.model.AuthenticationRequestData;
-import de.novatec.bpm.camunda.connector.aws.s3.adapter.in.process.model.ConnectorRequest;
-import de.novatec.bpm.camunda.connector.aws.s3.adapter.in.process.model.OperationType;
-import de.novatec.bpm.camunda.connector.aws.s3.adapter.in.process.model.RequestDetails;
-import de.novatec.bpm.camunda.connector.file.api.impl.model.RequestData;
+import info.novatec.bpm.camunda.connector.aws.s3.adapter.in.process.model.AuthenticationRequestData;
+import info.novatec.bpm.camunda.connector.aws.s3.adapter.in.process.model.ConnectorRequest;
+import info.novatec.bpm.camunda.connector.aws.s3.adapter.in.process.model.OperationType;
+import info.novatec.bpm.camunda.connector.aws.s3.adapter.in.process.model.RequestDetails;
+import info.novatec.bpm.camunda.connector.file.api.impl.model.RequestData;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;

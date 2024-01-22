@@ -16,7 +16,7 @@
         <module>connector-aws-s3-standalone</module>
     </modules>
 
-    <groupId>de.novatec.bpm.camunda.connector</groupId>
+    <groupId>info.novatec.bpm.camunda.connector</groupId>
     <artifactId>connector-aws-s3-parent</artifactId>
     <version>1.3.0-SNAPSHOT</version>
     <packaging>pom</packaging>

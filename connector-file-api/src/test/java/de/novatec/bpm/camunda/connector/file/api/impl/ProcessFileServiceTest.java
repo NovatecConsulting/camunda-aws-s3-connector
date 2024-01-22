@@ -1,9 +1,9 @@
-package de.novatec.bpm.camunda.connector.file.api.impl;
+package info.novatec.bpm.camunda.connector.file.api.impl;
 
-import de.novatec.bpm.camunda.connector.file.api.RemoteFileCommand;
-import de.novatec.bpm.camunda.connector.file.api.LocalFileCommand;
-import de.novatec.bpm.camunda.connector.file.api.impl.model.FileContent;
-import de.novatec.bpm.camunda.connector.file.api.impl.model.RequestData;
+import info.novatec.bpm.camunda.connector.file.api.RemoteFileCommand;
+import info.novatec.bpm.camunda.connector.file.api.LocalFileCommand;
+import info.novatec.bpm.camunda.connector.file.api.impl.model.FileContent;
+import info.novatec.bpm.camunda.connector.file.api.impl.model.RequestData;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

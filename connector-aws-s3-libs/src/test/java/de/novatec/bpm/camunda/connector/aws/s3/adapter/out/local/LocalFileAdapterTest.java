@@ -1,6 +1,6 @@
-package de.novatec.bpm.camunda.connector.aws.s3.adapter.out.local;
+package info.novatec.bpm.camunda.connector.aws.s3.adapter.out.local;
 
-import de.novatec.bpm.camunda.connector.file.api.impl.exceptions.LocalFileException;
+import info.novatec.bpm.camunda.connector.file.api.impl.exceptions.LocalFileException;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -10,7 +10,6 @@ import org.junit.jupiter.api.Test;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 
 import static org.assertj.core.api.Assertions.*;
