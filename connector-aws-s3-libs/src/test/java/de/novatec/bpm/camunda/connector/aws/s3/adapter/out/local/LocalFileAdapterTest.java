@@ -1,6 +1,6 @@
-package de.novatec.bpm.camunda.connector.aws.s3.adapter.out.local;
+package info.novatec.bpm.camunda.connector.aws.s3.adapter.out.local;
 
-import de.novatec.bpm.camunda.connector.file.api.impl.exceptions.LocalFileException;
+import info.novatec.bpm.camunda.connector.file.api.impl.exceptions.LocalFileException;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;

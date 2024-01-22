@@ -1,13 +1,13 @@
-package de.novatec.bpm.camunda.connector.aws.s3;
+package info.novatec.bpm.camunda.connector.aws.s3;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import de.novatec.bpm.camunda.connector.aws.s3.adapter.in.process.ConnectorAdapter;
-import de.novatec.bpm.camunda.connector.aws.s3.adapter.in.process.model.*;
-import de.novatec.bpm.camunda.connector.aws.s3.adapter.out.cloud.CloudClientFactory;
-import de.novatec.bpm.camunda.connector.aws.s3.adapter.out.cloud.CloudFileAdapter;
-import de.novatec.bpm.camunda.connector.aws.s3.adapter.out.local.LocalFileAdapter;
-import de.novatec.bpm.camunda.connector.file.api.ProcessFileCommand;
-import de.novatec.bpm.camunda.connector.file.api.impl.ProcessFileService;
+import info.novatec.bpm.camunda.connector.aws.s3.adapter.in.process.ConnectorAdapter;
+import info.novatec.bpm.camunda.connector.aws.s3.adapter.in.process.model.*;
+import info.novatec.bpm.camunda.connector.aws.s3.adapter.out.cloud.CloudClientFactory;
+import info.novatec.bpm.camunda.connector.aws.s3.adapter.out.cloud.CloudFileAdapter;
+import info.novatec.bpm.camunda.connector.aws.s3.adapter.out.local.LocalFileAdapter;
+import info.novatec.bpm.camunda.connector.file.api.ProcessFileCommand;
+import info.novatec.bpm.camunda.connector.file.api.impl.ProcessFileService;
 import io.camunda.connector.test.outbound.OutboundConnectorContextBuilder;
 import io.camunda.connector.test.outbound.OutboundConnectorContextBuilder.TestConnectorContext;
 import org.junit.jupiter.api.BeforeEach;
