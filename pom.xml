@@ -39,7 +39,7 @@
         <version.logback-core>1.4.14</version.logback-core>
         <version.lombok>1.18.30</version.lombok>
         <version.junit-jupiter>5.10.1</version.junit-jupiter>
-        <version.mockito>5.9.0</version.mockito>
+        <version.mockito>5.10.0</version.mockito>
         <version.assertj>3.25.1</version.assertj>
         <version.testcontainers>1.19.3</version.testcontainers>
 
