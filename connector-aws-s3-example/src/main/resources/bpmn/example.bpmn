@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1cyt9zs" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.12.1" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="8.2.0">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1cyt9zs" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.20.0" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="8.4.0">
   <bpmn:message id="Message_00j321b" name="NEW_REPORT" />
   <bpmn:collaboration id="Collaboration_0u3n87i">
     <bpmn:participant id="Participant_1j5onc6" name="File Validator" processRef="File_handling_process" />
@@ -113,7 +113,7 @@
         <zeebe:taskDefinition type="info.novatec.bpm:aws-s3:1" />
         <zeebe:ioMapping>
           <zeebe:input source="{{secrets.AWS_ACCESS_KEY}}" target="authentication.accessKey" />
-          <zeebe:input source="secrets.AWS_SECRET_KEY" target="authentication.secretKey" />
+          <zeebe:input source="{{secrets.AWS_SECRET_KEY}}" target="authentication.secretKey" />
           <zeebe:input source="DELETE_OBJECT" target="requestDetails.operationType" />
           <zeebe:input source="=report.region" target="requestDetails.region" />
           <zeebe:input source="=report.bucket" target="requestDetails.bucketName" />

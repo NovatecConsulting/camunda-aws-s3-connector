@@ -20,7 +20,7 @@ import java.nio.file.Files;
 public class ExampleProcessConfiguration {
 
     // overwrite for tests
-    @Value("${aws.endpoint.override:null}")
+    @Value("${aws.endpoint.override:}")
     String awsEndpointOverride;
 
     @Bean

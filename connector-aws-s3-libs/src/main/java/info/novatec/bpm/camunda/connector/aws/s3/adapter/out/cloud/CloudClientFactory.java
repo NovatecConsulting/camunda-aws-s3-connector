@@ -31,7 +31,7 @@ public class CloudClientFactory {
                 .credentialsProvider(() -> StaticCredentialsProvider.create(credentials).resolveCredentials())
                 .region(Region.of(region));
 
-        if (endpointOverride != null) {
+        if (endpointOverride != null && !endpointOverride.isBlank()) {
             logger.info("AWS endpoint override: {}", endpointOverride);
             builder.endpointOverride(URI.create(endpointOverride));
         }

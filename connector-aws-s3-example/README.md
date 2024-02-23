@@ -67,6 +67,17 @@ FROM arm64v8/openjdk:21
 NOTE: the bucket and the report file must exist on your AWS Account. The AWS setup is described in 
 the [connector's README](../connector-aws-s3-libs/README.md)
 
+You can also use e.g. postman and run a grpc call `Gateway/CreateProcessInstance` against the cluster
+
+```json
+{
+  "bpmnProcessId": "<key of process definition>",
+  "processDefinitionKey": "<process instance key>",
+  "variables": "{ \"report\": { \"region\": \"eu-central-1\", \"bucket\": \"my-connector-bucket\", \"key\":\"reports/my-report-123.txt\" } }",
+  "version": -1
+}
+```
+
 ## Integration testing the process with AWS
 
 To do an integration test I use the following technologies:
