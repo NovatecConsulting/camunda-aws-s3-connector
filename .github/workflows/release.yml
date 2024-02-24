@@ -27,7 +27,7 @@ jobs:
 
       - name: Build connector-file-api and Install to Local Repository
         run: |
-          mvn -B install --file connector-file-api/pom.xml
+          mvn -B -e -C org.apache.maven.plugins:maven-dependency-plugin:3.1.2:go-offline -DexcludeArtifactIds=connector-aws-s3-standalone,connector-aws-s3-libs,connector-file-api,connector-aws-s3-example
           cd connector-aws-s3-libs
           mvn clean deploy --settings ../.mvn/settings.xml -Prelease
         env:
