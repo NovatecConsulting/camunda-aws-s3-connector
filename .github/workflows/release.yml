@@ -25,16 +25,11 @@ jobs:
         env:
           GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
 
-      - name: Install connector-file-api to Local Repository
-        run: |
-          cd connector-file-api
-          mvn clean install
-
       - name: Build connector-aws-s3-libs and Deploy
         run: |
-         cd connector-aws-s3-libs
          mvn clean install
-         mvn clean deploy --settings ../.mvn/settings.xml -Prelease
+         mvn clean deploy --settings ../.mvn/settings.xml -Prelease -pl connector-aws-s3-libs
+
         env:
          MAVEN_USERNAME: ${{ secrets.MAVEN_USERNAME }}
          MAVEN_PASSWORD: ${{ secrets.MAVEN_PASSWORD }}
