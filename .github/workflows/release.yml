@@ -25,12 +25,16 @@ jobs:
         env:
           GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
 
-      - name: Build connector-file-api and Install to Local Repository
+      - name: Install connector-file-api to Local Repository
         run: |
-          mvn -B -e -C org.apache.maven.plugins:maven-dependency-plugin:3.1.2:go-offline -DexcludeArtifactIds=connector-aws-s3-standalone,connector-aws-s3-libs,connector-file-api,connector-aws-s3-example
-          cd connector-aws-s3-libs
-          mvn clean deploy --settings ../.mvn/settings.xml -Prelease
+          cd connector-file-api
+          mvn clean install
+
+      - name: Build connector-aws-s3-libs and Deploy
+        run: |
+         cd connector-aws-s3-libs
+         mvn clean deploy --settings ../.mvn/settings.xml -Prelease
         env:
-          MAVEN_USERNAME: ${{ secrets.MAVEN_USERNAME }}
-          MAVEN_PASSWORD: ${{ secrets.MAVEN_PASSWORD }}
-          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+         MAVEN_USERNAME: ${{ secrets.MAVEN_USERNAME }}
+         MAVEN_PASSWORD: ${{ secrets.MAVEN_PASSWORD }}
+         GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
