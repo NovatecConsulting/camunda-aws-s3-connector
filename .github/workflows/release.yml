@@ -25,6 +25,18 @@ jobs:
         env:
           GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
 
+      - name: Build connector-file-api and Install to Local Repository
+        run: |
+          cd connector-file-api
+          mvn clean install
+          mvn install:install-file \
+            -Dfile=target/connector-file-api-1.4.0-SNAPSHOT.jar \
+            -DpomFile=pom.xml \
+            -DgroupId=info.novatec.bpm.camunda.connector \
+            -DartifactId=connector-file-api \
+            -Dversion=1.4.0-SNAPSHOT \
+            -Dpackaging=jar
+
       - name: Build and Deploy aws-s3-connector-lib
         run: |
           cd connector-aws-s3-libs
