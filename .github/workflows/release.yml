@@ -28,9 +28,6 @@ jobs:
       - name: Build connector-file-api and Install to Local Repository
         run: |
           mvn -B install --file connector-file-api/pom.xml
-
-      - name: Build and Deploy aws-s3-connector-lib
-        run: |
           cd connector-aws-s3-libs
           mvn clean deploy --settings ../.mvn/settings.xml -Prelease
         env:
