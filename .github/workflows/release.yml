@@ -28,7 +28,7 @@ jobs:
       - name: Build connector-aws-s3-libs and Deploy
         run: |
          mvn clean install
-         mvn clean deploy --settings ../.mvn/settings.xml -Prelease -pl connector-aws-s3-libs
+         mvn clean deploy --settings .mvn/settings.xml -Prelease -pl connector-aws-s3-libs
 
         env:
          MAVEN_USERNAME: ${{ secrets.MAVEN_USERNAME }}
