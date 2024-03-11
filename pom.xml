@@ -32,7 +32,7 @@
         <version.connectors>8.4.4</version.connectors>
 
         <!-- external libraries -->
-        <version.jackson>2.15.3</version.jackson>
+        <version.jackson>2.16.2</version.jackson>
         <version.slf4j>2.0.12</version.slf4j>
         <version.aws-java-sdk>2.24.11</version.aws-java-sdk>
         <version.logback-classic>1.4.14</version.logback-classic>
