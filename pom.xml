@@ -34,7 +34,7 @@
         <!-- external libraries -->
         <version.jackson>2.15.3</version.jackson>
         <version.slf4j>2.0.12</version.slf4j>
-        <version.aws-java-sdk>2.24.11</version.aws-java-sdk>
+        <version.aws-java-sdk>2.25.13</version.aws-java-sdk>
         <version.logback-classic>1.4.14</version.logback-classic>
         <version.logback-core>1.5.0</version.logback-core>
         <version.lombok>1.18.30</version.lombok>
