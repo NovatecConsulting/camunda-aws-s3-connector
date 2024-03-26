@@ -1,7 +1,9 @@
 {
   "report": {
     "region": "eu-central-1",
-    "bucket": "my-connector-bucket",
+    "bucket": "blogpostawsbucket",
     "key":"reports/report-xyz.txt"
   }
 }
+
+
