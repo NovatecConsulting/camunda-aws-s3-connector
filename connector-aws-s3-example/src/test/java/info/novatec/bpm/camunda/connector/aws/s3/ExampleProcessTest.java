@@ -1,6 +1,5 @@
 package info.novatec.bpm.camunda.connector.aws.s3;
 
-import info.novatec.bpm.camunda.connector.aws.s3.ExampleProcessApplication;
 import info.novatec.bpm.camunda.connector.file.api.LocalFileCommand;
 import info.novatec.bpm.camunda.connector.file.api.RemoteFileCommand;
 import info.novatec.bpm.camunda.connector.file.api.impl.model.FileContent;
@@ -13,10 +12,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-
 import static io.camunda.zeebe.process.test.assertions.BpmnAssert.assertThat;
 import static io.camunda.zeebe.spring.test.ZeebeTestThreadSupport.waitForProcessInstanceCompleted;
 import static org.mockito.ArgumentMatchers.any;
