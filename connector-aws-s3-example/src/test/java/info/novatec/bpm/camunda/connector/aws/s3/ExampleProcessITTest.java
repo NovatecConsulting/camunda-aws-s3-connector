@@ -1,6 +1,5 @@
-package de.novatec.bpm.camunda.connector.aws.s3;
+package info.novatec.bpm.camunda.connector.aws.s3;
 
-import info.novatec.bpm.camunda.connector.aws.s3.ExampleProcessApplication;
 import io.camunda.zeebe.client.ZeebeClient;
 import io.camunda.zeebe.client.api.response.ProcessInstanceEvent;
 import io.camunda.zeebe.spring.test.ZeebeSpringTest;
