@@ -1,5 +1,6 @@
-package info.novatec.bpm.camunda.connector.aws.s3;
+package de.novatec.bpm.camunda.connector.aws.s3;
 
+import info.novatec.bpm.camunda.connector.aws.s3.ExampleProcessApplication;
 import info.novatec.bpm.camunda.connector.file.api.LocalFileCommand;
 import info.novatec.bpm.camunda.connector.file.api.RemoteFileCommand;
 import info.novatec.bpm.camunda.connector.file.api.impl.model.FileContent;
@@ -22,7 +23,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
-@SpringBootTest
+@SpringBootTest(classes = ExampleProcessApplication.class)
 @ZeebeSpringTest
 class ExampleProcessTest {
 
