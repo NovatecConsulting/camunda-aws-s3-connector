@@ -23,8 +23,10 @@ import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.CreateBucketRequest;
 import software.amazon.awssdk.services.s3.model.GetObjectRequest;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
+
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+
 @SpringBootTest(classes = ExampleProcessApplication.class)
 @ZeebeSpringTest
 @Testcontainers
