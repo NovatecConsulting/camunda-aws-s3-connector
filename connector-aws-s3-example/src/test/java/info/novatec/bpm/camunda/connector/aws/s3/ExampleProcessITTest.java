@@ -27,7 +27,7 @@ import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
-@SpringBootTest
+@SpringBootTest(classes = ExampleProcessApplication.class)
 @ZeebeSpringTest
 @Testcontainers
 class ExampleProcessITTest {
