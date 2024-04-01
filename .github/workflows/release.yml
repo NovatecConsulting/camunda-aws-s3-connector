@@ -1,6 +1,9 @@
 name: Release
 
 on:
+  release:
+    types:
+      - created
   workflow_dispatch:
 
 jobs:
@@ -15,6 +18,9 @@ jobs:
           java-version: '21'
           distribution: 'temurin'
           cache: maven
+          server-id: ossrh
+          server-username: MAVEN_USERNAME
+          server-password: MAVEN_PASSWORD
 
       - name: Import GPG key
         run: |
@@ -22,10 +28,10 @@ jobs:
         env:
           GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
 
-      - name: Build connector-aws-s3-libs and Deploy
-        run: |
-         mvn clean install
-         mvn clean deploy --settings .mvn/settings.xml -Prelease -pl connector-aws-s3-libs
+      - name: Build Project
+        run: mvn clean package --settings .mvn/settings.xml
+      - name: Deploy to Maven
+        run: mvn clean deploy
 
         env:
          MAVEN_USERNAME: ${{ secrets.MAVEN_USERNAME }}
