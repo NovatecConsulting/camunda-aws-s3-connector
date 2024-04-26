@@ -28,7 +28,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
         <!-- connector SDK version -->
-        <version.spring-boot-starter-camunda>8.4.2</version.spring-boot-starter-camunda>
+        <version.spring-boot-starter-camunda>8.5.1</version.spring-boot-starter-camunda>
         <version.connectors>8.5.0</version.connectors>
 
         <!-- external libraries -->
