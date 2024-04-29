@@ -29,6 +29,6 @@ without any additional worker logic
 - AWS SDK v2.x
 
 ## Blog Posts
-You are welcome to read our blog posts about the AWS S3 Connector:
+You are welcome to read our blog posts about the Camunda AWS S3 Connector:
 
-- How to use Camunda 8 Connectors with Camunda SaaS and AWS S3 Bucket in your process: **[Hands On AWS S3 Connector](https://medium.com/@jannik_74984/hands-on-camunda-aws-s3-connector-cd6f5011740b)**
+- How to use Camunda 8 Connectors with Camunda SaaS and AWS S3 Bucket in your process: **[Hands On Camunda AWS S3 Connector](https://medium.com/@jannik_74984/hands-on-camunda-aws-s3-connector-cd6f5011740b)**
