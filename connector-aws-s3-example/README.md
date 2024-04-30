@@ -16,6 +16,30 @@ while the job workers logic is located here. Both use the file api to access loc
 ## Running the example
 - Configure your Springboot application for local or camunda platform
 
+### Running on Camunda SaaS platform
+
+#### 1. creating a cluster
+First, you can sign up for a free trial of Camunda SaaS, which offers a 30-day duration. This trial allows you to 
+explore the various features of the Camunda platform at no immediate cost.
+
+<img src="../assets/camundaScreenshots/screenshot_clustertab.png" width="600" />
+
+navigate to the “Clusters” tab.
+There you can create a new cluster by specifying a region and a name. To complete the creation process click on the blue create button on the right . In the cluster overview, you can also choose a cluster tag like “dev”, “test”, “stage” or “prod”, depending on the purposes for which it is to be used
+Once you created a Cluster, you can see its properties like “Cluster Id” and “Region” down below
+
+#### 2. creating a new client
+
+For API Orchestration you must create an API to do this, go to the “API” tab and click on “Create”.
+Now important properties such as Region, Cluster ID, Client ID and Client Secret are shown, save this information.
+You will use this information later in the Spring Boot application by adding it to the application.properties file
+
+<img src="../assets/camundaScreenshots/screenshot_client_properties.png" width="600" />
+
+#### 3. configuring application.properties in Spring Boot
+these client properties are now copied to the application file in the Spring Boot application so that it
+can connect to the client and cluster just created
+
 ```yaml
 zeebe.client.cloud.region: my-region
 zeebe.client.cloud.clusterid: my-cluster-id
@@ -23,7 +47,16 @@ zeebe.client.cloud.clientid: my-client-id
 zeebe.client.cloud.clientsecret: my-client-secret
 ```
 
-Or if you use a local runtime:
+- Add your access and secret key from your AWS as environment variables:
+
+```
+AWS_ACCESS_KEY:my-access-key
+AWS_SECRET_KEY:my-secret-key
+```
+
+now your setup is ready to start and you can go over to "Starting the process"
+
+### For local runtime:
 
 ```yaml
 zeebe.client.broker.gateway-address: localhost:26500
@@ -33,12 +66,6 @@ zeebe.client.security.plaintext: true
 NOTE: you don't need an Operate client for an outbound connector therefore I removed the AutoConfiguration for inbound 
 connectors and the endpoint to Operate from the properties
 
-- Add your access and secret key from your AWS as environment variables:
-
-```
-AWS_ACCESS_KEY=my-access-key
-AWS_SECRET_KEY=my-secret-key
-```
 
 - Start the Springboot application
 - Or build a Docker image with the provided [Dockerfile](../docker/Dockerfile) and use it in a docker-compose environment
@@ -51,8 +78,11 @@ for any matching architecture:
 ```
 FROM arm64v8/openjdk:21
 ```
- 
-- Start a process instance with the following variable
+
+### Starting the process
+
+You can load the example.bpmn file into the Camunda SaaS platform Modeler and 
+start a process instance with the following variable
 
 ```json
 {
@@ -64,6 +94,11 @@ FROM arm64v8/openjdk:21
 }
 ```
 
+- “region” stands for the region in which the S3 bucket is located.
+- “bucket” describes the name of your S3 bucket.
+- “key” is a unique identifier for a file or an object within an S3 bucket.
+
+
 NOTE: the bucket and the report file must exist on your AWS Account. The AWS setup is described in 
 the [connector's README](../connector-aws-s3-libs/README.md)
 
@@ -74,9 +109,16 @@ You can also use e.g. postman and run a grpc call `Gateway/CreateProcessInstance
   "bpmnProcessId": "<key of process definition>",
   "processDefinitionKey": "<process instance key>",
   "variables": "{ \"report\": { \"region\": \"eu-central-1\", \"bucket\": \"my-connector-bucket\", \"key\":\"reports/my-report-123.txt\" } }",
-  "version": -1
+  "version": 2
 }
 ```
+
+
+Now if you started the process, you could monitor the process via Camunda Operate to get detailed insights into the 
+execution and all of the components of your process instances.
+
+For performance and observability, you can use the Camunda Optimize as well, there you can see how many process 
+instances are running, or where possible errors occur in the process
 
 ## Integration testing the process with AWS
 
