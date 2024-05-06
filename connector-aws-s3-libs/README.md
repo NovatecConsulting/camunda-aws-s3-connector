@@ -9,7 +9,7 @@ possible. This is not a security tutorial for AWS. You should definitively know 
 ## Compatibility
 
 - JDK 21+
-- Camunda Platform v8.4.x
+- Camunda Platform v8.5.x
 - Connector SDK v8.5.x
 - AWS SDK v2.x
 
