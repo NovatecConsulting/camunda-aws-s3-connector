@@ -25,7 +25,7 @@ without any additional worker logic
 ## Connector Compatibility
 
 - JDK 21+
-- Camunda Platform v8.4.x
+- Camunda Platform v8.5.x
 - AWS SDK v2.x
 
 ## Blog Posts
