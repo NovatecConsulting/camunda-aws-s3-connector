@@ -11,9 +11,7 @@
     <name>connector-aws-s3-parent</name>
     <modules>
         <module>connector-aws-s3-libs</module>
-        <module>connector-aws-s3-example</module>
         <module>connector-file-api</module>
-        <module>connector-aws-s3-standalone</module>
     </modules>
 
     <groupId>info.novatec.bpm.camunda.connector</groupId>
