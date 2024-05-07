@@ -162,10 +162,10 @@
     </dependencyManagement>
 
     <distributionManagement>
-        <snapshotRepository>
+        <repository>
             <id>ossrh</id>
             <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
-        </snapshotRepository>
+        </repository>
     </distributionManagement>
 
     <build>
