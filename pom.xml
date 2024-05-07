@@ -11,7 +11,9 @@
     <name>connector-aws-s3-parent</name>
     <modules>
         <module>connector-aws-s3-libs</module>
+        <module>connector-aws-s3-example</module>
         <module>connector-file-api</module>
+        <module>connector-aws-s3-standalone</module>
     </modules>
 
     <groupId>info.novatec.bpm.camunda.connector</groupId>
@@ -160,13 +162,6 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-
-    <distributionManagement>
-        <repository>
-            <id>ossrh</id>
-            <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
-        </repository>
-    </distributionManagement>
 
     <build>
         <pluginManagement>
