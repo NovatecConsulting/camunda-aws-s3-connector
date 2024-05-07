@@ -35,6 +35,9 @@ jobs:
           MAVEN_PASSWORD: ${{ secrets.MAVEN_PASSWORD }}
           GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
 
+      - name: Show contents of /home/runner directory
+        run: ls /home/runner
+
       - name: Build and Deploy connector-aws-s3-libs
         run: |
           cd connector-aws-s3-libs
