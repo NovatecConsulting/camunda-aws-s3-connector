@@ -32,7 +32,7 @@ jobs:
       - name: Build and Deploy connector-file-api
         run: |
           cd connector-file-api
-          mvn -X clean install deploy --settings ../.mvn/settings.xml
+          mvn -X clean deploy --settings ../.mvn/settings.xml
         env:
           MAVEN_USERNAME: ${{ secrets.MAVEN_USERNAME }}
           MAVEN_PASSWORD: ${{ secrets.MAVEN_PASSWORD }}
@@ -41,7 +41,7 @@ jobs:
       - name: Build and Deploy connector-aws-s3-libs
         run: |
           cd connector-aws-s3-libs
-          mvn -X clean install deploy --settings ../.mvn/settings.xml
+          mvn -X clean deploy --settings ../.mvn/settings.xml
         env:
           MAVEN_USERNAME: ${{ secrets.MAVEN_USERNAME }}
           MAVEN_PASSWORD: ${{ secrets.MAVEN_PASSWORD }}
