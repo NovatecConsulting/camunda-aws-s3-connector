@@ -28,20 +28,12 @@ jobs:
         env:
           GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
 
-      - name: Build and Deploy connector-file-api
+
+      - name: Build and Deploy camunda-aws-s3-connector
         run: |
-          cd connector-file-api
           mvn clean deploy --settings ../.mvn/settings.xml
         env:
           MAVEN_USERNAME: ${{ secrets.MAVEN_USERNAME }}
           MAVEN_PASSWORD: ${{ secrets.MAVEN_PASSWORD }}
           GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
 
-      - name: Build and Deploy connector-aws-s3-libs
-        run: |
-          cd connector-aws-s3-libs
-          mvn clean deploy --settings ../.mvn/settings.xml
-        env:
-          MAVEN_USERNAME: ${{ secrets.MAVEN_USERNAME }}
-          MAVEN_PASSWORD: ${{ secrets.MAVEN_PASSWORD }}
-          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
