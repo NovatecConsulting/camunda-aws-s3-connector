@@ -33,8 +33,7 @@ jobs:
           cd connector-file-api
           mvn package --settings ../.mvn/settings.xml
           
-          mvn org.apache.maven.plugins:maven-install-plugin:3.1.2:install-file -Dfile=./target/connector-file-api-1.5.0-SNAPSHOT.jar -DgroupId=info.novatec.bpm.camunda.connector 
-          -DartifactId=connector-file-api -Dversion=1.5.0-SNAPSHOT -Dpackaging=jar
+          mvn org.apache.maven.plugins:maven-install-plugin:3.1.2:install-file -Dfile=./target/connector-file-api-1.5.0-SNAPSHOT.jar -DgroupId=info.novatec.bpm.camunda.connector -DartifactId=connector-file-api -Dversion=1.5.0-SNAPSHOT -Dpackaging=jar
           
           cd ../connector-aws-s3-libs
           mvn -X clean deploy --settings ../.mvn/settings.xml
