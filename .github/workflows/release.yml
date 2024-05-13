@@ -31,7 +31,7 @@ jobs:
       - name: Build and Deploy connector-file-api
         run: |
           cd connector-file-api
-          mvn build --settings ../.mvn/settings.xml
+          mvn package --settings ../.mvn/settings.xml
           
           mvn org.apache.maven.plugins:maven-install-plugin:3.1.2:install-file -Dfile=./target/connector-file-api-1.5.0-SNAPSHOT.jar -DgroupId=info.novatec.bpm.camunda.connector 
           -DartifactId=connector-file-api -Dversion=1.5.0-SNAPSHOT -Dpackaging=jar
