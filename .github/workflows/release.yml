@@ -30,12 +30,10 @@ jobs:
 
       - name: Build and Deploy connector-file-api
         run: |
-          cd connector-file-api
-          mvn clean install --settings ../.mvn/settings.xml
+        
+          mvn package --settings ../.mvn/settings.xml
           
-          cd ../connector-aws-s3-libs
-          
-          
+          cd connector-aws-s3-libs
           
           mvn clean deploy --settings ../.mvn/settings.xml
 
