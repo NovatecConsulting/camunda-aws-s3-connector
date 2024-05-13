@@ -7,18 +7,20 @@ on:
   workflow_dispatch:
 
 jobs:
-  build_and_deploy:
+  build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
-
+      - uses: actions/checkout@v4
       - name: Set up JDK 21
         uses: actions/setup-java@v4
         with:
           java-version: '21'
           distribution: 'temurin'
+          cache: maven
+          server-id: ossrh
+          server-username: MAVEN_USERNAME
+          server-password: MAVEN_PASSWORD
 
       - name: Import GPG key
         run: |
@@ -26,13 +28,10 @@ jobs:
         env:
           GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
 
-      - name: Download Maven dependencies
-        run: mvn -B -e -C org.apache.maven.plugins:maven-dependency-plugin:3.1.2:go-offline
-
       - name: Build and Deploy connector-file-api
         run: |
           cd connector-file-api
-          mvn -X clean deploy --settings ../.mvn/settings.xml
+          mvn clean deploy --settings ../.mvn/settings.xml
         env:
           MAVEN_USERNAME: ${{ secrets.MAVEN_USERNAME }}
           MAVEN_PASSWORD: ${{ secrets.MAVEN_PASSWORD }}
@@ -41,9 +40,8 @@ jobs:
       - name: Build and Deploy connector-aws-s3-libs
         run: |
           cd connector-aws-s3-libs
-          mvn -X clean deploy --settings ../.mvn/settings.xml
+          mvn clean deploy --settings ../.mvn/settings.xml
         env:
           MAVEN_USERNAME: ${{ secrets.MAVEN_USERNAME }}
           MAVEN_PASSWORD: ${{ secrets.MAVEN_PASSWORD }}
           GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
-
