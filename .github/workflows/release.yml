@@ -28,7 +28,6 @@ jobs:
         env:
           GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
 
-
       - name: Build and Deploy camunda-aws-s3-connector
         run: |
           mvn clean deploy --settings .mvn/settings.xml
