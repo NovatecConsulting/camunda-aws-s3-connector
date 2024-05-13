@@ -31,9 +31,11 @@ jobs:
       - name: Build and Deploy connector-file-api
         run: |
         
-          mvn package --settings .mvn/settings.xml
+          mvn install --settings .mvn/settings.xml
           
           cd connector-aws-s3-libs
+          
+          mvn dependency:get -Dartifact=info.novatec.bpm.camunda.connector:connector-file-api:1.5.0-SNAPSHOT -o -DrepoUrl=file://~/.m2/repository
           
           mvn clean deploy --settings ../.mvn/settings.xml
 
