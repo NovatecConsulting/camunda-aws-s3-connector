@@ -21,5 +21,5 @@ RUN mvn -B -e clean install -DskipTests=true
 
 FROM arm64v8/openjdk:21
 WORKDIR /opt/app
-COPY --from=BUILDER /opt/app/connector-aws-s3-standalone/target/connector-aws-s3-standalone-1.5.0-SNAPSHOT.jar /connector.jar
+COPY --from=BUILDER /opt/app/connector-aws-s3-standalone/target/connector-aws-s3-standalone-1.5.0.jar /connector.jar
 CMD [ "java", "-jar", "/connector.jar" ]
