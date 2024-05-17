@@ -41,10 +41,11 @@ these client properties are now copied to the application file in the Spring Boo
 can connect to the client and cluster just created
 
 ```yaml
-zeebe.client.cloud.region: my-region
-zeebe.client.cloud.clusterid: my-cluster-id
-zeebe.client.cloud.clientid: my-client-id
-zeebe.client.cloud.clientsecret: my-client-secret
+camunda.client.mode=saas
+camunda.client.auth.client-id=myClientId
+camunda.client.auth.client-secret=mySecrect
+camunda.client.cluster-id=myClusterId
+camunda.client.region=myRegion
 ```
 
 - Add your access and secret key from your AWS as environment variables:
@@ -59,9 +60,9 @@ now your setup is ready to start and you can go over to "Starting the process"
 ### For local runtime:
 
 ```yaml
-zeebe.client.broker.gateway-address: localhost:26500
-zeebe.client.security.plaintext: true
+camunda.client.mode=simple
 ```
+If you want to configure it besides the 'simple' defaults check out the [documentation](https://github.com/camunda-community-hub/spring-zeebe?tab=readme-ov-file#simple) of camunda!
 
 NOTE: you don't need an Operate client for an outbound connector therefore I removed the AutoConfiguration for inbound 
 connectors and the endpoint to Operate from the properties
