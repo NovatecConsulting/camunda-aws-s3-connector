@@ -170,6 +170,19 @@
         </repository>
     </distributionManagement>
 
+    <scm>
+         <url>https://github.com/NovatecConsulting/camunda-aws-s3-connector</url>
+         <connection>scm:git:git://github.com/NovatecConsulting/camunda-aws-s3-connector.git</connection>
+         <developerConnection>scm:git:ssh://github.com:NovatecConsulting/camunda-aws-s3-connector.git</developerConnection>
+    </scm>
+
+    <developers>
+        <developer>
+            <name>Jannik Bergjan</name>
+            <email>jannik.bergjan@novatec-gmbh.de</email>
+        </developer>
+    </developers>
+
     <build>
         <pluginManagement>
             <plugins>
