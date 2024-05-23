@@ -238,6 +238,7 @@
                       <passphrase>${gpg.passphrase}</passphrase>
                    </configuration>
               </plugin>
+            </plugins>
         </pluginManagement>
     </build>
 </project>
