@@ -6,11 +6,13 @@ import io.camunda.zeebe.spring.client.annotation.JobWorker;
 import io.camunda.zeebe.spring.client.annotation.Variable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
+@Component
 public class FileOperationAdapter {
 
     private static final Logger logger = LoggerFactory.getLogger(FileOperationAdapter.class);
@@ -55,7 +57,5 @@ public class FileOperationAdapter {
             logger.info("Report has {} bytes and is invalid", content.length);
             return Map.of("reportValid", false);
         }
-
     }
-
 }

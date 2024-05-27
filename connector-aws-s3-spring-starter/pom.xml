@@ -3,6 +3,7 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
     <parent>
         <groupId>info.novatec.bpm.camunda.connector</groupId>
         <artifactId>connector-aws-s3-parent</artifactId>
@@ -10,7 +11,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>connector-aws-s3-example</artifactId>
+    <artifactId>connector-aws-s3-spring-starter</artifactId>
 
     <properties>
         <maven.compiler.source>${version.java}</maven.compiler.source>
@@ -21,10 +22,17 @@
     <dependencies>
         <dependency>
             <groupId>info.novatec.bpm.camunda.connector</groupId>
-            <artifactId>connector-aws-s3-spring-starter</artifactId>
+            <artifactId>connector-aws-s3-libs</artifactId>
             <version>1.5.0-SNAPSHOT</version>
         </dependency>
-
+        <dependency>
+            <groupId>io.camunda.spring</groupId>
+            <artifactId>spring-boot-starter-camunda</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.camunda.connector</groupId>
+            <artifactId>spring-boot-starter-camunda-connectors</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
