@@ -32,7 +32,7 @@ class ExampleProcessTest {
     @MockBean
     private LocalFileCommand localFileCommand;
 
-    @MockBean
+    @MockBean(name = "remoteFileCommand")
     private RemoteFileCommand remoteFileCommand;
 
     @BeforeAll
@@ -130,5 +130,4 @@ class ExampleProcessTest {
 
         verifyNoMoreInteractions(localFileCommand, remoteFileCommand);
     }
-
 }
