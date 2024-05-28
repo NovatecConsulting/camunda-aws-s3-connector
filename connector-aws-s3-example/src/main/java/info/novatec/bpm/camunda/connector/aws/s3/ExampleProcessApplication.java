@@ -8,10 +8,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 // we don't want the connector runtime to connect to Operate as it is
 // not needed for outbound connectors
-@SpringBootApplication
+@SpringBootApplication(exclude = {InboundConnectorsAutoConfiguration.class})
 @Deployment(resources = "bpmn/example.bpmn")
 public class ExampleProcessApplication {
-
     public static void main(String[] args) {
         SpringApplication.run(ExampleProcessApplication.class, args);
     }
