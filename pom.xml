@@ -14,7 +14,7 @@
         <module>connector-aws-s3-example</module>
         <module>connector-file-api</module>
         <module>connector-aws-s3-standalone</module>
-        <module>connector-aws-s3-spring-starter</module>
+        <module>spring-boot-starter-camunda-aws-s3-connector</module>
     </modules>
 
     <groupId>info.novatec.bpm.camunda.connector</groupId>

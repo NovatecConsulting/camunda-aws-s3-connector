@@ -11,7 +11,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>connector-aws-s3-spring-starter</artifactId>
+    <artifactId>spring-boot-starter-camunda-aws-s3-connector</artifactId>
 
     <properties>
         <maven.compiler.source>${version.java}</maven.compiler.source>

@@ -9,10 +9,6 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class FileOperationConfiguration {
 
-    // overwrite for tests
-    @Value("${aws.endpoint.override:}")
-    String awsEndpointOverride;
-
     @Bean
     FileOperationAdapter jobWorker(LocalFileCommand localFileCommand) {
         return new FileOperationAdapter(localFileCommand);
