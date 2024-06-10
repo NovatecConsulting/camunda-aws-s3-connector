@@ -224,6 +224,41 @@
                 </plugin>
 
                 <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-source-plugin</artifactId>
+                    <executions>
+                        <execution>
+                            <id>attach-sources</id>
+                            <goals>
+                                <goal>jar-no-fork</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-javadoc-plugin</artifactId>
+                    <executions>
+                        <execution>
+                            <id>attach-javadocs</id>
+                            <goals>
+                                <goal>jar</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.sonatype.plugins</groupId>
+                    <artifactId>nexus-staging-maven-plugin</artifactId>
+                    <extensions>true</extensions>
+                    <configuration>
+                        <serverId>sonatype-nexus-staging</serverId>
+                        <nexusUrl>https://oss.sonatype.org</nexusUrl>
+                    </configuration>
+                </plugin>
+
+                <plugin>
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>flatten-maven-plugin</artifactId>
                     <version>1.0.1</version>
