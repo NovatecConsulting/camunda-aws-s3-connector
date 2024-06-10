@@ -94,6 +94,29 @@
     </dependencies>
     <build>
         <plugins>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>3.4.2</version>
+                <configuration>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                    <finalName>${project.artifactId}-${project.version}-fat</finalName>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-gpg-plugin</artifactId>
@@ -141,9 +164,28 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-deploy-plugin</artifactId>
+
                 <configuration>
                     <skip>false</skip>
                 </configuration>
+
+                <executions>
+                <execution>
+                    <id>deploy-fat-jar</id>
+                    <phase>deploy</phase>
+                    <goals>
+                        <goal>deploy-file</goal>
+                    </goals>
+                    <configuration>
+                        <file>${project.build.directory}/${project.artifactId}-${project.version}-fat.jar</file>
+                        <repositoryId>ossrh</repositoryId>
+                        <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+                        <pomFile>${project.basedir}/pom.xml</pomFile>
+                        <generatePom>false</generatePom>
+                    </configuration>
+                </execution>
+
+                </executions>
             </plugin>
         </plugins>
     </build>
