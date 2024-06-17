@@ -98,14 +98,25 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>flatten-maven-plugin</artifactId>
-                <version>1.6.0</version>
+                <inherited>true</inherited>
                 <executions>
                     <execution>
+                        <!-- Tidy up all POMs before they are published -->
                         <id>flatten</id>
+                        <phase>process-resources</phase>
                         <goals>
                             <goal>flatten</goal>
                         </goals>
-                        <phase>process-resources</phase>
+                        <configuration>
+                            <updatePomFile>true</updatePomFile>
+                            <flattenMode>oss</flattenMode>
+                            <embedBuildProfileDependencies>true</embedBuildProfileDependencies>
+                            <pomElements>
+                                <parent>expand</parent>
+                                <distributionManagement>remove</distributionManagement>
+                                <repositories>remove</repositories>
+                            </pomElements>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
