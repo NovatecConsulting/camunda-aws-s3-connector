@@ -78,6 +78,11 @@
                             <embedBuildProfileDependencies>true</embedBuildProfileDependencies>
                             <pomElements>
                                 <parent>remove</parent>
+                                <name>expand</name>
+                                <description>expand</description>
+                                <licenses>expand</licenses>
+                                <developers>expand</developers>
+                                <scm>expand</scm>
                                 <distributionManagement>remove</distributionManagement>
                                 <repositories>remove</repositories>
                             </pomElements>
