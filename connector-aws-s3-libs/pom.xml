@@ -126,7 +126,6 @@
                 </executions>
             </plugin>
 
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
@@ -207,20 +206,20 @@
                             <goal>deploy</goal>
                         </goals>
                     </execution>
-                <execution>
-                    <id>deploy-fat-jar</id>
-                    <phase>deploy</phase>
-                    <goals>
-                        <goal>deploy-file</goal>
-                    </goals>
-                    <configuration>
-                        <file>${project.build.directory}/${project.artifactId}-${project.version}-fat-jar-with-dependencies.jar</file>
-                        <repositoryId>ossrh</repositoryId>
-                        <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-                        <pomFile>${project.basedir}/.flattened-pom.xml</pomFile>
-                        <generatePom>false</generatePom>
-                    </configuration>
-                </execution>
+                    <execution>
+                        <id>deploy-fat-jar</id>
+                        <phase>deploy</phase>
+                        <goals>
+                            <goal>deploy-file</goal>
+                        </goals>
+                        <configuration>
+                            <file>${project.build.directory}/${project.artifactId}-${project.version}-fat-jar-with-dependencies.jar</file>
+                            <repositoryId>ossrh</repositoryId>
+                            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+                            <pomFile>${project.basedir}/.pom.xml</pomFile>
+                            <generatePom>false</generatePom>
+                        </configuration>
+                     </execution>
 
                 </executions>
             </plugin>
