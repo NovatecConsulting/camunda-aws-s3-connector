@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>info.novatec.bpm.camunda.connector</groupId>
+  <artifactId>connector-file-api</artifactId>
+  <version>1.5.0</version>
+  <description>Parent pom providing dependency and plugin management for applications built with Maven</description>
+  <url>https://spring.io/projects/spring-boot/connector-aws-s3-parent/connector-file-api</url>
+  <licenses>
+    <license>
+      <name>Apache License, Version 2.0</name>
+      <url>https://www.apache.org/licenses/LICENSE-2.0</url>
+    </license>
+  </licenses>
+  <developers>
+    <developer>
+      <name>Jannik Bergjan</name>
+      <email>jannik.bergjan@novatec-gmbh.de</email>
+    </developer>
+  </developers>
+  <scm>
+    <connection>scm:git:git://github.com/NovatecConsulting/camunda-aws-s3-connector.git</connection>
+    <developerConnection>scm:git:ssh://github.com:NovatecConsulting/camunda-aws-s3-connector.git</developerConnection>
+    <url>https://github.com/NovatecConsulting/camunda-aws-s3-connector</url>
+  </scm>
+  <dependencies>
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <version>1.18.32</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>2.0.13</version>
+      <scope>compile</scope>
+    </dependency>
+  </dependencies>
+</project>

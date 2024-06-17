@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>info.novatec.bpm.camunda.connector</groupId>
+  <artifactId>connector-aws-s3-libs</artifactId>
+  <version>1.5.0</version>
+  <name>connector-aws-s3</name>
+  <description>AWS S3 connector for Camunda 8</description>
+  <url>https://spring.io/projects/spring-boot/connector-aws-s3-parent/connector-aws-s3-libs</url>
+  <licenses>
+    <license>
+      <name>Camunda Platform Self-Managed Free Edition license</name>
+      <url>https://camunda.com/legal/terms/cloud-terms-and-conditions/camunda-cloud-self-managed-free-edition-terms/</url>
+    </license>
+    <license>
+      <name>Camunda Platform Self-Managed Enterprise Edition license</name>
+    </license>
+  </licenses>
+  <developers>
+    <developer>
+      <name>Jannik Bergjan</name>
+      <email>jannik.bergjan@novatec-gmbh.de</email>
+    </developer>
+  </developers>
+  <scm>
+    <connection>scm:git:git://github.com/NovatecConsulting/camunda-aws-s3-connector.git/connector-aws-s3-libs</connection>
+    <developerConnection>scm:git:ssh://github.com:NovatecConsulting/camunda-aws-s3-connector.git/connector-aws-s3-libs</developerConnection>
+    <url>https://github.com/NovatecConsulting/camunda-aws-s3-connector/connector-aws-s3-libs</url>
+  </scm>
+  <dependencies>
+    <dependency>
+      <groupId>info.novatec.bpm.camunda.connector</groupId>
+      <artifactId>connector-file-api</artifactId>
+      <version>1.5.0</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>software.amazon.awssdk</groupId>
+      <artifactId>s3</artifactId>
+      <version>2.25.45</version>
+      <scope>compile</scope>
+      <exclusions>
+        <exclusion>
+          <groupId>commons-logging</groupId>
+          <artifactId>commons-logging</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>io.camunda.connector</groupId>
+      <artifactId>connector-core</artifactId>
+      <version>8.5.1</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>io.camunda.connector</groupId>
+      <artifactId>connector-validation</artifactId>
+      <version>8.5.1</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>2.0.13</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
+      <version>2.15.3</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <version>1.18.32</version>
+      <scope>compile</scope>
+    </dependency>
+  </dependencies>
+</project>

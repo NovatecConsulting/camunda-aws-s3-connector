@@ -112,7 +112,7 @@
                             <flattenMode>oss</flattenMode>
                             <embedBuildProfileDependencies>true</embedBuildProfileDependencies>
                             <pomElements>
-                                <parent>expand</parent>
+                                <parent>remove</parent>
                                 <distributionManagement>remove</distributionManagement>
                                 <repositories>remove</repositories>
                             </pomElements>
@@ -142,7 +142,6 @@
                     </execution>
                 </executions>
             </plugin>
-
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
