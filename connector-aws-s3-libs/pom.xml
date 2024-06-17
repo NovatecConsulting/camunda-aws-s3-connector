@@ -179,7 +179,6 @@
                     <configuration>
                         <file>${project.build.directory}/${project.artifactId}-${project.version}-fat-jar-with-dependencies.jar</file>
                         <repositoryId>ossrh</repositoryId>
-                        <url>https://oss.sonatype.org/content/repositories/snapshots</url>
                         <pomFile>${project.basedir}/pom.xml</pomFile>
                         <generatePom>false</generatePom>
                     </configuration>
