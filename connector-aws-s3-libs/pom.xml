@@ -164,12 +164,18 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-deploy-plugin</artifactId>
-
                 <configuration>
                     <skip>false</skip>
                 </configuration>
 
                 <executions>
+                    <execution>
+                        <id>default-deploy</id>
+                        <phase>deploy</phase>
+                        <goals>
+                            <goal>deploy</goal>
+                        </goals>
+                    </execution>
                 <execution>
                     <id>deploy-fat-jar</id>
                     <phase>deploy</phase>
