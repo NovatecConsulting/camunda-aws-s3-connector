@@ -93,7 +93,6 @@
         </dependency>
     </dependencies>
     <build>
-
         <plugins>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
@@ -125,105 +124,50 @@
                     </execution>
                 </executions>
             </plugin>
-            <!--
-                        <plugin>
-                            <groupId>org.apache.maven.plugins</groupId>
-                            <artifactId>maven-assembly-plugin</artifactId>
-                            <version>3.4.2</version>
-                            <configuration>
-                                <descriptorRefs>
-                                    <descriptorRef>jar-with-dependencies</descriptorRef>
-                                </descriptorRefs>
-                                <finalName>${project.artifactId}-${project.version}-fat</finalName>
-                            </configuration>
-                            <executions>
-                                <execution>
-                                    <id>make-assembly</id>
-                                    <phase>package</phase>
-                                    <goals>
-                                        <goal>single</goal>
-                                    </goals>
-                                </execution>
-                            </executions>
-                        </plugin>
-            -->
-                        <plugin>
-                            <groupId>org.apache.maven.plugins</groupId>
-                            <artifactId>maven-gpg-plugin</artifactId>
-                            <version>3.2.4</version>
-                            <executions>
-                                <execution>
-                                    <id>sign-artifacts</id>
-                                    <phase>verify</phase>
-                                    <goals>
-                                        <goal>sign</goal>
-                                    </goals>
-                                </execution>
-                            </executions>
-                            <configuration>
-                                <passphrase>${gpg.passphrase}</passphrase>
-                            </configuration>
-                        </plugin>
-                        <plugin>
-                            <groupId>org.apache.maven.plugins</groupId>
-                            <artifactId>maven-source-plugin</artifactId>
-                            <version>3.3.0</version>
-                            <executions>
-                                <execution>
-                                    <id>attach-sources</id>
-                                    <goals>
-                                        <goal>jar-no-fork</goal>
-                                    </goals>
-                                </execution>
-                            </executions>
-                        </plugin>
-                        <plugin>
-                            <groupId>org.apache.maven.plugins</groupId>
-                            <artifactId>maven-javadoc-plugin</artifactId>
-                            <version>3.6.3</version>
-                            <executions>
-                                <execution>
-                                    <id>attach-javadocs</id>
-                                    <goals>
-                                        <goal>jar</goal>
-                                    </goals>
-                                </execution>
-                            </executions>
-                        </plugin>
 
-            <!--   <plugin>
-                  <groupId>org.apache.maven.plugins</groupId>
-                  <artifactId>maven-deploy-plugin</artifactId>
-                  <configuration>
-                      <skip>false</skip>
-                  </configuration>
-
-                  <executions>
-                      <execution>
-                          <id>default-deploy</id>
-                          <phase>deploy</phase>
-                          <goals>
-                              <goal>deploy</goal>
-                          </goals>
-                      </execution>
-                      <execution>
-                          <id>deploy-fat-jar</id>
-                          <phase>deploy</phase>
-                          <goals>
-                              <goal>deploy-file</goal>
-                          </goals>
-                          <configuration>
-                              <file>${project.build.directory}/${project.artifactId}-${project.version}-fat-jar-with-dependencies.jar</file>
-                              <repositoryId>ossrh</repositoryId>
-                              <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-                              <pomFile>${project.basedir}/.flattened-pom.xml</pomFile>
-                              <generatePom>false</generatePom>
-                          </configuration>
-                       </execution>
-
-                  </executions>
-              </plugin>
-              -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <version>3.2.4</version>
+                <executions>
+                    <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <passphrase>${gpg.passphrase}</passphrase>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>3.3.0</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.6.3</version>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -232,6 +176,6 @@
                     <skip>false</skip>
                 </configuration>
             </plugin>
-          </plugins>
-      </build>
-  </project>
+        </plugins>
+    </build>
+</project>

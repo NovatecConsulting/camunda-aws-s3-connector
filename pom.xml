@@ -179,9 +179,10 @@
     </distributionManagement>
 
     <scm>
-         <url>https://github.com/NovatecConsulting/camunda-aws-s3-connector</url>
-         <connection>scm:git:git://github.com/NovatecConsulting/camunda-aws-s3-connector.git</connection>
-         <developerConnection>scm:git:ssh://github.com:NovatecConsulting/camunda-aws-s3-connector.git</developerConnection>
+        <url>https://github.com/NovatecConsulting/camunda-aws-s3-connector</url>
+        <connection>scm:git:git://github.com/NovatecConsulting/camunda-aws-s3-connector.git</connection>
+        <developerConnection>scm:git:ssh://github.com:NovatecConsulting/camunda-aws-s3-connector.git
+        </developerConnection>
     </scm>
 
     <developers>
@@ -195,34 +196,34 @@
         <pluginManagement>
             <plugins>
                 <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>flatten-maven-plugin</artifactId>
-                <configuration>
-                    <updatePomFile>true</updatePomFile>
-                    <flattenMode>oss</flattenMode>
-                    <embedBuildProfileDependencies>true</embedBuildProfileDependencies>
-                    <pomElements>
-                        <distributionManagement>remove</distributionManagement>
-                        <repositories>remove</repositories>
-                    </pomElements>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>flatten</id>
-                        <phase>process-resources</phase>
-                        <goals>
-                            <goal>flatten</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>flatten-clean</id>
-                        <phase>clean</phase>
-                        <goals>
-                            <goal>clean</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>flatten-maven-plugin</artifactId>
+                    <configuration>
+                        <updatePomFile>true</updatePomFile>
+                        <flattenMode>oss</flattenMode>
+                        <embedBuildProfileDependencies>true</embedBuildProfileDependencies>
+                        <pomElements>
+                            <distributionManagement>remove</distributionManagement>
+                            <repositories>remove</repositories>
+                        </pomElements>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <id>flatten</id>
+                            <phase>process-resources</phase>
+                            <goals>
+                                <goal>flatten</goal>
+                            </goals>
+                        </execution>
+                        <execution>
+                            <id>flatten-clean</id>
+                            <phase>clean</phase>
+                            <goals>
+                                <goal>clean</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
 
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -259,7 +260,6 @@
                     <artifactId>maven-surefire-plugin</artifactId>
                     <version>${plugin.version.maven-surefire-plugin}</version>
                 </plugin>
-
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-source-plugin</artifactId>
@@ -284,7 +284,6 @@
                         </execution>
                     </executions>
                 </plugin>
-
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-gpg-plugin</artifactId>
@@ -314,7 +313,6 @@
                         <skip>true</skip>
                     </configuration>
                 </plugin>
-
             </plugins>
         </pluginManagement>
     </build>
