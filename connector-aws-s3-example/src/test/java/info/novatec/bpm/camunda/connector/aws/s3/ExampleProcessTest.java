@@ -130,5 +130,4 @@ class ExampleProcessTest {
 
         verifyNoMoreInteractions(localFileCommand, remoteFileCommand);
     }
-
 }
