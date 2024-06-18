@@ -18,9 +18,9 @@ NOTE: This connector will _not_ provide any infrastructur related functionalty l
 * **[AWS S3 Connector Springboot Runtime](connector-aws-s3-standalone/README.md)** to run as a standalone connector 
 without any additional worker logic
 
-* **[Process example](connector-aws-s3-example/README.md)** on how to download/generate content and upload/delete it with the connector
+* **[Process example](connector-aws-s3-example/README.md)** on how to download/generate content and upload/delete it with the connector.
 
-* **[Process File API](connector-file-api/README.md)** to streamline file handling between job workers and the connector
+* **[Process File API](connector-file-api/README.md)** to streamline file handling between job workers and the connector.
 
 ## Connector Compatibility
 
