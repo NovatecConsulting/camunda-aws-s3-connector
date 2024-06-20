@@ -112,7 +112,6 @@
                             <embedBuildProfileDependencies>true</embedBuildProfileDependencies>
                             <pomElements>
                                 <parent>remove</parent>
-                                <parent>remove</parent>
                                 <name>expand</name>
                                 <description>expand</description>
                                 <developers>expand</developers>
