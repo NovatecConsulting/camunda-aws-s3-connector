@@ -27,6 +27,8 @@ import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
+import static io.camunda.zeebe.spring.test.ZeebeTestThreadSupport.waitForProcessInstanceCompleted;
+
 @SpringBootTest(classes = ExampleProcessApplication.class)
 @ZeebeSpringTest
 @Testcontainers
@@ -70,8 +72,8 @@ class ExampleProcessITTest {
                 .region(Region.of(s3Service.getRegion()))
                 .build();
 
-        createBucket(REPORT_BUCKET);
-        uploadReport(REPORT_BUCKET, REPORT_KEY, "text");
+        createBucket();
+        uploadReport();
     }
 
     @Test
@@ -84,37 +86,36 @@ class ExampleProcessITTest {
                 .send()
                 .join();
 
-        Thread.sleep(5 * 1000); // give the process some time to finish
+        waitForProcessInstanceCompleted(processInstance);
 
-        byte[] result = getResult(REPORT_BUCKET, String.format("results/%d/my-file.txt", processInstance.getProcessInstanceKey()));
+        byte[] result = getResult(String.format("results/%d/my-file.txt", processInstance.getProcessInstanceKey()));
         Assertions.assertThat(result).isEqualTo("This is some random file".getBytes(StandardCharsets.UTF_8));
     }
 
-    private byte[] getResult(String bucket, String key) throws IOException {
+    private byte[] getResult(String key) throws IOException {
         return s3Client.getObject(
                 GetObjectRequest.builder()
-                        .bucket(bucket)
+                        .bucket(ExampleProcessITTest.REPORT_BUCKET)
                         .key(key)
                         .build()
         ).readAllBytes();
     }
 
-    private void uploadReport(String bucket, String key, String content) {
+    private void uploadReport() {
         s3Client.putObject(
                 PutObjectRequest.builder()
-                        .bucket(bucket)
+                        .bucket(ExampleProcessITTest.REPORT_BUCKET)
                         .contentType("plain/text")
-                        .key(key)
+                        .key(ExampleProcessITTest.REPORT_KEY)
                         .build(),
-                RequestBody.fromBytes(content.getBytes(StandardCharsets.UTF_8))
+                RequestBody.fromBytes("text".getBytes(StandardCharsets.UTF_8))
         );
     }
 
-    private void createBucket(String bucket) {
+    private void createBucket() {
         s3Client.createBucket(CreateBucketRequest.builder()
-                .bucket(bucket)
+                .bucket(ExampleProcessITTest.REPORT_BUCKET)
                 .build()
         );
     }
-
 }
