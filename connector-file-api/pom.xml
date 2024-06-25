@@ -6,12 +6,27 @@
     <parent>
         <groupId>info.novatec.bpm.camunda.connector</groupId>
         <artifactId>connector-aws-s3-parent</artifactId>
-        <version>1.5.0-SNAPSHOT</version>
+        <version>1.6.0</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
+
+    <licenses>
+        <license>
+            <name>Camunda Platform Self-Managed Free Edition license</name>
+            <url>
+                https://camunda.com/legal/terms/cloud-terms-and-conditions/camunda-cloud-self-managed-free-edition-terms/
+            </url>
+        </license>
+        <license>
+            <name>Camunda Platform Self-Managed Enterprise Edition license</name>
+        </license>
+    </licenses>
+
+    <name>connector-file-api</name>
+    <description>AWS S3 connector for Camunda 8</description>
     <artifactId>connector-file-api</artifactId>
-    <version>1.5.0-SNAPSHOT</version>
+
 
     <properties>
         <maven.compiler.source>${version.java}</maven.compiler.source>
@@ -44,14 +59,53 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-    <distributionManagement>
-        <snapshotRepository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-        </snapshotRepository>
-    </distributionManagement>
+
+    <scm>
+        <url>https://github.com/NovatecConsulting/camunda-aws-s3-connector</url>
+        <connection>scm:git:git://github.com/NovatecConsulting/camunda-aws-s3-connector.git</connection>
+        <developerConnection>scm:git:ssh://github.com:NovatecConsulting/camunda-aws-s3-connector.git
+        </developerConnection>
+    </scm>
+
+    <developers>
+        <developer>
+            <name>Jannik Bergjan</name>
+            <email>jannik.bergjan@novatec-gmbh.de</email>
+        </developer>
+    </developers>
+
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>flatten-maven-plugin</artifactId>
+                <inherited>true</inherited>
+                <executions>
+                    <execution>
+                        <!-- Tidy up all POMs before they are published -->
+                        <id>flatten</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>flatten</goal>
+                        </goals>
+                        <configuration>
+                            <updatePomFile>true</updatePomFile>
+                            <flattenMode>oss</flattenMode>
+                            <embedBuildProfileDependencies>true</embedBuildProfileDependencies>
+                            <pomElements>
+                                <parent>remove</parent>
+                                <name>expand</name>
+                                <description>expand</description>
+                                <developers>expand</developers>
+                                <scm>expand</scm>
+                                <distributionManagement>remove</distributionManagement>
+                                <repositories>remove</repositories>
+                            </pomElements>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-gpg-plugin</artifactId>
@@ -66,9 +120,44 @@
                     </execution>
                 </executions>
                 <configuration>
-                  <passphrase>${gpg.passphrase}</passphrase>
+                    <passphrase>${gpg.passphrase}</passphrase>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>3.3.0</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.6.3</version>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <configuration>
+                    <skip>false</skip>
+                </configuration>
+            </plugin>
+
         </plugins>
     </build>
 </project>
