@@ -21,6 +21,22 @@ without any additional worker logic
 * **[Process example](connector-aws-s3-example/README.md)** on how to download/generate content and upload/delete it with the connector.
 
 * **[Process File API](connector-file-api/README.md)** to streamline file handling between job workers and the connector.
+  
+## Dependency Management
+
+Maven:
+```xml
+  <dependency>
+    <groupId>info.novatec.bpm.camunda.connector</groupId>
+    <artifactId>connector-aws-s3-libs</artifactId>
+    <version>1.6.0</version>
+  </dependency>
+```
+
+Gradle:
+```groovy
+  implementation("info.novatec.bpm.camunda.connector:connector-aws-s3-libs:1.6.0")
+```
 
 ## Connector Compatibility
 
