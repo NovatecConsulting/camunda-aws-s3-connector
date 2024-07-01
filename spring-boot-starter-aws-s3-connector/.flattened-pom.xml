@@ -3,11 +3,11 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
   <groupId>info.novatec.bpm.camunda.connector</groupId>
-  <artifactId>spring-boot-starter-camunda-aws-s3-connector</artifactId>
+  <artifactId>spring-boot-starter-aws-s3-connector</artifactId>
   <version>1.6.0</version>
   <name>connector-aws-s3</name>
   <description>AWS S3 connector for Camunda 8</description>
-  <url>https://spring.io/projects/spring-boot/connector-aws-s3-parent/spring-boot-starter-camunda-aws-s3-connector</url>
+  <url>https://spring.io/projects/spring-boot/connector-aws-s3-parent/spring-boot-starter-aws-s3-connector</url>
   <licenses>
     <license>
       <name>Camunda Platform Self-Managed Free Edition license</name>
@@ -26,7 +26,7 @@
     </developer>
   </developers>
   <scm>
-    <url>https://github.com/spring-projects/spring-boot/connector-aws-s3-parent/spring-boot-starter-camunda-aws-s3-connector</url>
+    <url>https://github.com/spring-projects/spring-boot/connector-aws-s3-parent/spring-boot-starter-aws-s3-connector</url>
   </scm>
   <dependencies>
     <dependency>
