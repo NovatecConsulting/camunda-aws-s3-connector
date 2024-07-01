@@ -62,4 +62,3 @@ request*.json
 
 #flattened-pom
 ./flattened-pom.xml
-
