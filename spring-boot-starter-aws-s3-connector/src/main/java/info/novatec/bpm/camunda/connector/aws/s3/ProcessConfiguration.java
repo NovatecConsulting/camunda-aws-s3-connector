@@ -1,7 +1,6 @@
-package info.novatec.bpm.camunda.connector.aws.s3.common;
+package info.novatec.bpm.camunda.connector.aws.s3;
 
 import info.novatec.bpm.camunda.connector.aws.s3.adapter.in.process.ConnectorAdapter;
-import info.novatec.bpm.camunda.connector.aws.s3.adapter.in.process.FileOperationAdapter;
 import info.novatec.bpm.camunda.connector.aws.s3.adapter.out.cloud.CloudClientFactory;
 import info.novatec.bpm.camunda.connector.aws.s3.adapter.out.cloud.CloudFileAdapter;
 import info.novatec.bpm.camunda.connector.aws.s3.adapter.out.local.LocalFileAdapter;
@@ -17,7 +16,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 
 @Configuration
-public class ExampleProcessConfiguration {
+public class ProcessConfiguration {
 
     // overwrite for tests
     @Value("${aws.endpoint.override:}")
@@ -47,10 +46,4 @@ public class ExampleProcessConfiguration {
     ConnectorAdapter connectorAdapter(ProcessFileCommand processFileCommand) {
         return new ConnectorAdapter(processFileCommand);
     }
-
-    @Bean
-    FileOperationAdapter jobWorker(LocalFileCommand localFileCommand) {
-        return new FileOperationAdapter(localFileCommand);
-    }
-
 }
