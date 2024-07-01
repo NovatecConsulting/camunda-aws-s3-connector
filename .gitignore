@@ -59,3 +59,6 @@ build/
 # environment
 request*.json
 /.local/
+
+#flattened-pom
+./flattened-pom.xml
