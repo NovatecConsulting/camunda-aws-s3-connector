@@ -52,7 +52,7 @@
         <plugin.version.maven-resources-plugin>3.3.1</plugin.version.maven-resources-plugin>
         <plugin.version.maven-shade-plugin>3.5.0</plugin.version.maven-shade-plugin>
         <flatten-maven-plugin.version>1.6.0</flatten-maven-plugin.version>
-        <plugin.version.maven-surefire-plugin>3.3.0</plugin.version.maven-surefire-plugin>
+        <plugin.version.maven-surefire-plugin>3.3.1</plugin.version.maven-surefire-plugin>
     </properties>
 
     <dependencyManagement>
