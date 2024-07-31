@@ -25,8 +25,8 @@
     </licenses>
 
     <name>connector-aws-s3</name>
-    <description>AWS S3 connector for Camunda 8</description>
-    <artifactId>spring-boot-starter-aws-s3-connector</artifactId>
+    <description>Camunda AWS S3 Spring Starter</description>
+    <artifactId>connector-aws-s3-spring-starter</artifactId>
 
     <properties>
         <maven.compiler.source>${version.java}</maven.compiler.source>

@@ -21,7 +21,7 @@
     <dependencies>
         <dependency>
             <groupId>info.novatec.bpm.camunda.connector</groupId>
-            <artifactId>spring-boot-starter-aws-s3-connector</artifactId>
+            <artifactId>connector-aws-s3-spring-starter</artifactId>
             <version>1.6.0</version>
         </dependency>
 
