@@ -4,7 +4,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>info.novatec.bpm.camunda.connector</groupId>
   <artifactId>connector-file-api</artifactId>
-  <version>1.6.0</version>
+  <version>1.7.0</version>
   <name>connector-file-api</name>
   <description>AWS S3 connector for Camunda 8</description>
   <url>https://spring.io/projects/spring-boot/connector-aws-s3-parent/connector-file-api</url>

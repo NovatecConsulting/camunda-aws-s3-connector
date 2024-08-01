@@ -20,7 +20,7 @@
 
     <groupId>info.novatec.bpm.camunda.connector</groupId>
     <artifactId>connector-aws-s3-parent</artifactId>
-    <version>1.6.0</version>
+    <version>1.7.0</version>
     <packaging>pom</packaging>
 
     <properties>
