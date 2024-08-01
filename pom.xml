@@ -11,9 +11,11 @@
     <name>connector-aws-s3-parent</name>
     <modules>
         <module>connector-aws-s3-libs</module>
+        <module>connector-aws-s3-starter-example</module>
         <module>connector-aws-s3-example</module>
         <module>connector-file-api</module>
         <module>connector-aws-s3-standalone</module>
+        <module>connector-aws-s3-spring-starter</module>
     </modules>
 
     <groupId>info.novatec.bpm.camunda.connector</groupId>
@@ -54,6 +56,7 @@
         <flatten-maven-plugin.version>1.6.0</flatten-maven-plugin.version>
         <plugin.version.maven-surefire-plugin>3.3.1</plugin.version.maven-surefire-plugin>
     </properties>
+
 
     <dependencyManagement>
         <dependencies>

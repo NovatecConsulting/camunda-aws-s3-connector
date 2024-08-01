@@ -2,7 +2,7 @@
   "report": {
     "region": "eu-central-1",
     "bucket": "blogpostawsbucket",
-    "key":"reports/report-xyz.txt"
+    "key":"reports/result.txt"
   }
 }
 

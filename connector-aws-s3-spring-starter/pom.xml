@@ -3,6 +3,7 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
     <parent>
         <groupId>info.novatec.bpm.camunda.connector</groupId>
         <artifactId>connector-aws-s3-parent</artifactId>
@@ -23,9 +24,9 @@
         </license>
     </licenses>
 
-    <name>connector-file-api</name>
-    <description>AWS S3 connector for Camunda 8</description>
-    <artifactId>connector-file-api</artifactId>
+    <name>connector-aws-s3</name>
+    <description>Camunda AWS S3 Spring Starter</description>
+    <artifactId>connector-aws-s3-spring-starter</artifactId>
 
     <properties>
         <maven.compiler.source>${version.java}</maven.compiler.source>
@@ -35,44 +36,30 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
+            <groupId>info.novatec.bpm.camunda.connector</groupId>
+            <artifactId>connector-aws-s3-libs</artifactId>
+            <version>1.6.0</version>
         </dependency>
         <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
+            <groupId>io.camunda</groupId>
+            <artifactId>zeebe-client-java</artifactId>
+            <version>8.5.2</version>
         </dependency>
         <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter</artifactId>
-            <scope>test</scope>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-junit-jupiter</artifactId>
-            <scope>test</scope>
+            <groupId>io.camunda.spring</groupId>
+            <artifactId>spring-boot-starter-camunda</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.assertj</groupId>
-            <artifactId>assertj-core</artifactId>
-            <scope>test</scope>
+            <groupId>io.camunda.connector</groupId>
+            <artifactId>spring-boot-starter-camunda-connectors</artifactId>
+            <version>8.5.3</version>
         </dependency>
+
     </dependencies>
-
-    <scm>
-        <url>https://github.com/NovatecConsulting/camunda-aws-s3-connector</url>
-        <connection>scm:git:git://github.com/NovatecConsulting/camunda-aws-s3-connector.git</connection>
-        <developerConnection>scm:git:ssh://github.com:NovatecConsulting/camunda-aws-s3-connector.git
-        </developerConnection>
-    </scm>
-
-    <developers>
-        <developer>
-            <name>Jannik Bergjan</name>
-            <email>jannik.bergjan@novatec-gmbh.de</email>
-        </developer>
-    </developers>
-
     <build>
         <plugins>
             <plugin>
@@ -122,10 +109,11 @@
                     <passphrase>${gpg.passphrase}</passphrase>
                 </configuration>
             </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
-                <version>3.3.1</version>
+                <version>3.3.0</version>
                 <executions>
                     <execution>
                         <id>attach-sources</id>
@@ -138,7 +126,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>3.8.0</version>
+                <version>3.6.3</version>
                 <executions>
                     <execution>
                         <id>attach-javadocs</id>
@@ -156,7 +144,6 @@
                     <skip>false</skip>
                 </configuration>
             </plugin>
-
         </plugins>
     </build>
 </project>
