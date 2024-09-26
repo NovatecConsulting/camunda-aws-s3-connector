@@ -40,7 +40,7 @@
         <version.logback-classic>1.5.8</version.logback-classic>
         <version.logback-core>1.5.8</version.logback-core>
         <version.lombok>1.18.34</version.lombok>
-        <version.junit-jupiter>5.11.0</version.junit-jupiter>
+        <version.junit-jupiter>5.11.1</version.junit-jupiter>
         <version.mockito>5.13.0</version.mockito>
         <version.assertj>3.26.3</version.assertj>
         <version.testcontainers>1.20.1</version.testcontainers>
