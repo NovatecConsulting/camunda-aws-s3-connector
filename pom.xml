@@ -43,7 +43,7 @@
         <version.junit-jupiter>5.11.0</version.junit-jupiter>
         <version.mockito>5.13.0</version.mockito>
         <version.assertj>3.26.3</version.assertj>
-        <version.testcontainers>1.20.1</version.testcontainers>
+        <version.testcontainers>1.20.2</version.testcontainers>
 
         <!-- maven plugins -->
         <plugin.version.maven-clean-plugin>3.4.0</plugin.version.maven-clean-plugin>
