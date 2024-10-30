@@ -29,19 +29,19 @@ Maven:
   <dependency>
     <groupId>info.novatec.bpm.camunda.connector</groupId>
     <artifactId>connector-aws-s3-libs</artifactId>
-    <version>1.6.0</version>
+    <version>1.7.0</version>
   </dependency>
 ```
 
 Gradle:
 ```groovy
-  implementation("info.novatec.bpm.camunda.connector:connector-aws-s3-libs:1.6.0")
+  implementation("info.novatec.bpm.camunda.connector:connector-aws-s3-libs:1.7.0")
 ```
 
 ## Connector Compatibility
 
 - JDK 21+
-- Camunda Platform v8.5.x
+- Camunda Platform v8.6.x
 - AWS SDK v2.x
 
 ## Blog Posts

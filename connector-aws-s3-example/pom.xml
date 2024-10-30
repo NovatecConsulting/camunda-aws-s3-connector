@@ -6,7 +6,7 @@
     <parent>
         <groupId>info.novatec.bpm.camunda.connector</groupId>
         <artifactId>connector-aws-s3-parent</artifactId>
-        <version>1.6.0</version>
+        <version>1.7.0</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -22,7 +22,7 @@
         <dependency>
             <groupId>info.novatec.bpm.camunda.connector</groupId>
             <artifactId>connector-aws-s3-libs</artifactId>
-            <version>1.6.0</version>
+            <version>1.7.0</version>
         </dependency>
         <dependency>
             <groupId>io.camunda.connector</groupId>
@@ -34,8 +34,8 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>io.camunda.spring</groupId>
-            <artifactId>spring-boot-starter-camunda-test</artifactId>
+            <groupId>io.camunda</groupId>
+            <artifactId>camunda-process-test-spring</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>

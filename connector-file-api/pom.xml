@@ -6,7 +6,7 @@
     <parent>
         <groupId>info.novatec.bpm.camunda.connector</groupId>
         <artifactId>connector-aws-s3-parent</artifactId>
-        <version>1.6.0</version>
+        <version>1.7.0</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -23,7 +23,6 @@
         </license>
     </licenses>
 
-    <name>connector-file-api</name>
     <description>AWS S3 connector for Camunda 8</description>
     <artifactId>connector-file-api</artifactId>
 
@@ -119,6 +118,7 @@
                     </execution>
                 </executions>
                 <configuration>
+                    <!--suppress UnresolvedMavenProperty -->
                     <passphrase>${gpg.passphrase}</passphrase>
                 </configuration>
             </plugin>

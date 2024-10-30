@@ -1,8 +1,8 @@
 package info.novatec.bpm.camunda.connector.aws.s3;
 
+import io.camunda.process.test.api.CamundaSpringProcessTest;
 import io.camunda.zeebe.client.ZeebeClient;
 import io.camunda.zeebe.client.api.response.ProcessInstanceEvent;
-import io.camunda.zeebe.spring.test.ZeebeSpringTest;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -27,10 +27,8 @@ import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
-import static io.camunda.zeebe.spring.test.ZeebeTestThreadSupport.waitForProcessInstanceCompleted;
-
 @SpringBootTest(classes = ExampleProcessApplication.class)
-@ZeebeSpringTest
+@CamundaSpringProcessTest
 @Testcontainers
 class ExampleProcessITTest {
 
@@ -77,7 +75,7 @@ class ExampleProcessITTest {
     }
 
     @Test
-    void test_happy_path() throws IOException, InterruptedException {
+    void test_happy_path() throws IOException {
 
         ProcessInstanceEvent processInstance = zeebe.newCreateInstanceCommand()
                 .bpmnProcessId("File_handling_process")
@@ -85,8 +83,6 @@ class ExampleProcessITTest {
                 .variables("{ \"report\": { \"region\":\"" + s3Service.getRegion() + "\", \"bucket\":\"" + REPORT_BUCKET + "\", \"key\":\"" + REPORT_KEY + "\" } }")
                 .send()
                 .join();
-
-        waitForProcessInstanceCompleted(processInstance);
 
         byte[] result = getResult(String.format("results/%d/my-file.txt", processInstance.getProcessInstanceKey()));
         Assertions.assertThat(result).isEqualTo("This is some random file".getBytes(StandardCharsets.UTF_8));
