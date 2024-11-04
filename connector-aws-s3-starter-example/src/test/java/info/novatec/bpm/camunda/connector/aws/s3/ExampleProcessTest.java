@@ -6,24 +6,24 @@ import info.novatec.bpm.camunda.connector.file.api.impl.model.FileContent;
 import info.novatec.bpm.camunda.connector.file.api.impl.model.RequestData;
 import io.camunda.zeebe.client.ZeebeClient;
 import io.camunda.zeebe.client.api.response.ProcessInstanceEvent;
-import io.camunda.zeebe.spring.test.ZeebeSpringTest;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
+import io.camunda.process.test.api.CamundaSpringProcessTest;
+
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
-import static io.camunda.zeebe.process.test.assertions.BpmnAssert.assertThat;
-import static io.camunda.zeebe.spring.test.ZeebeTestThreadSupport.waitForProcessInstanceCompleted;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
+import static io.camunda.process.test.api.CamundaAssert.assertThat;
 
 @SpringBootTest(classes = ExampleProcessApplication.class)
-@ZeebeSpringTest
+@CamundaSpringProcessTest
 class ExampleProcessTest {
 
     @Autowired
@@ -60,18 +60,13 @@ class ExampleProcessTest {
                 .send()
                 .join();
 
-        waitForProcessInstanceCompleted(processInstance);
-
+        assertThat(processInstance).isActive();
         assertThat(processInstance)
-                .hasPassedElement("add_context")
-                .hasPassedElement("download_file")
-                .hasPassedElement("validate_file")
-                .hasPassedElement("generate_result")
-                .hasPassedElement("upload_file")
-                .hasPassedElement("file_valid")
-                .hasNotPassedElement("delete_file")
-                .hasNotPassedElement("file_invalid")
-                .isCompleted();
+                .hasCompletedElements("add_context", "download_file",
+                        "validate_file", "generate_result", "upload_file", "file_valid");
+        assertThat(processInstance)
+                .hasTerminatedElements("delete_file","file_invalid" );
+        assertThat(processInstance).isCompleted();
 
         // for remote download
         verify(remoteFileCommand).getFile(any(RequestData.class));
@@ -104,18 +99,13 @@ class ExampleProcessTest {
                 .send()
                 .join();
 
-        waitForProcessInstanceCompleted(processInstance);
-
+        assertThat(processInstance).isActive();
         assertThat(processInstance)
-                .hasPassedElement("add_context")
-                .hasPassedElement("download_file")
-                .hasPassedElement("validate_file")
-                .hasPassedElement("delete_file")
-                .hasPassedElement("file_invalid")
-                .hasNotPassedElement("generate_result")
-                .hasNotPassedElement("upload_file")
-                .hasNotPassedElement("file_valid")
-                .isCompleted();
+                .hasCompletedElements("add_context", "download_file",
+                        "validate_file", "delete_file", "file_valid");
+        assertThat(processInstance)
+                .hasTerminatedElements("generate_result", "upload_file", "file_valid");
+        assertThat(processInstance).isCompleted();
 
         // for remote download
         verify(remoteFileCommand).getFile(any(RequestData.class));

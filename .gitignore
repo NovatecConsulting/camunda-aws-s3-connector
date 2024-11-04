@@ -61,4 +61,4 @@ request*.json
 /.local/
 
 #flattened-pom
-./flattened-pom.xml
+**/*.flattened-pom.xml
